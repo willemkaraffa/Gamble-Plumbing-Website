@@ -27,6 +27,36 @@ const HERO_SERVICE_TILES = [
 ];
 
 // ──────────────────────────────────────────────────────────────
+// Site-refresh banner
+// Slim, honest notice that the site is being refreshed. Dismissible per
+// session (sessionStorage), and toggle-able at build time via
+// TWEAK_DEFAULTS.showBanner — flip that to false once the refresh is done.
+// ──────────────────────────────────────────────────────────────
+function SiteBanner({ show = true }) {
+  const [hidden, setHidden] = React.useState(() => {
+    try { return sessionStorage.getItem('gp-banner-hidden') === '1'; } catch { return false; }
+  });
+  if (!show || hidden) return null;
+  const dismiss = () => {
+    setHidden(true);
+    try { sessionStorage.setItem('gp-banner-hidden', '1'); } catch {}
+  };
+  return (
+    <div className="site-banner" data-screen-label="Site notice">
+      <div className="container">
+        <span className="site-banner-dot" aria-hidden="true"/>
+        <span className="site-banner-msg">
+          <strong>Heads up:</strong> we&apos;re refreshing our website. For service, please call us 24/7 at <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>.
+        </span>
+        <button type="button" className="site-banner-x" onClick={dismiss} aria-label="Dismiss notice">
+          <Icon name="plus" size={12}/>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────
 // Top utility bar
 // ──────────────────────────────────────────────────────────────
 function UtilityBar() {
@@ -64,8 +94,6 @@ function Nav({ ctaEmphasis }) {
           <ServicesMenu/>
           <a href="about.html">Our Story</a>
           <a href="Home.html#area">Service Area</a>
-          <a href="Home.html#reviews">Reviews</a>
-          <a href="Home.html#financing">Financing</a>
           <a href="Home.html#faq">FAQ</a>
         </div>
         <div className="nav-cta">
@@ -223,9 +251,9 @@ function HeroFamily({ tweaks }) {
             <div className="stars">
               {[...Array(5)].map((_,i)=> <Icon key={i} name="star" size={16}/>)}
             </div>
-            <strong>Trusted Experts</strong>
+            <strong>Dual-licensed</strong>
             <span className="sep"/>
-            <span><Icon name="shield" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>Licensed &amp; insured</span>
+            <span><Icon name="shield" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>Plumbing &amp; HVAC</span>
             <span className="sep"/>
             <span><Icon name="clock" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>24/7 emergency service</span>
           </div>
@@ -260,8 +288,8 @@ function HeroModern({ tweaks }) {
           <CTAs tweaks={tweaks} variant="dark"/>
           <div className="hero-trust">
             <div className="stars">{[...Array(5)].map((_,i)=> <Icon key={i} name="star" size={16}/>)}</div>
-            <strong style={{color: '#fff'}}>Trusted Experts</strong>
-            <span>Satisfaction guaranteed</span>
+            <strong style={{color: '#fff'}}>Dual-licensed</strong>
+            <span>Plumbing &amp; HVAC</span>
             <span className="sep"/>
             <span>Licensed &amp; insured in NC</span>
             <span className="sep"/>
@@ -316,8 +344,8 @@ function HeroEditorial({ tweaks }) {
             <div className="lbl">Years in Raleigh–Durham</div>
           </div>
           <div className="stat">
-            <div className="num">3</div>
-            <div className="lbl">Generations of plumbers</div>
+            <div className="num">2</div>
+            <div className="lbl">Licensed trades — Plumbing &amp; HVAC</div>
           </div>
         </div>
       </div>
@@ -344,27 +372,7 @@ function CTAs({ tweaks, variant, compact }) {
 }
 
 function PhotoSlot({ enabled, label, id }) {
-  if (!enabled) {
-    return (
-      <div className="photo-slot" style={{background:'transparent'}}>
-        <div style={{
-          position:'absolute', inset:0,
-          background: 'linear-gradient(135deg, color-mix(in oklab, var(--primary) 92%, white), var(--primary))',
-        }}/>
-        <div style={{position:'relative', textAlign:'center', color:'#fff'}}>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: 'clamp(80px, 10vw, 160px)', lineHeight: 1, color: 'var(--accent)',
-            letterSpacing: '-0.04em'
-          }}>30</div>
-          <div style={{
-            marginTop: 8, fontSize: 14, textTransform:'uppercase', letterSpacing: '0.18em',
-            color: 'rgba(255,255,255,0.85)', fontWeight: 600
-          }}>Years on the job</div>
-        </div>
-      </div>
-    );
-  }
+  if (!enabled) return <BrandFallback/>;
   // Real drop-target — drag any photo onto it and it persists.
   const slotId = id || ('photo-' + (label || 'untitled').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
   return (
@@ -378,6 +386,28 @@ function PhotoSlot({ enabled, label, id }) {
   );
 }
 
+// Brand lockup tile — used as the photo placeholder anywhere photography is off.
+// Centered G mark + "Gamble" + "Plumbing · Heating · Air" on a navy gradient.
+// Scales gracefully to any container shape (square, portrait, landscape).
+function BrandFallback({ meta = "Family-owned · Garner, NC · Since 1995" }) {
+  return (
+    <div className="photo-slot photo-fallback">
+      <div className="photo-fallback-bg"/>
+      <div className="photo-fallback-mark">
+        <LogoMark size={88}/>
+        <div className="photo-fallback-wordmark">Gamble</div>
+        <div className="photo-fallback-tag">Plumbing · Heating · Air</div>
+        {meta && (
+          <>
+            <div className="photo-fallback-rule" aria-hidden="true"/>
+            <div className="photo-fallback-meta">{meta}</div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ──────────────────────────────────────────────────────────────
 // Trust strip
 // ──────────────────────────────────────────────────────────────
@@ -386,8 +416,8 @@ function TrustStrip() {
     <div className="trust-strip" data-screen-label="Trust">
       <div className="container">
         <div className="trust-item" data-comment-anchor="trust-experts">
-          <div className="head">Trusted Experts</div>
-          <div className="body">Three generations of plumbers passing down the trade.</div>
+          <div className="head">Dual-Licensed</div>
+          <div className="body">NC-licensed in both plumbing and HVAC — one team handles both trades.</div>
         </div>
         <div className="trust-item" data-comment-anchor="trust-years">
           <div className="head">30 Years</div>
@@ -401,9 +431,9 @@ function TrustStrip() {
           <div className="head">Guaranteed</div>
           <div className="body">Satisfaction guaranteed on every job we touch.</div>
         </div>
-        <div className="trust-item" data-comment-anchor="trust-licensed">
-          <div className="head">Licensed</div>
-          <div className="body">Fully licensed and insured across North Carolina.</div>
+        <div className="trust-item" data-comment-anchor="trust-local">
+          <div className="head">Garner-Based</div>
+          <div className="body">We live and work in the same towns we serve.</div>
         </div>
       </div>
     </div>
@@ -483,12 +513,12 @@ function WhyUs({ tweaks }) {
       <div className="container grid">
         <div>
           <span className="eyebrow">Our story</span>
-          <h2 style={{marginTop:12}}>Three generations. The same family. The same trade.</h2>
+          <h2 style={{marginTop:12}}>One family. Two trades. Three decades.</h2>
           <p className="lead">
-            No other North Carolina plumbing service has such a dedicated family tradition as Gamble Plumbing. For the last 30 years, each generation has passed down the tricks of the trade — and that&apos;s why we plan to be around for many years to come.
+            Gamble Plumbing has served the Triangle as a family-owned business since 1995, with the trade passed down within the Gamble family. Today we&apos;re dual-licensed across plumbing and HVAC — so the same trusted team can handle a leaking shutoff valve in the morning and a failing heat pump in the afternoon.
           </p>
           <p className="lead" style={{marginTop: 14}}>
-            We eat, sleep, and breathe plumbing excellence, continuing a tradition we&apos;re proud to uphold. Technology changes constantly, but some parts of the business stay the same today as they will tomorrow.
+            Technology changes constantly, but some parts of the business stay the same today as they will tomorrow: showing up on time, telling you the truth about your system, and leaving the place cleaner than we found it.
           </p>
           <div className="stat-grid">
             <div className="stat">
@@ -496,8 +526,8 @@ function WhyUs({ tweaks }) {
               <div className="lbl">Years in business</div>
             </div>
             <div className="stat">
-              <div className="num">3</div>
-              <div className="lbl">Generations of plumbers</div>
+              <div className="num">2</div>
+              <div className="lbl">Licensed trades</div>
             </div>
             <div className="stat">
               <div className="num">24/7</div>
@@ -612,68 +642,54 @@ function Neighborhood({ children, primary }) {
 }
 
 function ServiceMap() {
+  // Stylized coverage map — not a real street map (which we'd embed from
+  // Google), just a clean schematic so the section header has something to
+  // sit next to. Drop in a real <iframe src="https://www.google.com/maps/...">
+  // here when ready.
+  const cities = [
+    { x: 300, y: 255, name: "Garner", primary: true },
+    { x: 240, y: 195, name: "Raleigh" },
+    { x: 130, y: 165, name: "Durham" },
+    { x: 195, y: 285, name: "Cary" },
+    { x: 215, y: 350, name: "Apex" },
+    { x: 365, y: 305, name: "Clayton" },
+    { x: 415, y: 215, name: "Knightdale" },
+    { x: 155, y: 335, name: "Holly Springs" },
+    { x:  95, y: 105, name: "Chapel Hill" },
+    { x: 300, y: 115, name: "Wake Forest" },
+  ];
   return (
     <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid slice">
-      {/* Background grid */}
       <defs>
-        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M40 0H0V40" fill="none" stroke="#dde6f0" strokeWidth="1"/>
-        </pattern>
         <radialGradient id="coverage" cx="50%" cy="55%" r="50%">
-          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.35"/>
-          <stop offset="60%" stopColor="var(--accent)" stopOpacity="0.12"/>
+          <stop offset="0%"   stopColor="var(--accent)" stopOpacity="0.30"/>
+          <stop offset="60%"  stopColor="var(--accent)" stopOpacity="0.10"/>
           <stop offset="100%" stopColor="var(--accent)" stopOpacity="0"/>
         </radialGradient>
       </defs>
       <rect width="600" height="460" fill="var(--section-alt)"/>
-      <rect width="600" height="460" fill="url(#grid)"/>
-
-      {/* Stylized roads */}
-      <g stroke="#c8d4e2" strokeWidth="2" fill="none" strokeLinecap="round">
-        <path d="M-20 200 Q150 180 300 230 T 620 240"/>
-        <path d="M-20 320 Q120 280 300 320 T 620 300"/>
-        <path d="M120 -20 Q140 150 200 300 T 250 480"/>
-        <path d="M380 -20 Q360 140 320 280 T 380 480"/>
-      </g>
-
       {/* Coverage halo */}
-      <circle cx="300" cy="255" r="190" fill="url(#coverage)"/>
-      <circle cx="300" cy="255" r="160" fill="none" stroke="var(--primary)" strokeWidth="1" strokeDasharray="4 6" opacity="0.4"/>
+      <circle cx="300" cy="255" r="200" fill="url(#coverage)"/>
+      <circle cx="300" cy="255" r="170" fill="none" stroke="var(--primary)" strokeWidth="1" strokeDasharray="4 6" opacity="0.35"/>
+      <circle cx="300" cy="255" r="110" fill="none" stroke="var(--primary)" strokeWidth="1" strokeDasharray="2 5" opacity="0.20"/>
 
       {/* City pins */}
-      {[
-        { x: 300, y: 255, name: "Garner", primary: true },
-        { x: 240, y: 200, name: "Raleigh" },
-        { x: 140, y: 170, name: "Durham" },
-        { x: 200, y: 290, name: "Cary" },
-        { x: 220, y: 350, name: "Apex" },
-        { x: 360, y: 310, name: "Clayton" },
-        { x: 410, y: 220, name: "Knightdale" },
-        { x: 160, y: 340, name: "Holly Springs" },
-        { x: 100, y: 110, name: "Chapel Hill" },
-      ].map((c, i) => (
+      {cities.map((c, i) => (
         <g key={i} transform={`translate(${c.x},${c.y})`}>
           {c.primary ? (
             <>
-              <circle r="10" fill="var(--accent)"/>
-              <circle r="18" fill="none" stroke="var(--accent)" strokeWidth="2" opacity="0.5"/>
-              <text x="0" y="-22" fontFamily="var(--font-display)" fontSize="16" fontWeight="700" fill="var(--primary)" textAnchor="middle">{c.name}</text>
+              <circle r="9" fill="var(--accent)"/>
+              <circle r="16" fill="none" stroke="var(--accent)" strokeWidth="2" opacity="0.5"/>
+              <text x="0" y="-22" fontFamily="var(--font-display)" fontSize="15" fontWeight="700" fill="var(--primary)" textAnchor="middle">{c.name}</text>
             </>
           ) : (
             <>
-              <circle r="5" fill="var(--primary)"/>
-              <text x="0" y="-12" fontFamily="var(--font-body)" fontSize="11.5" fontWeight="600" fill="var(--ink-2)" textAnchor="middle">{c.name}</text>
+              <circle r="4" fill="var(--primary)"/>
+              <text x="0" y="-11" fontFamily="var(--font-body)" fontSize="11" fontWeight="600" fill="var(--ink-2)" textAnchor="middle">{c.name}</text>
             </>
           )}
         </g>
       ))}
-
-      {/* Compass + scale */}
-      <g transform="translate(540, 40)">
-        <circle r="14" fill="#fff" stroke="#c8d4e2"/>
-        <path d="M0 -8 L4 4 L0 1 L-4 4 Z" fill="var(--primary)"/>
-        <text y="22" fontFamily="var(--font-body)" fontSize="10" fontWeight="600" fill="var(--ink-3)" textAnchor="middle">N</text>
-      </g>
     </svg>
   );
 }
@@ -681,36 +697,42 @@ function ServiceMap() {
 // ──────────────────────────────────────────────────────────────
 // Reviews
 // ──────────────────────────────────────────────────────────────
+// Reviews-on-Google CTA — we don't publish made-up testimonials. When the
+// team has a few real ones, drop them back in as <ReviewCard> children. Until
+// then, we just send people to the Google Business Profile.
 function Reviews() {
   return (
     <section id="reviews" className="reviews" data-screen-label="Reviews">
       <div className="container">
-        <div className="section-head">
-          <div>
+        <div className="reviews-cta" data-comment-anchor="reviews-cta">
+          <div className="reviews-cta-copy">
             <span className="eyebrow">What neighbors say</span>
-            <h2>Reviews from the people we serve.</h2>
-          </div>
-          <div className="right">
-            <p>Our clients know us as a team that is always willing to help. We&apos;re just as likely to troubleshoot over the phone with a frantic customer whose toilet is overflowing at 2am as we are to inspect extensive sewer lines via TV monitoring.</p>
-            <div className="agg">
-              <Icon name="google" size={28}/>
-              <div>
-                <div className="num">Google Reviews</div>
-                <div style={{fontSize: 13, color: 'var(--ink-3)'}}>See more on our Google Business Profile</div>
-              </div>
+            <h2>Read our reviews on Google.</h2>
+            <p className="lead">
+              Three decades of work in Garner means a lot of customers. The most up-to-date reviews live on our Google Business Profile — same place you can leave one yourself.
+            </p>
+            <div className="reviews-cta-actions">
+              <a
+                href="https://www.google.com/search?q=Gamble+Plumbing+Heating+%26+Air+Garner+NC"
+                target="_blank"
+                rel="noopener"
+                className="btn btn-primary"
+              >
+                <Icon name="google" size={16}/> See us on Google
+                <span className="arrow"><Icon name="arrow-right" size={16}/></span>
+              </a>
+              <a href={PHONE_HREF} className="btn btn-ghost">
+                <Icon name="phone" size={14}/> {PHONE_DISPLAY}
+              </a>
             </div>
           </div>
-        </div>
-        <div className="review-grid">
-          <ReviewCard initial="A" name="Customer name" where="City, NC" data-comment-anchor="review-1">
-            A two or three sentence customer testimonial about their experience with Gamble Plumbing. Add your real Google reviews here.
-          </ReviewCard>
-          <ReviewCard initial="B" name="Customer name" where="City, NC" data-comment-anchor="review-2">
-            A two or three sentence customer testimonial about their experience with Gamble Plumbing.
-          </ReviewCard>
-          <ReviewCard initial="C" name="Customer name" where="City, NC" data-comment-anchor="review-3">
-            A two or three sentence customer testimonial about their experience with Gamble Plumbing.
-          </ReviewCard>
+          <div className="reviews-cta-mark" aria-hidden="true">
+            <Icon name="google" size={56}/>
+            <div className="stars">
+              {[...Array(5)].map((_,i)=> <Icon key={i} name="star" size={22}/>)}
+            </div>
+            <div className="reviews-cta-mark-label">Google Business Profile</div>
+          </div>
         </div>
       </div>
     </section>
@@ -733,55 +755,6 @@ function ReviewCard({ initial, name, where, stars = 5, children, ...rest }) {
         <div className="source"><Icon name="google" size={14}/> Google</div>
       </div>
     </div>
-  );
-}
-
-// ──────────────────────────────────────────────────────────────
-// Financing
-// ──────────────────────────────────────────────────────────────
-function Financing() {
-  return (
-    <section id="financing" className="financing" data-screen-label="Financing">
-      <div className="container">
-        <div>
-          <span className="eyebrow" style={{color: 'var(--accent)'}}>Financing</span>
-          <h2 style={{marginTop: 12}}>Comfort now. <span className="yellow">Pay over time.</span></h2>
-          <p className="lead">A new water heater, furnace, or AC system shouldn't force you to drain savings. Apply in about 60 seconds — most customers get approved on the spot.</p>
-          <ul className="feature-list">
-            <li><span className="dot"><Icon name="check" size={14}/></span> 0% APR for 12 months on qualifying installs</li>
-            <li><span className="dot"><Icon name="check" size={14}/></span> Terms up to 84 months with low fixed payments</li>
-            <li><span className="dot"><Icon name="check" size={14}/></span> Soft credit check — won't impact your score</li>
-            <li><span className="dot"><Icon name="check" size={14}/></span> Decisions in under a minute, no paperwork</li>
-          </ul>
-          <div style={{marginTop: 28, display:'flex', gap:12, flexWrap:'wrap'}}>
-            <a className="btn btn-primary" href="#quote">Pre-qualify in 60 seconds <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <a className="btn btn-ghost" href="#" style={{color:'#fff', borderColor:'rgba(255,255,255,0.25)'}}>See payment examples</a>
-          </div>
-        </div>
-        <div className="financing-card">
-          <div style={{fontSize: 13, textTransform:'uppercase', letterSpacing: '0.14em', color:'var(--ink-3)', fontWeight:600}}>Sample monthly payment</div>
-          <div className="row" style={{borderTop:'none', marginTop: 10}}>
-            <span className="k">New tankless water heater</span>
-            <span className="v big">$72<span style={{fontSize: 16, color:'var(--ink-3)'}}>/mo</span></span>
-          </div>
-          <div className="row">
-            <span className="k">Furnace replacement</span>
-            <span className="v">$118/mo</span>
-          </div>
-          <div className="row">
-            <span className="k">Heat pump system</span>
-            <span className="v">$165/mo</span>
-          </div>
-          <div className="row">
-            <span className="k">Whole-home repipe</span>
-            <span className="v">$210/mo</span>
-          </div>
-          <div className="footnote">
-            *Estimates based on 84-month term at 9.99% APR for well-qualified buyers. Actual rates depend on credit and equipment. Subject to lender approval.
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -862,90 +835,42 @@ function FaqQ({ children }) { return <h3>{children}</h3>; }
 function FaqA({ children }) { return <div className="a">{children}</div>; }
 
 // ──────────────────────────────────────────────────────────────
-// Quote form (primary CTA)
+// Quote CTA — call-only for now
+// Replaces the old quote form. We don't have a submission endpoint wired,
+// so a form here would silently swallow leads (which is worse than no form).
+// Switch back to <QuoteForm> with the original form fields once email or
+// CRM is hooked up.
 // ──────────────────────────────────────────────────────────────
 function QuoteForm() {
-  const [when, setWhen] = React.useState("today");
-  const [submitted, setSubmitted] = React.useState(false);
-
-  const submit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   return (
     <section id="quote" className="quote-cta" data-screen-label="Quote">
       <div className="container grid">
         <div className="left">
           <span className="eyebrow">Free quote</span>
-          <h2 style={{marginTop: 12}}>Tell us what's going on. We'll send a real tech.</h2>
-          <p className="lead">No call centers, no upsell scripts. Quotes are flat-rate and free — and we'll usually have a window for you within 24 hours.</p>
-          <div className="call-card">
-            <div className="ic"><Icon name="phone" size={22}/></div>
-            <div>
-              <div className="label">Or call us 24/7</div>
-              <a href={PHONE_HREF} className="number">{PHONE_DISPLAY}</a>
-            </div>
-          </div>
+          <h2 style={{marginTop: 12}}>Tell us what&apos;s going on. We&apos;ll send a real tech.</h2>
+          <p className="lead">
+            No call centers, no upsell scripts. Quotes are flat-rate and free — and we usually have a window for you within 24 hours. While our site is being refreshed, the fastest way to reach us is by phone.
+          </p>
+          <ul className="quote-cta-points">
+            <li><span className="tick"><Icon name="check" size={14}/></span> A real person answers — day, night, holidays</li>
+            <li><span className="tick"><Icon name="check" size={14}/></span> Free, flat-rate quotes — you see the price before any work begins</li>
+            <li><span className="tick"><Icon name="check" size={14}/></span> Same-day visits for most repairs across the Triangle</li>
+          </ul>
         </div>
-        <div className="form-card">
-          {submitted ? (
-            <div>
-              <h3 style={{fontSize: 24, marginBottom: 8}}>Thanks — we've got it.</h3>
-              <p style={{color:'var(--ink-2)'}}>A Gamble dispatcher will call you back within 30 minutes during business hours, or first thing in the morning otherwise. If it's an emergency, please dial {PHONE_DISPLAY}.</p>
-              <button className="btn btn-ghost" style={{marginTop: 20}} onClick={() => setSubmitted(false)}>← Submit another</button>
-            </div>
-          ) : (
-            <form onSubmit={submit}>
-              <div className="form-grid">
-                <div className="field">
-                  <label htmlFor="qf-name">Your name</label>
-                  <input id="qf-name" type="text" placeholder="Jane Hawthorne" required/>
-                </div>
-                <div className="field">
-                  <label htmlFor="qf-phone">Phone</label>
-                  <input id="qf-phone" type="tel" placeholder="(919) 555-0142" required/>
-                </div>
-                <div className="field">
-                  <label htmlFor="qf-zip">ZIP</label>
-                  <input id="qf-zip" type="text" placeholder="27529" required/>
-                </div>
-                <div className="field">
-                  <label htmlFor="qf-service">What do you need?</label>
-                  <select id="qf-service" defaultValue="">
-                    <option value="" disabled>Select a service…</option>
-                    {SERVICES.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
-                    <option value="emergency">Emergency — not sure yet</option>
-                  </select>
-                </div>
-                <div className="field full">
-                  <label>When works for you?</label>
-                  <div className="when-row">
-                    {[
-                      {id:"emergency", label:"Emergency"},
-                      {id:"today", label:"Today"},
-                      {id:"this-week", label:"This week"},
-                      {id:"flexible", label:"I'm flexible"},
-                    ].map(opt => (
-                      <button type="button" key={opt.id}
-                        className={`when-chip ${when === opt.id ? 'active' : ''}`}
-                        onClick={() => setWhen(opt.id)}>{opt.label}</button>
-                    ))}
-                  </div>
-                </div>
-                <div className="field full">
-                  <label htmlFor="qf-details">Tell us a little about it (optional)</label>
-                  <textarea id="qf-details" placeholder="e.g., water heater is leaking from the bottom — 12 years old, gas."/>
-                </div>
-              </div>
-              <div className="form-submit">
-                <button type="submit" className="btn btn-primary">
-                  Send my request <span className="arrow"><Icon name="arrow-right" size={16}/></span>
-                </button>
-                <span className="note">We'll never share your info. By submitting you agree to be contacted about your service request.</span>
-              </div>
-            </form>
-          )}
+        <div className="call-panel" data-comment-anchor="call-panel">
+          <div className="call-panel-eyebrow">
+            <span className="pulse-dot"/> Open now · 24/7
+          </div>
+          <div className="call-panel-label">Call to schedule or get a quote</div>
+          <a href={PHONE_HREF} className="call-panel-num">{PHONE_DISPLAY}</a>
+          <a href={PHONE_HREF} className="btn btn-primary call-panel-cta">
+            <Icon name="phone" size={16}/> Call now
+            <span className="arrow"><Icon name="arrow-right" size={16}/></span>
+          </a>
+          <div className="call-panel-meta">
+            <span><Icon name="map-pin" size={13}/> 1027 Hwy 70 W, Garner</span>
+            <span><Icon name="clock" size={13}/> 24/7 emergency dispatch</span>
+          </div>
         </div>
       </div>
     </section>
@@ -990,9 +915,8 @@ function SiteFooter() {
               <li><a href="about.html">Our story</a></li>
               <li><a href="Home.html#area">Service area</a></li>
               <li><a href="Home.html#reviews">Reviews</a></li>
-              <li><a href="Home.html#financing">Financing</a></li>
               <li><a href="Home.html#faq">FAQ</a></li>
-              <li><a href="careers.html">Careers</a></li>
+              <li><a href="Home.html#quote">Contact</a></li>
             </ul>
           </div>
           <div>
@@ -1007,7 +931,7 @@ function SiteFooter() {
           </div>
         </div>
         <div className="legal">
-          <span>© {new Date().getFullYear()} Dewey Gamble · Gamble Plumbing, Heating &amp; Air. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Gamble Plumbing, Heating &amp; Air. All rights reserved.</span>
           <span className="license">North Carolina Licensed &amp; Insured</span>
           <span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Accessibility</a></span>
         </div>
@@ -1018,14 +942,14 @@ function SiteFooter() {
 
 Object.assign(window, {
   PHONE_DISPLAY, PHONE_HREF, SERVICES,
+  SiteBanner,
   UtilityBar, Nav, ServicesMenu,
   HeroFamily, HeroModern, HeroEditorial, CTAs,
   TrustStrip, Services, ServiceCard,
   WhyUs, Process, ProcessStep,
   ServiceArea, Neighborhood, ServiceMap,
   Reviews, ReviewCard,
-  Financing,
   FAQ, FaqAccordion, FaqItem, FaqQ, FaqA,
   QuoteForm, SiteFooter,
-  PhotoSlot, LogoMark
+  PhotoSlot, BrandFallback, LogoMark
 });

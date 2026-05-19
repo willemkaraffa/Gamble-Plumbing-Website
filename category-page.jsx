@@ -15,10 +15,11 @@ function CatCrumbs({ children }) { return <div className="crumbs">{children}</di
 function CatHeroCopy({ children }) { return <div className="copy">{children}</div>; }
 function CatHeroVisual({ children, label = "Photo", stamp, id }) {
   const slotId = id || ('cat-hero-' + label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+  const photoOn = (window.TWEAK_DEFAULTS && window.TWEAK_DEFAULTS.photography) !== false;
   return (
     <div className="visual">
       {stamp && <div className="stamp">{stamp}</div>}
-      {children || (
+      {children || (photoOn ? (
         <image-slot
           id={slotId}
           placeholder={`Drop a photo · ${label}`}
@@ -26,7 +27,9 @@ function CatHeroVisual({ children, label = "Photo", stamp, id }) {
           radius="22"
           style={{ width: '100%', height: '100%', display: 'block' }}
         />
-      )}
+      ) : (
+        <BrandFallback/>
+      ))}
     </div>
   );
 }
@@ -133,6 +136,7 @@ function SvcBullet({ children }) {
 function SvcActions({ children }) { return <div className="actions">{children}</div>; }
 function SvcVisual({ children, label, icon = "wrench", cornerLabel, cornerSub, id }) {
   const slotId = id || ('svc-' + (label || 'photo').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+  const photoOn = (window.TWEAK_DEFAULTS && window.TWEAK_DEFAULTS.photography) !== false;
   return (
     <div className="visual">
       {cornerLabel && (
@@ -144,7 +148,7 @@ function SvcVisual({ children, label, icon = "wrench", cornerLabel, cornerSub, i
           </div>
         </div>
       )}
-      {children || (
+      {children || (photoOn ? (
         <image-slot
           id={slotId}
           placeholder={`Drop a photo · ${label}`}
@@ -152,7 +156,9 @@ function SvcVisual({ children, label, icon = "wrench", cornerLabel, cornerSub, i
           radius="22"
           style={{ width: '100%', height: '100%', display: 'block' }}
         />
-      )}
+      ) : (
+        <BrandFallback meta={null}/>
+      ))}
     </div>
   );
 }

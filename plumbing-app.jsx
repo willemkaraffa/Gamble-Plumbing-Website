@@ -15,10 +15,11 @@ const RAIL_ITEMS = [
 ];
 
 function PlumbingApp() {
-  const t = window.TWEAK_DEFAULTS || { ctaEmphasis: "quote", photography: true };
+  const t = window.TWEAK_DEFAULTS || { ctaEmphasis: "quote", photography: false, showBanner: true };
 
   return (
     <>
+      <SiteBanner show={t.showBanner !== false}/>
       <UtilityBar/>
       <Nav ctaEmphasis={t.ctaEmphasis}/>
 
@@ -218,7 +219,7 @@ function PlumbingApp() {
       </SvcDetail>
 
       <IssuesGrid>
-        <IssueCard icon="badge-check" title="Trusted Experts">Three generations of plumbers passing down the trade.</IssueCard>
+        <IssueCard icon="badge-check" title="Dual-Licensed">Licensed in both plumbing and HVAC — one team handles both trades.</IssueCard>
         <IssueCard icon="lightning" warm title="24/7 Emergency">A real person answers, day or night, holiday or not.</IssueCard>
         <IssueCard icon="shield" title="Satisfaction Guaranteed">If a Gamble tech ever falls short, we make it right.</IssueCard>
         <IssueCard icon="clock" warm title="Experienced">30 years serving Garner and the greater Triangle.</IssueCard>

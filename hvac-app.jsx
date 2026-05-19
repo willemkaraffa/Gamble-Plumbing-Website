@@ -13,10 +13,11 @@ const HVAC_RAIL = [
 ];
 
 function HvacApp() {
-  const t = window.TWEAK_DEFAULTS || { ctaEmphasis: "quote", photography: true };
+  const t = window.TWEAK_DEFAULTS || { ctaEmphasis: "quote", photography: false, showBanner: true };
 
   return (
     <>
+      <SiteBanner show={t.showBanner !== false}/>
       <UtilityBar/>
       <Nav ctaEmphasis={t.ctaEmphasis}/>
 
@@ -30,7 +31,7 @@ function HvacApp() {
           <span className="eyebrow">Heating &amp; Air</span>
           <h1>Heating &amp; cooling for every Carolina season.</h1>
           <p className="lead">
-            Carolina summers don't care how old your AC is. Our techs install, repair, and tune-up every major brand — and we'll tell you the truth about whether you need a fix or a replacement. Flat-rate quotes, certified on Trane, Carrier &amp; Lennox.
+            Carolina summers don&apos;t care how old your AC is. Our techs install, repair, and tune up every major brand — and we&apos;ll tell you the truth about whether you need a fix or a replacement.
           </p>
           <div className="ctas">
             <a href="#quote" className="btn btn-primary">Get a free quote <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
@@ -38,11 +39,11 @@ function HvacApp() {
           </div>
           <div className="perks">
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Free in-home estimates</span>
-            <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> 0% financing on installs</span>
-            <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Manufacturer warranties on every install</span>
+            <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> 24/7 emergency service</span>
+            <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Licensed &amp; insured in NC</span>
           </div>
         </CatHeroCopy>
-        <CatHeroVisual label="Tech inspecting outdoor condenser unit" stamp="Certified pros"/>
+        <CatHeroVisual id="hvac-hero-photo" label="Tech inspecting outdoor condenser unit" stamp="Licensed in NC"/>
       </CategoryHero>
 
       <CategoryRail items={HVAC_RAIL}/>
@@ -70,8 +71,8 @@ function HvacApp() {
         <SvcVisual
           label="Furnace install in basement"
           icon="flame"
-          cornerLabel="Tune-up special"
-          cornerSub="$89 pre-season"
+          cornerLabel="Annual tune-ups"
+          cornerSub="Catch problems before winter"
         />
       </SvcDetail>
 
@@ -112,10 +113,10 @@ function HvacApp() {
           </SvcLead>
           <SvcBullets>
             <SvcBullet>Manual J load calculation — no oversized systems</SvcBullet>
-            <SvcBullet>Trane, Carrier &amp; Lennox heat pump installs</SvcBullet>
+            <SvcBullet>Major-brand heat pump installs</SvcBullet>
             <SvcBullet>Dual-fuel systems (heat pump + gas furnace)</SvcBullet>
             <SvcBullet>Variable-speed &amp; cold-climate options</SvcBullet>
-            <SvcBullet>Federal tax credit &amp; utility rebate paperwork</SvcBullet>
+            <SvcBullet>Help applying for rebates &amp; tax credits when available</SvcBullet>
             <SvcBullet>Manufacturer parts &amp; labor warranties</SvcBullet>
           </SvcBullets>
           <SvcActions>
@@ -126,8 +127,8 @@ function HvacApp() {
         <SvcVisual
           label="Variable-speed heat pump install"
           icon="heat-pump"
-          cornerLabel="Rebates available"
-          cornerSub="Up to $2,000 federal credit"
+          cornerLabel="Right-sized"
+          cornerSub="For Triangle climate"
         />
       </SvcDetail>
 
@@ -223,19 +224,19 @@ function HvacApp() {
             </FaqItem>
             <FaqItem data-comment-anchor="hfaq-brand">
               <FaqQ>What brand do you recommend?</FaqQ>
-              <FaqA>We're factory-certified on Trane, Carrier, and Lennox — all three make excellent equipment. The brand matters less than (a) sizing, (b) install quality, and (c) the warranty. We'll quote a few configurations and let you decide.</FaqA>
+              <FaqA>Brand matters less than (a) sizing, (b) install quality, and (c) the warranty. We work with every major brand, will quote a few configurations, and let you decide — no kickbacks, no pressure.</FaqA>
             </FaqItem>
             <FaqItem data-comment-anchor="hfaq-tuneup">
               <FaqQ>Do I really need an annual tune-up?</FaqQ>
-              <FaqA>Yes — for two reasons. (1) Most manufacturer warranties require it. (2) Catching a worn capacitor or low refrigerant in spring is a $40 fix; finding it on July 5 when the system is down is a much bigger day. Maintenance plans cover spring AC + fall heating with priority scheduling.</FaqA>
+              <FaqA>Yes — for two reasons. (1) Most manufacturer warranties require it. (2) Catching a worn capacitor or low refrigerant in spring is a small fix; finding it on July 5 when the system is down is a much bigger day. Ask us about maintenance plans that cover spring AC + fall heating with priority scheduling.</FaqA>
             </FaqItem>
             <FaqItem data-comment-anchor="hfaq-financing">
-              <FaqQ>How does HVAC financing work?</FaqQ>
-              <FaqA>We offer 0% APR for 12 months and longer terms up to 84 months with low fixed payments. Pre-qualification is a soft credit pull (doesn't affect score) and takes about 60 seconds. Most customers know their monthly payment before the install is even quoted.</FaqA>
+              <FaqQ>Do you offer financing?</FaqQ>
+              <FaqA>Financing options are available on bigger installs — ask us when we quote the job and we&apos;ll walk you through what makes sense.</FaqA>
             </FaqItem>
             <FaqItem data-comment-anchor="hfaq-rebates">
               <FaqQ>Are there rebates or tax credits available?</FaqQ>
-              <FaqA>Yes — the federal Inflation Reduction Act offers up to $2,000 in credits for qualifying heat pumps, and Duke Energy / utility rebates run periodically. We handle the paperwork on your behalf so you don't miss anything you're entitled to.</FaqA>
+              <FaqA>Depending on the year and the equipment, federal credits and utility rebates can be available for qualifying heat pumps and high-efficiency systems. We&apos;ll point out anything you may qualify for when we put together your quote.</FaqA>
             </FaqItem>
           </FaqAccordion>
         </div>

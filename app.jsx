@@ -101,6 +101,7 @@ function App() {
 
   return (
     <>
+      <SiteBanner show={t.showBanner !== false}/>
       <UtilityBar/>
       <Nav ctaEmphasis={t.ctaEmphasis}/>
       <Hero tweaks={liveTweaks}/>
@@ -110,7 +111,6 @@ function App() {
       <Process/>
       <ServiceArea/>
       <Reviews/>
-      <Financing/>
       <FAQ/>
       <QuoteForm/>
       <SiteFooter/>
@@ -160,6 +160,11 @@ function App() {
           label="Show photo slots"
           value={t.photography}
           onChange={(v) => setTweak('photography', v)}
+        />
+        <TweakToggle
+          label="Site-refresh banner"
+          value={t.showBanner !== false}
+          onChange={(v) => setTweak('showBanner', v)}
         />
 
         <TweakSection label="Call-to-action"/>

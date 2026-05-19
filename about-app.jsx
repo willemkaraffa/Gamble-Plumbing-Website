@@ -4,10 +4,11 @@
 // ============================================================
 
 function AboutApp() {
-  const t = window.TWEAK_DEFAULTS || { ctaEmphasis: "quote", photography: true };
+  const t = window.TWEAK_DEFAULTS || { ctaEmphasis: "quote", photography: false, showBanner: true };
 
   return (
     <>
+      <SiteBanner show={t.showBanner !== false}/>
       <UtilityBar/>
       <Nav ctaEmphasis={t.ctaEmphasis}/>
 
@@ -40,15 +41,15 @@ function AboutApp() {
         <div className="container grid">
           <div className="copy">
             <span className="eyebrow">A family tradition</span>
-            <h2>Three generations. The same family. The same trade.</h2>
+            <h2>One family. Two trades. Three decades.</h2>
             <p>
-              No other North Carolina plumbing service has such a dedicated family tradition as Gamble Plumbing. For the last 30 years, each generation has passed down the tricks of the trade — and that&apos;s why we plan to be around for many years to come.
+              Gamble Plumbing has served the Triangle as a family-owned business since 1995, with the trade passed down within the Gamble family. We&apos;re dual-licensed across plumbing and HVAC — so the same trusted team can fix a leaking shutoff valve in the morning and a failing heat pump in the afternoon.
             </p>
             <p>
-              We eat, sleep, and breathe plumbing excellence, continuing a tradition we&apos;re proud to uphold. Technology changes constantly, but we make sure some aspects of the business stay the same today as they will tomorrow.
+              We eat, sleep, and breathe the work, and we plan to be around for many years to come. Technology changes constantly, but we make sure some aspects of the business stay the same today as they will tomorrow.
             </p>
             <p>
-              We have a passion for plumbing, and we&apos;ve never rested on our successes. Every day, we continually look for new and better ways to do our job.
+              We have a passion for what we do, and we&apos;ve never rested on our successes. Every day, we continually look for new and better ways to do our job.
             </p>
           </div>
           <aside className="pullquote" data-comment-anchor="about-pullquote">
@@ -75,13 +76,17 @@ function AboutApp() {
             </div>
           </div>
           <div style={{aspectRatio: '4/5', borderRadius: 'var(--radius-lg)', overflow: 'hidden', boxShadow: '0 30px 60px -40px rgba(19, 41, 74, 0.35)'}}>
-            <image-slot
-              id="about-team-photo"
-              placeholder="Drop a photo · Team or fleet"
-              shape="rounded"
-              radius="22"
-              style={{ width: '100%', height: '100%', display: 'block' }}
-            />
+            {t.photography ? (
+              <image-slot
+                id="about-team-photo"
+                placeholder="Drop a photo · Team or fleet"
+                shape="rounded"
+                radius="22"
+                style={{ width: '100%', height: '100%', display: 'block' }}
+              />
+            ) : (
+              <BrandFallback meta={null}/>
+            )}
           </div>
         </div>
       </section>
@@ -99,13 +104,17 @@ function AboutApp() {
           </div>
           <div className="timeline-grid">
             <div className="visual" style={{aspectRatio: '4/5', borderRadius: 'var(--radius-lg)', overflow: 'hidden', boxShadow: '0 30px 60px -40px rgba(19, 41, 74, 0.35)'}}>
-              <image-slot
-                id="about-milestones-photo"
-                placeholder="Drop a photo · Old + new truck side by side"
-                shape="rounded"
-                radius="22"
-                style={{ width: '100%', height: '100%', display: 'block' }}
-              />
+              {t.photography ? (
+                <image-slot
+                  id="about-milestones-photo"
+                  placeholder="Drop a photo · Old + new truck side by side"
+                  shape="rounded"
+                  radius="22"
+                  style={{ width: '100%', height: '100%', display: 'block' }}
+                />
+              ) : (
+                <BrandFallback meta={null}/>
+              )}
             </div>
             <div className="timeline">
               <div className="tl-item" data-comment-anchor="ms-1995">
@@ -119,7 +128,7 @@ function AboutApp() {
                 <span className="year">2000s</span>
                 <div className="body">
                   <h3>The trade gets passed down.</h3>
-                  <p>Each generation hands off the tricks of the trade — making sure some aspects of the business stay the same today as they will tomorrow.</p>
+                  <p>The work passes down within the family — making sure some aspects of the business stay the same today as they will tomorrow.</p>
                 </div>
               </div>
               <div className="tl-item" data-comment-anchor="ms-expansion">
@@ -141,30 +150,36 @@ function AboutApp() {
         </div>
       </section>
 
-      <section className="team" data-screen-label="Team">
+      <section className="owner" data-screen-label="Meet the owner">
         <div className="container">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow">The people behind the trucks</span>
-              <h2>One team. Every project of any size.</h2>
+          <div className="owner-card" data-comment-anchor="owner-card">
+            <div className="owner-photo">
+              {t.photography ? (
+                <image-slot
+                  id="team-andrew"
+                  placeholder="Drop a photo · Andrew &amp; Dewey"
+                  shape="rounded"
+                  radius="18"
+                  style={{ width: '100%', height: '100%', display: 'block' }}
+                />
+              ) : (
+                <BrandFallback meta={null}/>
+              )}
             </div>
-            <div className="right">
-              <p>Our team works seamlessly together to bring your plumbing projects to life. From our experienced plumbers to our dedicated project managers, every member plays a crucial role.</p>
+            <div className="owner-body">
+              <span className="eyebrow">Meet the owners</span>
+              <h2>Andrew &amp; Dewey Gamble</h2>
+              <div className="owner-role">Owners · Gamble Plumbing, Heating &amp; Air</div>
+              <p className="owner-quote">
+                &ldquo;Our goal is straightforward: transform spaces with reliable, efficient plumbing and HVAC solutions that make your home work better and feel better.&rdquo;
+              </p>
+              <div className="owner-actions">
+                <a href={PHONE_HREF} className="btn btn-primary">
+                  <Icon name="phone" size={14}/> Call us · {PHONE_DISPLAY}
+                </a>
+                <a href="Home.html#quote" className="btn btn-ghost">Get a quote</a>
+              </div>
             </div>
-          </div>
-          <div className="team-grid">
-            <TeamCard photoId="team-andrew" name="Andrew" role="Owner" tenure="">
-              "My goal is straightforward: to transform spaces with reliable and efficient plumbing solutions that enhance both function and comfort."
-            </TeamCard>
-            <TeamCard photoId="team-member-2" name="Team member name" role="Job title" tenure="">
-              A short quote about what this team member brings to the job.
-            </TeamCard>
-            <TeamCard photoId="team-member-3" name="Team member name" role="Job title" tenure="">
-              A short quote about what this team member brings to the job.
-            </TeamCard>
-            <TeamCard photoId="team-member-4" name="Team member name" role="Job title" tenure="">
-              A short quote about what this team member brings to the job.
-            </TeamCard>
           </div>
         </div>
       </section>
@@ -181,8 +196,8 @@ function AboutApp() {
             </div>
           </div>
           <div className="value-grid">
-            <ValueCard icon="badge-check" title="Trusted Experts">
-              Three generations of plumbers passing down the trade — and a fleet of techs ready to serve.
+            <ValueCard icon="badge-check" title="Dual-Licensed">
+              Licensed in both plumbing and HVAC — one team handles both trades, no contractor juggling.
             </ValueCard>
             <ValueCard icon="lightning" title="24/7 Emergency">
               A real person answers, day or night. We&apos;re just as ready for a 2 a.m. overflow as a Tuesday tune-up.
