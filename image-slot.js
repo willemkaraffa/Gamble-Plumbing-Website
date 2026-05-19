@@ -265,7 +265,12 @@
       this._subFn = () => this._render();
       // Shadow-DOM listeners live with the shadow DOM — bound once here so
       // disconnect/reconnect (e.g. React remount) doesn't stack handlers.
-      this._empty.addEventListener('click', () => this._input.click());
+      // Same gate as the drag listeners in connectedCallback — outside the
+      // omelette runtime the empty placeholder is non-interactive.
+      this._empty.addEventListener('click', () => {
+        if (!(window.omelette && window.omelette.writeFile)) return;
+        this._input.click();
+      });
       root.addEventListener('click', (e) => {
         const act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
         if (act === 'replace') { this._exitReframe(true); this._input.click(); }
@@ -383,10 +388,15 @@
         ImageSlot._warned = true;
         console.warn('<image-slot> without an id will not persist its dropped image.');
       }
-      this.addEventListener('dragenter', this);
-      this.addEventListener('dragover', this);
-      this.addEventListener('dragleave', this);
-      this.addEventListener('drop', this);
+      // Drops only make sense when there's somewhere to persist them.
+      // Outside the omelette runtime (e.g. GitHub Pages) skip the listeners
+      // entirely so visitors can't locally swap images in their own tab.
+      if (window.omelette && window.omelette.writeFile) {
+        this.addEventListener('dragenter', this);
+        this.addEventListener('dragover', this);
+        this.addEventListener('dragleave', this);
+        this.addEventListener('drop', this);
+      }
       subs.add(this._subFn);
       // width%/height% in _applyView encode the frame aspect at call time —
       // a host resize (responsive grid, pane divider) would stretch the
