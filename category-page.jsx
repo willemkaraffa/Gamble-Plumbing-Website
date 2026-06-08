@@ -172,11 +172,11 @@ function IssuesGrid({ children, id = "issues" }) {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">Common problems we fix</span>
-            <h2>If any of these sound familiar, we've seen it a thousand times.</h2>
+            <span className="eyebrow">[Section label]</span>
+            <h2>[Section headline — your words]</h2>
           </div>
           <div className="right">
-            <p>Most of these are same-day fixes. Snap a photo, describe what you're seeing, and we'll give you a flat-rate quote — usually before we leave the driveway.</p>
+            <p>[Write a short intro for this section.]</p>
           </div>
         </div>
         <div className="issue-grid">

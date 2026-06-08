@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="only light" />
+<title>Privacy Policy · Gamble Plumbing, Heating &amp; Air · Garner, NC</title>
+<meta name="description" content="How Gamble Plumbing, Heating & Air collects, uses, and protects your information when you request service or browse our website." />
+<meta name="robots" content="index,follow" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2313294A'/%3E%3Cpath d='M32 12a20 20 0 1 0 20 20v-4H34v6h12a12 12 0 1 1-3.4-10.6l4.9-4.9A20 20 0 0 0 32 12Z' fill='%23F4C81E'/%3E%3Cpath d='M28 22c2.6 2.9 4.6 5.4 4.6 8.2a4.6 4.6 0 1 1-9.2 0c0-2.8 2-5.3 4.6-8.2Z' fill='%233FA0DC'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Archivo:wght@500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="site.css" />
+
+<style>
+  .lg-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(circle at 85% -8%, color-mix(in oklab, var(--accent) 9%, transparent), transparent 52%),
+      var(--section-alt);
+  }
+
+  /* Top brand bar (matches thank-you.html) */
+  .lg-top { background: var(--primary); color: #d9e3f2; }
+  .lg-top .container {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding-top: 14px; padding-bottom: 14px;
+  }
+  .lg-brand { display: flex; align-items: center; gap: 12px; }
+  .lg-brand .mark {
+    width: 42px; height: 42px; border-radius: 11px;
+    background: #fff1; display: grid; place-items: center; flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+  .lg-brand .name { font-family: var(--font-display); font-weight: 800; font-size: 19px; color: #fff; line-height: 1; }
+  .lg-brand .tag {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-top: 4px; display: block;
+  }
+  .lg-top a.lg-phone {
+    color: #fff; font-weight: 700; font-family: var(--font-display);
+    font-size: 18px; display: inline-flex; align-items: center; gap: 8px;
+  }
+
+  /* Header band */
+  .lg-head { padding: 56px 24px 0; }
+  .lg-head .container { max-width: 860px; }
+  .lg-eyebrow {
+    font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--secondary); font-weight: 700;
+  }
+  .lg-head h1 { font-size: clamp(34px, 5vw, 52px); margin: 14px 0 16px; letter-spacing: var(--display-tracking, -0.02em); }
+  .lg-meta {
+    display: flex; flex-wrap: wrap; gap: 8px 16px;
+    font-size: 13.5px; color: var(--ink-3);
+  }
+  .lg-meta b { color: var(--ink-2); font-weight: 600; }
+
+  /* Body card */
+  .lg-main { flex: 1; padding: 32px 24px 80px; }
+  .lg-main .container { max-width: 860px; }
+  .lg-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 40px 90px -60px rgba(19, 41, 74, 0.35);
+    padding: 8px 0;
+  }
+
+  /* Table of contents */
+  .lg-toc {
+    padding: 28px 40px 24px;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .lg-toc h2 {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 700; margin-bottom: 14px;
+  }
+  .lg-toc ol {
+    list-style: none; margin: 0; padding: 0;
+    columns: 2; column-gap: 36px;
+    counter-reset: toc;
+  }
+  .lg-toc li { break-inside: avoid; margin-bottom: 9px; counter-increment: toc; }
+  .lg-toc a {
+    display: flex; gap: 10px; align-items: baseline;
+    color: var(--ink-2); text-decoration: none; font-size: 14.5px; line-height: 1.4;
+  }
+  .lg-toc a::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: var(--font-display); font-weight: 700; font-size: 12px;
+    color: var(--accent-ink, var(--primary));
+    background: var(--section-alt);
+    border-radius: 5px; padding: 1px 6px; flex-shrink: 0;
+  }
+  .lg-toc a:hover { color: var(--primary); }
+  .lg-toc a:hover::before { background: color-mix(in oklab, var(--accent) 30%, transparent); }
+
+  /* Sections */
+  .lg-body { padding: 8px 40px 36px; }
+  .lg-sec { padding: 26px 0; border-bottom: 1px solid var(--line-2); scroll-margin-top: 24px; }
+  .lg-sec:last-child { border-bottom: 0; }
+  .lg-sec > h2 {
+    font-size: clamp(20px, 2.4vw, 25px);
+    margin-bottom: 14px; display: flex; gap: 12px; align-items: baseline;
+  }
+  .lg-sec > h2 .n {
+    font-family: var(--font-display); font-size: 13px; font-weight: 700;
+    color: var(--secondary); background: color-mix(in oklab, var(--secondary) 12%, transparent);
+    border-radius: 6px; padding: 2px 8px; flex-shrink: 0; line-height: 1.5;
+  }
+  .lg-sec h3 {
+    font-size: 16px; margin: 20px 0 8px; color: var(--ink);
+  }
+  .lg-sec p { color: var(--ink-2); line-height: 1.65; font-size: 15.5px; margin-bottom: 12px; }
+  .lg-sec p:last-child { margin-bottom: 0; }
+  .lg-sec ul { margin: 4px 0 14px; padding-left: 0; list-style: none; display: grid; gap: 9px; }
+  .lg-sec ul li {
+    position: relative; padding-left: 26px; color: var(--ink-2);
+    line-height: 1.6; font-size: 15px;
+  }
+  .lg-sec ul li::before {
+    content: ""; position: absolute; left: 6px; top: 10px;
+    width: 7px; height: 7px; border-radius: 2px;
+    background: var(--accent); box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 22%, transparent);
+  }
+  .lg-sec ul li strong { color: var(--ink); font-weight: 700; }
+  .lg-sec a { color: var(--secondary); font-weight: 600; text-decoration: none; }
+  .lg-sec a:hover { text-decoration: underline; }
+
+  .lg-callout {
+    background: var(--section-alt);
+    border: 1px solid var(--line-2);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 16px 0 4px;
+  }
+  .lg-callout p { font-size: 14.5px; margin: 0; color: var(--ink-2); }
+  .lg-callout strong { color: var(--ink); }
+
+  .lg-contact-card {
+    background: var(--primary);
+    color: #d9e3f2;
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin-top: 18px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px;
+  }
+  .lg-contact-card .who { font-family: var(--font-display); font-weight: 800; color: #fff; font-size: 18px; }
+  .lg-contact-card .addr { font-size: 14px; line-height: 1.6; margin-top: 6px; }
+  .lg-contact-card .addr a { color: var(--accent); font-weight: 700; }
+
+  .lg-foot {
+    text-align: center; padding: 22px; font-size: 12.5px; color: var(--ink-3);
+  }
+  .lg-foot a { color: var(--ink-2); text-decoration: none; font-weight: 600; }
+  .lg-foot a:hover { color: var(--primary); }
+
+  @media (max-width: 680px) {
+    .lg-top .container { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .lg-toc { padding: 24px 22px 20px; }
+    .lg-toc ol { columns: 1; }
+    .lg-body { padding: 4px 22px 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="lg-wrap">
+  <header class="lg-top">
+    <div class="container">
+      <a class="lg-brand" href="Home.html" aria-label="Gamble Plumbing, Heating and Air home">
+        <span class="mark">
+          <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M32 6a26 26 0 1 0 26 26v-6H34v8h14a16 16 0 1 1-4.4-13.7l6.4-6.4A26 26 0 0 0 32 6Z" fill="#F4C81E"/>
+            <path d="M28 16c3.4 3.7 6 6.8 6 10.5a6 6 0 1 1-12 0c0-3.7 2.6-6.8 6-10.5Z" fill="#3FA0DC"/>
+          </svg>
+        </span>
+        <span>
+          <span class="name">Gamble</span>
+          <span class="tag">Plumbing · Heating · Air</span>
+        </span>
+      </a>
+      <a class="lg-phone" href="tel:+19197975930">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+        (919) 797-5930
+      </a>
+    </div>
+  </header>
+
+  <div class="lg-head">
+    <div class="container">
+      <span class="lg-eyebrow">Legal</span>
+      <h1>Privacy Policy</h1>
+      <div class="lg-meta">
+        <span><b>Status:</b> being prepared with our legal advisor</span>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    ──────────────────────────────────────────────────────────────────────────
+    PRIVACY POLICY — TO BE COMPLETED BY LEGAL COUNSEL
+    This page is intentionally a holding page. Have a professional draft the
+    real policy, then drop it in where marked below. A complete policy for this
+    site should cover at least:
+      1.  Who we are / scope
+      2.  Information collected (form: name, phone, email, address, message,
+          urgency; automatic: IP, device, usage, cookies; campaign params:
+          utm_*, gclid, fbclid — see tracking.js)
+      3.  How the information is used
+      4.  Calls & text messages / SMS consent (STOP / HELP, not a condition
+          of purchase) — relevant because the quote form collects phone + consent
+      5.  Cookies & ad tracking (Google Analytics, Google Ads, Meta Pixel —
+          all wired in tracking.js, off until IDs are added)
+      6.  When information is shared (service providers, ad/analytics partners,
+          legal, business transfer)
+      7.  Your choices & rights (incl. CCPA/CPRA if applicable)
+      8.  Data retention & security
+      9.  Children's privacy
+      10. Changes to the policy
+      11. How to contact us
+    Note: Google Ads and Meta both require a reachable privacy policy before
+    running ads.
+    ──────────────────────────────────────────────────────────────────────────
+  -->
+  <main class="lg-main">
+    <div class="container">
+      <div class="lg-card">
+        <div class="lg-body">
+
+          <section class="lg-sec" id="status">
+            <h2>Our privacy policy is on the way</h2>
+            <p>We&rsquo;re preparing our privacy policy with a professional so that it&rsquo;s accurate and complete &mdash; we&rsquo;d rather take the time to get it right than post boilerplate we can&rsquo;t stand behind. Please check back soon.</p>
+            <p>In the meantime, if you have any questions about how we collect, use, or protect the information you share when you request service, we&rsquo;re happy to answer them. A real member of the Gamble family will help &mdash; just give us a call.</p>
+            <div class="lg-contact-card">
+              <div>
+                <div class="who">Gamble Plumbing, Heating &amp; Air</div>
+                <div class="addr">
+                  1027 Hwy 70 W, Ste 107 &middot; Garner, NC 27529<br/>
+                  Phone: <a href="tel:+19197975930">(919) 797-5930</a>
+                </div>
+              </div>
+              <a href="tel:+19197975930" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+                Call us
+              </a>
+            </div>
+          </section>
+
+          <!-- BEGIN: paste finalized privacy policy sections here -->
+          <!-- END -->
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <div class="lg-foot">
+    © <span id="lg-year"></span> Gamble Plumbing, Heating &amp; Air · <a href="Home.html">Home</a> · <a href="about.html">Our Story</a> · NC Licensed &amp; Insured
+  </div>
+</div>
+
+<script>
+  (function () {
+    var y = document.getElementById('lg-year');
+    if (y) y.textContent = new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>

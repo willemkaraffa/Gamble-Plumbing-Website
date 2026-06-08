@@ -19,17 +19,17 @@ function AboutApp() {
             <span className="sep">/</span>
             <span>About</span>
           </CatCrumbs>
-          <span className="eyebrow">About us</span>
-          <h1>Quality flow, trusted solutions.</h1>
+          <span className="eyebrow">[Section label]</span>
+          <h1>[Headline — your words]</h1>
           <p className="lead">
-            Our core belief is simple but powerful: we are dedicated to bringing your plumbing visions to life. We go above and beyond to exceed your expectations with exceptional results — working closely with you to understand your unique needs and preferences.
+            [Write a short intro about your company — two or three sentences.]
           </p>
           <div className="ctas">
             <a href="Home.html#quote" className="btn btn-primary">Get a free estimate <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
             <a href={PHONE_HREF} className="btn btn-ghost"><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
           </div>
           <div className="perks">
-            <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Family-owned for 30 years</span>
+            <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> [Selling point]</span>
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Residential &amp; commercial</span>
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Garner, NC · Serving the Triangle</span>
           </div>
@@ -40,20 +40,20 @@ function AboutApp() {
       <section className="story tight" data-screen-label="Story" data-comment-anchor="about-story">
         <div className="container grid">
           <div className="copy">
-            <span className="eyebrow">A family tradition</span>
-            <h2>One family. Two trades. Three decades.</h2>
+            <span className="eyebrow">[Section label]</span>
+            <h2>[Section headline — your words]</h2>
             <p>
-              Gamble Plumbing has served the Triangle as a family-owned business since 1995, with the trade passed down within the Gamble family. We&apos;re dual-licensed across plumbing and HVAC — so the same trusted team can fix a leaking shutoff valve in the morning and a failing heat pump in the afternoon.
+              [Write the first paragraph of your story here.]
             </p>
             <p>
-              We eat, sleep, and breathe the work, and we plan to be around for many years to come. Technology changes constantly, but we make sure some aspects of the business stay the same today as they will tomorrow.
+              [Write the second paragraph here.]
             </p>
             <p>
-              We have a passion for what we do, and we&apos;ve never rested on our successes. Every day, we continually look for new and better ways to do our job.
+              [Write the third paragraph here — or delete this one.]
             </p>
           </div>
           <aside className="pullquote" data-comment-anchor="about-pullquote">
-            Hi there! I&apos;m Andrew, the proud owner of Gamble Plumbing. With a deep appreciation for quality craftsmanship and a lifelong passion for plumbing — my goal is straightforward: to transform spaces with reliable and efficient plumbing solutions that enhance both function and comfort.
+            [Add a short personal quote from Andrew or Dewey in your own words.]
             <span className="who">— Andrew, Owner</span>
           </aside>
         </div>
@@ -62,13 +62,13 @@ function AboutApp() {
       <section className="story tight" style={{background: 'var(--section-alt)'}} data-screen-label="What we do" data-comment-anchor="about-what-we-do">
         <div className="container grid">
           <div className="copy">
-            <span className="eyebrow">What we do</span>
-            <h2>There&apos;s no job too small. There&apos;s no job too large.</h2>
+            <span className="eyebrow">[Section label]</span>
+            <h2>[Section headline — your words]</h2>
             <p>
-              Our clients know us as a team that is always willing to help. We&apos;re just as likely to troubleshoot over the phone with a frantic customer whose toilet is overflowing at 2 a.m. as we are to inspect extensive sewer lines via TV monitoring.
+              [Write a paragraph about the kind of work you do.]
             </p>
             <p>
-              Our team works seamlessly together to bring your plumbing projects to life. From our experienced plumbers to our dedicated project managers, every member plays a crucial role in delivering results that exceed expectations. With a fleet of well-equipped vehicles, we have the capacity to handle plumbing projects of any size — with efficiency and precision.
+              [Write a second paragraph — or delete this one.]
             </p>
             <div style={{marginTop: 28, display:'flex', gap: 12, flexWrap:'wrap'}}>
               <a href="Home.html#quote" className="btn btn-primary">Request service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
@@ -95,11 +95,11 @@ function AboutApp() {
         <div className="container">
           <div className="section-head">
             <div>
-              <span className="eyebrow">Our journey</span>
-              <h2>Thirty years, one family, one trade.</h2>
+              <span className="eyebrow">[Section label]</span>
+              <h2>[Section headline — your words]</h2>
             </div>
             <div className="right">
-              <p>From a single truck to a fleet, from one trade to two — here are the moments along the way that brought us to today.</p>
+              <p>[Write a short intro for your timeline.]</p>
             </div>
           </div>
           <div className="timeline-grid">
@@ -118,31 +118,31 @@ function AboutApp() {
             </div>
             <div className="timeline">
               <div className="tl-item" data-comment-anchor="ms-1995">
-                <span className="year">1995</span>
+                <span className="year">[Year]</span>
                 <div className="body">
-                  <h3>A family tradition begins.</h3>
-                  <p>The Gamble family starts serving North Carolina with a single truck and a commitment to quality craftsmanship.</p>
+                  <h3>[Milestone title]</h3>
+                  <p>[Describe this milestone in a sentence.]</p>
                 </div>
               </div>
               <div className="tl-item" data-comment-anchor="ms-decades">
-                <span className="year">2000s</span>
+                <span className="year">[Year]</span>
                 <div className="body">
-                  <h3>The trade gets passed down.</h3>
-                  <p>The work passes down within the family — making sure some aspects of the business stay the same today as they will tomorrow.</p>
+                  <h3>[Milestone title]</h3>
+                  <p>[Describe this milestone in a sentence.]</p>
                 </div>
               </div>
               <div className="tl-item" data-comment-anchor="ms-expansion">
-                <span className="year">2010s</span>
+                <span className="year">[Year]</span>
                 <div className="body">
-                  <h3>Heating &amp; Air added.</h3>
-                  <p>We expand from plumbing into heating and cooling for the Triangle&apos;s homeowners and businesses.</p>
+                  <h3>[Milestone title]</h3>
+                  <p>[Describe this milestone in a sentence.]</p>
                 </div>
               </div>
               <div className="tl-item now" data-comment-anchor="ms-today">
                 <span className="year">Today</span>
                 <div className="body">
-                  <h3>Still family-owned. Still serving Garner.</h3>
-                  <p>Andrew leads the team from 1027 Hwy 70 West in Garner — serving residential and commercial customers across Raleigh, Durham, and beyond.</p>
+                  <h3>[Milestone title]</h3>
+                  <p>[Describe this milestone in a sentence.]</p>
                 </div>
               </div>
             </div>
@@ -167,11 +167,11 @@ function AboutApp() {
               )}
             </div>
             <div className="owner-body">
-              <span className="eyebrow">Meet the owners</span>
+              <span className="eyebrow">[Section label]</span>
               <h2>Andrew &amp; Dewey Gamble</h2>
               <div className="owner-role">Owners · Gamble Plumbing, Heating &amp; Air</div>
               <p className="owner-quote">
-                &ldquo;Our goal is straightforward: transform spaces with reliable, efficient plumbing and HVAC solutions that make your home work better and feel better.&rdquo;
+                &ldquo;[Add a short quote from the owners in your own words.]&rdquo;
               </p>
               <div className="owner-actions">
                 <a href={PHONE_HREF} className="btn btn-primary">
@@ -188,25 +188,25 @@ function AboutApp() {
         <div className="container">
           <div className="section-head">
             <div>
-              <span className="eyebrow">What you can count on</span>
-              <h2>Four things you can count on, every visit.</h2>
+              <span className="eyebrow">[Section label]</span>
+              <h2>[Section headline — your words]</h2>
             </div>
             <div className="right">
-              <p>These aren&apos;t slogans. They&apos;re the rules we&apos;ve worked by for three decades, and they&apos;re still the bar every Gamble technician is held to.</p>
+              <p>[Write a short intro for this section.]</p>
             </div>
           </div>
           <div className="value-grid">
             <ValueCard icon="badge-check" title="Dual-Licensed">
               Licensed in both plumbing and HVAC — one team handles both trades, no contractor juggling.
             </ValueCard>
-            <ValueCard icon="lightning" title="24/7 Emergency">
-              A real person answers, day or night. We&apos;re just as ready for a 2 a.m. overflow as a Tuesday tune-up.
+            <ValueCard icon="lightning" title="[Value]">
+              [Describe this value in a sentence.]
             </ValueCard>
-            <ValueCard icon="shield" title="Satisfaction Guaranteed">
-              We go above and beyond to exceed your expectations with exceptional results — every time.
+            <ValueCard icon="shield" title="[Value]">
+              [Describe this value in a sentence.]
             </ValueCard>
-            <ValueCard icon="clock" title="Experienced">
-              Thirty years of plumbing excellence, continuing a family tradition we&apos;re proud to uphold.
+            <ValueCard icon="clock" title="[Value]">
+              [Describe this value in a sentence.]
             </ValueCard>
           </div>
         </div>
@@ -216,20 +216,20 @@ function AboutApp() {
         <div className="container">
           <div className="section-head">
             <div>
-              <span className="eyebrow">Licensed, insured, certified</span>
-              <h2>The boring paperwork — and why it matters.</h2>
+              <span className="eyebrow">[Section label]</span>
+              <h2>[Section headline — your words]</h2>
             </div>
             <div className="right">
-              <p>Permits and licenses protect your home insurance and your resale value. We pull what NC code requires on every job, full stop.</p>
+              <p>[Write a short intro about your licensing and credentials.]</p>
             </div>
           </div>
           <div className="cert-row">
             <CertCard icon="shield" name="NC Plumbing License" sub="Licensed contractor"/>
             <CertCard icon="flame" name="NC HVAC License" sub="Licensed contractor"/>
-            <CertCard icon="badge-check" name="Fully Insured" sub="General liability"/>
-            <CertCard icon="check" name="Workers' Comp" sub="Every technician"/>
-            <CertCard icon="badge-check" name="EPA Certified" sub="Refrigerant handling"/>
-            <CertCard icon="map-pin" name="Local to Garner" sub="Since 1995"/>
+            <CertCard icon="badge-check" name="[Credential]" sub="[Detail]"/>
+            <CertCard icon="check" name="[Credential]" sub="[Detail]"/>
+            <CertCard icon="badge-check" name="[Credential]" sub="[Detail]"/>
+            <CertCard icon="map-pin" name="Local to Garner" sub="[Detail]"/>
           </div>
         </div>
       </section>
@@ -240,6 +240,7 @@ function AboutApp() {
 
       <QuoteForm/>
       <SiteFooter/>
+      <MobileCTABar/>
     </>
   );
 }

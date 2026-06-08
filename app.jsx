@@ -91,29 +91,22 @@ function App() {
             : t.direction === 'editorial' ? HeroEditorial
             : HeroFamily;
 
-  // Direction-appropriate default headlines (lets the user start with a sensible one for each)
-  const directionDefaults = {
-    family:    "Plumbing & HVAC done right by your Garner neighbors.",
-    modern:    "Quality flow. Trusted solutions.",
-    editorial: "Services without limits.",
-  };
-  const liveTweaks = { ...t, headline: t.headline || directionDefaults[t.direction] };
-
   return (
     <>
       <SiteBanner show={t.showBanner !== false}/>
       <UtilityBar/>
       <Nav ctaEmphasis={t.ctaEmphasis}/>
-      <Hero tweaks={liveTweaks}/>
+      <Hero tweaks={t}/>
       <TrustStrip/>
       <Services/>
-      <WhyUs tweaks={liveTweaks}/>
+      <WhyUs tweaks={t}/>
       <Process/>
       <ServiceArea/>
       <Reviews/>
       <FAQ/>
       <QuoteForm/>
       <SiteFooter/>
+      <MobileCTABar/>
 
       <TweaksPanel>
         <TweakSection label="Direction"/>
@@ -125,11 +118,7 @@ function App() {
             { value: "modern",    label: "B · Modern / Bold" },
             { value: "editorial", label: "C · Editorial / Big Type" },
           ]}
-          onChange={(v) => {
-            // Reset headline to the new direction's default so the user sees
-            // a sensible starting copy when they swap heros.
-            setTweak({ direction: v, headline: directionDefaults[v] });
-          }}
+          onChange={(v) => setTweak('direction', v)}
         />
 
         <TweakSection label="Brand"/>
@@ -176,19 +165,6 @@ function App() {
             { value: "call",  label: "Call now" },
           ]}
           onChange={(v) => setTweak('ctaEmphasis', v)}
-        />
-
-        <TweakSection label="Hero copy"/>
-        <TweakText
-          label="Headline"
-          value={t.headline}
-          placeholder={directionDefaults[t.direction]}
-          onChange={(v) => setTweak('headline', v)}
-        />
-        <TweakText
-          label="Subhead"
-          value={t.subhead}
-          onChange={(v) => setTweak('subhead', v)}
         />
       </TweaksPanel>
     </>
