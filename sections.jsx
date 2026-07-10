@@ -15,15 +15,7 @@ const SERVICES = [
   { id: "furnace",   group: "warm", icon: "flame",     title: "Heating & Furnace",        desc: "Gas, electric, and oil — repair, tune-up, install." },
   { id: "ac",        group: "cool", icon: "snow",      title: "AC Repair & Install",      desc: "Repair, tune-up, and install." },
   { id: "heatpump",  group: "cool", icon: "heat-pump", title: "Heat Pumps",               desc: "High-efficiency systems sized for your home." },
-  { id: "iaq",       group: "warm", icon: "wind",      title: "Indoor Air Quality",       desc: "Purification, humidity, and allergen control." },
   { id: "duct",      group: "warm", icon: "fan",       title: "Duct Cleaning",            desc: "Improve airflow and breathe easier at home." },
-];
-
-const HERO_SERVICE_TILES = [
-  { icon: "wrench", title: "Plumbing",   desc: "Leaks, repipes, fixtures" },
-  { icon: "flame",  title: "Heating",    desc: "Furnaces & heat pumps" },
-  { icon: "snow",   title: "Cooling",    desc: "AC repair & install" },
-  { icon: "drop",   title: "Water Heaters", desc: "Tank & tankless" },
 ];
 
 // ──────────────────────────────────────────────────────────────
@@ -64,8 +56,8 @@ function UtilityBar() {
     <div className="utility">
       <div className="container">
         <div className="left">
-          <span className="pulse"><span className="pulse-dot"/> [Hours / availability]</span>
-          <span>[Short tagline]</span>
+          <span className="pulse"><span className="pulse-dot"/> Mon-Fri 9:00 AM to 5:00 PM</span>
+          <span>Emergencies whenever we're needed</span>
         </div>
         <div className="right">
           <span><Icon name="map-pin" size={14}/> 1027 Hwy 70 W, Garner · Serving Raleigh–Durham</span>
@@ -83,7 +75,7 @@ function Nav({ ctaEmphasis }) {
   return (
     <nav className="primary" data-screen-label="Nav">
       <div className="container">
-        <a href="Home.html" className="brand" aria-label="Gamble Plumbing, Heating and Air home">
+        <a href="index.html" className="brand" aria-label="Gamble Plumbing, Heating and Air home">
           <span className="brand-mark"><LogoMark size={32}/></span>
           <span className="brand-text">
             <span className="name">Gamble</span>
@@ -92,9 +84,9 @@ function Nav({ ctaEmphasis }) {
         </a>
         <div className="nav-links">
           <ServicesMenu/>
-          <a href="about.html">Our Story</a>
-          <a href="Home.html#area">Service Area</a>
-          <a href="Home.html#faq">FAQ</a>
+          <a href="about.html">About</a>
+          <a href="index.html#area">Service Area</a>
+          <a href="index.html#faq">FAQ</a>
         </div>
         <div className="nav-cta">
           <div className="nav-phone">
@@ -102,7 +94,7 @@ function Nav({ ctaEmphasis }) {
             <a href={PHONE_HREF} className="num">{PHONE_DISPLAY}</a>
           </div>
           <a href="#quote" className={ctaEmphasis === 'call' ? 'btn btn-dark' : 'btn btn-primary'}>
-            {ctaEmphasis === 'call' ? 'Call now' : 'Free quote'}
+            {ctaEmphasis === 'call' ? 'Call now' : 'Quote'}
             <span className="arrow"><Icon name="arrow-right" size={16}/></span>
           </a>
         </div>
@@ -121,7 +113,6 @@ const HVAC_LINKS = [
   { id: "furnace",   icon: "flame",     title: "Heating & Furnace",  desc: "Gas, electric, and oil",          href: "hvac.html#heating" },
   { id: "ac",        icon: "snow",      title: "AC Repair & Install",desc: "Repair, tune-up & install",            href: "hvac.html#cooling" },
   { id: "heatpump",  icon: "heat-pump", title: "Heat Pumps",         desc: "High-efficiency systems",          href: "hvac.html#heat-pumps" },
-  { id: "iaq",       icon: "wind",      title: "Indoor Air Quality", desc: "Purification & humidity",          href: "hvac.html#iaq" },
   { id: "duct",      icon: "fan",       title: "Duct Cleaning",      desc: "Better airflow, cleaner air",      href: "hvac.html#duct" },
 ];
 
@@ -188,7 +179,7 @@ function ServicesMenu() {
               </div>
               <div>
                 <div className="dd-col-title">Heating &amp; Air</div>
-                <div className="dd-col-sub">Furnace, AC, heat pumps &amp; IAQ</div>
+                <div className="dd-col-sub">Furnace, AC, heat pumps &amp; ducts</div>
               </div>
             </a>
             <ul>
@@ -209,7 +200,7 @@ function ServicesMenu() {
         <div className="services-dropdown-foot">
           <span>Need something not listed? We probably do it.</span>
           <a href="#quote" className="dd-foot-cta" onClick={() => setOpen(false)}>
-            Ask for a free quote <Icon name="arrow-right" size={14}/>
+            Ask for a quote <Icon name="arrow-right" size={14}/>
           </a>
         </div>
       </div>
@@ -228,19 +219,19 @@ function LogoMark({ size = 32 }) {
 }
 
 // ──────────────────────────────────────────────────────────────
-// Hero — three direction variants
+// Hero — Family variant (single)
 // ──────────────────────────────────────────────────────────────
 function HeroFamily({ tweaks }) {
   return (
     <section className="hero hero-a" data-screen-label="Hero">
       <div className="container grid">
         <div className="copy">
-          <span className="eyebrow">Garner, NC · [your tagline]</span>
+          <span className="eyebrow">Garner, NC · To You</span>
           <h1>
-            [Headline — your words]{' '}
-            <span className="h1-accent">[accent phrase]</span>
+            Family-owned Quality,{' '}
+            <span className="h1-accent">Local Care</span>
           </h1>
-          <p className="lead">[Write your hero intro — 1–2 sentences about who you are and what you do for Triangle homeowners.]</p>
+          <p className="lead">Family-owned and right in Garner, Gamble Plumbing Heating and Air is committed to delivering quality service to our community.</p>
           <CTAs tweaks={tweaks} variant="light"/>
           <div className="hero-trust">
             <div className="stars">
@@ -250,95 +241,11 @@ function HeroFamily({ tweaks }) {
             <span className="sep"/>
             <span><Icon name="shield" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>Plumbing &amp; HVAC</span>
             <span className="sep"/>
-            <span><Icon name="clock" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>[Hours / availability]</span>
+            <span><Icon name="clock" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>9:00 AM to 5:00 PM, Monday thru Friday</span>
           </div>
         </div>
         <div className="visual">
-          <PhotoSlot id="home-hero-photo" enabled={tweaks.photography} label="Andrew or Dewey in front of Gamble service truck — gamble-plumbing-garner-nc-service-truck"/>
-          <div className="stamp">[Badge]</div>
-          <div className="badge-card">
-            <div className="num">[#]</div>
-            <div className="lbl">[Stat label]</div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HeroModern({ tweaks }) {
-  return (
-    <section className="hero hero-b" data-screen-label="Hero">
-      <div className="container grid">
-        <div className="copy">
-          <span className="eyebrow">Raleigh–Durham · [your tagline]</span>
-          <h1>
-            [Headline]{' '}
-            <span className="yellow-block">[accent phrase]</span>
-          </h1>
-          <p className="lead">[Write your hero intro — 1–2 sentences about who you are and what you do for Triangle homeowners.]</p>
-          <CTAs tweaks={tweaks} variant="dark"/>
-          <div className="hero-trust">
-            <div className="stars">{[...Array(5)].map((_,i)=> <Icon key={i} name="star" size={16}/>)}</div>
-            <strong style={{color: '#fff'}}>Dual-licensed</strong>
-            <span>Plumbing &amp; HVAC</span>
-            <span className="sep"/>
-            <span>Licensed &amp; insured in NC</span>
-            <span className="sep"/>
-            <span>[Short stat]</span>
-          </div>
-        </div>
-        <div className="tile-stack">
-          {HERO_SERVICE_TILES.slice(0, 4).map(t => (
-            <div className="tile" key={t.title}>
-              <div className="icon"><Icon name={t.icon} size={20}/></div>
-              <h3>{t.title}</h3>
-              <p>{t.desc}</p>
-            </div>
-          ))}
-          <div className="tile featured">
-            <div style={{display:'flex', alignItems:'center', gap:14}}>
-              <div className="icon"><Icon name="lightning" size={20}/></div>
-              <div>
-                <h3>[Feature headline]</h3>
-                <p>[Short supporting line.]</p>
-              </div>
-            </div>
-            <a href={PHONE_HREF} className="featured-cta">
-              <Icon name="phone" size={14}/> Call now
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HeroEditorial({ tweaks }) {
-  return (
-    <section className="hero hero-c" data-screen-label="Hero">
-      <div className="container">
-        <span className="eyebrow" style={{color: 'var(--ink-3)'}}>Gamble Plumbing, Heating &amp; Air · [tagline]</span>
-        <h1 className="massive">
-          [Line 1] <span className="drop">[word.]</span><br/>
-          [Line 2] <span className="hot">[word.]</span><br/>
-          [Line 3]
-        </h1>
-        <div className="footer-row">
-          <div className="desc">
-            <p>[Write your hero intro — 1–2 sentences about who you are and what you do for Triangle homeowners.]</p>
-            <div className="ctas" style={{marginTop: 24}}>
-              <CTAs tweaks={tweaks} variant="light" compact/>
-            </div>
-          </div>
-          <div className="stat">
-            <div className="num">[#]</div>
-            <div className="lbl">[Stat label]</div>
-          </div>
-          <div className="stat">
-            <div className="num">2</div>
-            <div className="lbl">Licensed trades — Plumbing &amp; HVAC</div>
-          </div>
+          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/home-hero-truck.jpg"/>
         </div>
       </div>
     </section>
@@ -346,7 +253,7 @@ function HeroEditorial({ tweaks }) {
 }
 
 function CTAs({ tweaks, variant, compact }) {
-  const primaryLabel = tweaks.ctaEmphasis === 'call' ? `Call Andrew · ${PHONE_DISPLAY}` : 'Get a free quote';
+  const primaryLabel = tweaks.ctaEmphasis === 'call' ? `Call Andrew · ${PHONE_DISPLAY}` : 'Get a quote';
   const primaryHref = tweaks.ctaEmphasis === 'call' ? PHONE_HREF : '#quote';
   const secondaryLabel = tweaks.ctaEmphasis === 'call' ? 'Or request a quote' : 'Or call us';
   const secondaryHref = tweaks.ctaEmphasis === 'call' ? '#quote' : PHONE_HREF;
@@ -363,22 +270,25 @@ function CTAs({ tweaks, variant, compact }) {
   );
 }
 
-function PhotoSlot({ enabled, label, id }) {
-  if (!enabled) return <BrandFallback/>;
-  // Real drop-target — drag any photo onto it and it persists.
-  const slotId = id || ('photo-' + (label || 'untitled').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+function PhotoSlot({ label, src }) {
+  // VS Code authoring: pass src="assets/foo.jpg" to render a photo.
+  // No src or src 404 -> BrandFallback (navy "G" lockup).
+  const [failed, setFailed] = React.useState(false);
+  // Reset failed flag when src changes so swapping URLs retries the image.
+  React.useEffect(() => { setFailed(false); }, [src]);
+  if (!src || failed) return <BrandFallback/>;
   return (
-    <image-slot
-      id={slotId}
-      placeholder={label ? `Drop a photo · ${label}` : 'Drop a photo'}
-      shape="rounded"
-      radius="22"
-      style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'inherit' }}
+    <img
+      src={src}
+      alt={label || ''}
+      loading="lazy"
+      onError={() => setFailed(true)}
+      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: 'inherit' }}
     />
   );
 }
 
-// Brand lockup tile — used as the photo placeholder anywhere photography is off.
+// Brand lockup tile — used as the photo placeholder anywhere no src is given.
 // Centered G mark + "Gamble" + "Plumbing · Heating · Air" on a navy gradient.
 // Scales gracefully to any container shape (square, portrait, landscape).
 function BrandFallback({ meta = "Garner, NC · Licensed & insured" }) {
@@ -412,16 +322,12 @@ function TrustStrip() {
           <div className="body">NC-licensed in both plumbing and HVAC — one team handles both trades.</div>
         </div>
         <div className="trust-item" data-comment-anchor="trust-years">
-          <div className="head">[Stat / label]</div>
-          <div className="body">[Short proof point — fill in.]</div>
-        </div>
-        <div className="trust-item" data-comment-anchor="trust-emergency">
-          <div className="head">[Stat / label]</div>
-          <div className="body">[Short proof point — fill in.]</div>
+          <div className="head">Family-Owned</div>
+          <div className="body">Two generations serving Garner and the Triangle.</div>
         </div>
         <div className="trust-item" data-comment-anchor="trust-satisfaction">
-          <div className="head">[Stat / label]</div>
-          <div className="body">[Short proof point — fill in.]</div>
+          <div className="head">Same-Day Service</div>
+          <div className="body">Call early, get help today on most jobs.</div>
         </div>
         <div className="trust-item" data-comment-anchor="trust-local">
           <div className="head">Garner-Based</div>
@@ -441,11 +347,11 @@ function Services() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">[Section label]</span>
-            <h2>[Section headline — your words]</h2>
+            <span className="eyebrow">Services</span>
+            <h2>Plumbing or HVAC — We have you covered</h2>
           </div>
           <div className="right">
-            <p>[Write a short intro for this section — one or two sentences.]</p>
+            <p>Gamble Plumbing Heating and Air offers a wide array of services. Click Learn More to see how we can help you!</p>
           </div>
         </div>
         <div className="service-grid">
@@ -504,54 +410,34 @@ function WhyUs({ tweaks }) {
     <section id="about" className="why" data-screen-label="About">
       <div className="container grid">
         <div>
-          <span className="eyebrow">[Section label]</span>
-          <h2 style={{marginTop:12}}>[Section headline — your words]</h2>
-          <p className="lead">
-            [Write 2–3 sentences about your family and why customers should choose you. Andrew and Dewey are dual-licensed in plumbing and HVAC — say it in your own words.]
-          </p>
+          <span className="eyebrow">About Us</span>
+          <h2 style={{marginTop:12}}>Why Choose Gamble?</h2>
           <ul className="why-points">
             <li>
-              <span className="ic"><Icon name="lightning" size={16}/></span>
               <div>
-                <strong>[Promise #1 — short headline]</strong>
-                <span> [Explain it in one sentence.]</span>
+                <strong>Two Trades, One Team</strong>
+                <span> Plumbing and HVAC under one roof, no juggling contractors.</span>
               </div>
             </li>
             <li>
-              <span className="ic"><Icon name="shield" size={16}/></span>
               <div>
-                <strong>[Promise #2 — short headline]</strong>
-                <span> [Explain it in one sentence.]</span>
+                <strong>Honest Pricing - Fair Deals</strong>
+                <span> We only quote for the job after we have the diagnosis - no surprise charges.</span>
               </div>
             </li>
             <li>
-              <span className="ic"><Icon name="badge-check" size={16}/></span>
               <div>
-                <strong>[Promise #3 — short headline]</strong>
-                <span> [Explain it in one sentence.]</span>
+                <strong>We Show Up</strong>
+                <span> On time, ready to work, and we finish what we start.</span>
               </div>
             </li>
           </ul>
-          <div className="stat-grid">
-            <div className="stat">
-              <div className="num">[#]</div>
-              <div className="lbl">[Stat label]</div>
-            </div>
-            <div className="stat">
-              <div className="num">[#]</div>
-              <div className="lbl">[Stat label]</div>
-            </div>
-            <div className="stat">
-              <div className="num">2</div>
-              <div className="lbl">Licensed trades, one team</div>
-            </div>
-          </div>
           <div style={{marginTop: 32}}>
-            <a className="btn btn-dark" href="about.html">Meet Andrew &amp; Dewey <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
+            <a className="btn btn-dark" href="about.html">Learn About Gamble <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
           </div>
         </div>
         <div className="visual">
-          <PhotoSlot id="about-founder-photo" enabled={tweaks.photography} label="Andrew or Dewey in front of Gamble service truck — gamble-plumbing-garner-nc-service-truck"/>
+          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/home-about-andrew.jpg"/>
           <div className="accent-badge">
             <div className="seal">G</div>
             <div className="txt">
@@ -574,22 +460,22 @@ function Process() {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">[Section label]</span>
-            <h2>[Section headline — your words]</h2>
+            <span className="eyebrow">The Process</span>
+            <h2>How We Work</h2>
           </div>
           <div className="right">
-            <p>[Write a short intro for this section — one or two sentences.]</p>
+            <p>We make the process of getting a technician to your door simple and headache-free.</p>
           </div>
         </div>
         <div className="steps">
-          <ProcessStep n={1} icon="phone" title="[Step 1 title]" data-comment-anchor="step-1">
-            [Describe step 1 in one or two sentences.]
+          <ProcessStep n={1} icon="phone" title="Contact Us" data-comment-anchor="step-1">
+            Call the office at (919) 797-5930 or fill out our quote form and tell us what is troubling your home. We'll get you scheduled right away!
           </ProcessStep>
-          <ProcessStep n={2} icon="wrench" title="[Step 2 title]" data-comment-anchor="step-2">
-            [Describe step 2 in one or two sentences.]
+          <ProcessStep n={2} icon="wrench" title="No-Mess Quotes" data-comment-anchor="step-2">
+            We will never quote a price for the job until diagnostics are complete. No surprise charges, no hidden fees.
           </ProcessStep>
-          <ProcessStep n={3} icon="shield" title="[Step 3 title]" data-comment-anchor="step-3">
-            [Describe step 3 in one or two sentences.]
+          <ProcessStep n={3} icon="shield" title="We've Got You Covered" data-comment-anchor="step-3">
+            30 Days guaranteed parts-and-labor warranty after the job is done. If we missed something, we'll be right back - no charge to you.
           </ProcessStep>
         </div>
       </div>
@@ -616,10 +502,10 @@ function ServiceArea() {
     <section id="area" className="service-area" data-screen-label="Service area">
       <div className="container grid">
         <div>
-          <span className="eyebrow">[Section label]</span>
-          <h2 style={{marginTop: 12}}>[Section headline — your words]</h2>
+          <span className="eyebrow">Where We Serve</span>
+          <h2 style={{marginTop: 12}}>We've got the Raleigh-Durham area covered</h2>
           <p className="lead" style={{marginTop: 18}}>
-            [Write a short intro about the areas you serve. We&apos;re based at 1027 Hwy 70 W in Garner and serve Raleigh, Durham, and the surrounding Triangle.]
+            We&apos;re based at 1027 Hwy 70 W in Garner and serve Raleigh, Durham, and the surrounding Triangle.
           </p>
           <div className="neighborhoods">
             <Neighborhood primary>Garner</Neighborhood>
@@ -718,10 +604,10 @@ function Reviews() {
       <div className="container">
         <div className="reviews-cta" data-comment-anchor="reviews-cta">
           <div className="reviews-cta-copy">
-            <span className="eyebrow">[Section label]</span>
-            <h2>[Section headline — your words]</h2>
+            <span className="eyebrow">From the Community</span>
+            <h2>Not Our Words - Yours</h2>
             <p className="lead">
-              [Write a short line inviting visitors to read or leave a review on your Google Business Profile.]
+              Check out reviews by our customers on Google, or leave your own. We hope that your experience with Gamble Plumbing Heating and Air is excellent.
             </p>
             <div className="reviews-cta-actions">
               <a
@@ -737,13 +623,6 @@ function Reviews() {
                 <Icon name="phone" size={14}/> {PHONE_DISPLAY}
               </a>
             </div>
-          </div>
-          <div className="reviews-cta-mark" aria-hidden="true">
-            <Icon name="google" size={56}/>
-            <div className="stars">
-              {[...Array(5)].map((_,i)=> <Icon key={i} name="star" size={22}/>)}
-            </div>
-            <div className="reviews-cta-mark-label">Google Business Profile</div>
           </div>
         </div>
       </div>
@@ -779,32 +658,32 @@ function FAQ() {
       <div className="container grid">
         <div>
           <span className="eyebrow">FAQ</span>
-          <h2 style={{marginTop: 12}}>[Section headline — your words]</h2>
+          <h2 style={{marginTop: 12}}>Got Questions?</h2>
           <div className="side-cta">
-            <p>[Short prompt inviting a call for other questions.]</p>
+            <p>Call our office for any questions you might have about how we can help.</p>
             <a href={PHONE_HREF} className="btn btn-primary"><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
           </div>
         </div>
         <FaqAccordion>
           <FaqItem data-comment-anchor="faq-emergency">
             <FaqQ>Do you offer emergency service?</FaqQ>
-            <FaqA>[Write your answer here.]</FaqA>
+            <FaqA>Yes, during weekdays.</FaqA>
           </FaqItem>
           <FaqItem data-comment-anchor="faq-residential-commercial">
             <FaqQ>Do you serve residential and commercial properties?</FaqQ>
-            <FaqA>[Write your answer here.]</FaqA>
+            <FaqA>We serve both residential and light commercial properties.</FaqA>
           </FaqItem>
-          <FaqItem data-comment-anchor="faq-estimate">
-            <FaqQ>Do you offer free estimates?</FaqQ>
-            <FaqA>[Write your answer here.]</FaqA>
+          <FaqItem data-comment-anchor="faq-quoting">
+            <FaqQ>How does quoting work?</FaqQ>
+            <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed.</FaqA>
           </FaqItem>
           <FaqItem data-comment-anchor="faq-licensed">
             <FaqQ>Are you licensed and insured?</FaqQ>
-            <FaqA>[Write your answer here.]</FaqA>
+            <FaqA>We are dual-licensed in both plumbing and HVAC.</FaqA>
           </FaqItem>
           <FaqItem data-comment-anchor="faq-area">
             <FaqQ>What is your service area?</FaqQ>
-            <FaqA>[Write your answer here.]</FaqA>
+            <FaqA>We serve the Raleigh-Durham area and outlying towns.</FaqA>
           </FaqItem>
         </FaqAccordion>
       </div>
@@ -855,7 +734,7 @@ function FaqA({ children }) { return <div className="a">{children}</div>; }
 // endpoint below to go live. On success we redirect to thank-you.html
 // (the conversion page) and fire the lead conversion in tracking.js.
 // ──────────────────────────────────────────────────────────────
-const QUOTE_ENDPOINT = ""; // ← e.g. "https://formspree.io/f/abcdwxyz"
+const QUOTE_ENDPOINT = "https://services.leadconnectorhq.com/hooks/UUD5Qcqj0mu2oMESygai/webhook-trigger/2e37b815-5019-49d7-953f-3a214fd10369"; // GoHighLevel inbound webhook
 
 const SERVICE_OPTIONS = [
   "Plumbing repair",
@@ -864,7 +743,6 @@ const SERVICE_OPTIONS = [
   "Heating / furnace",
   "AC / cooling",
   "Heat pump",
-  "Indoor air quality",
   "Something else",
 ];
 const URGENCY_OPTIONS = ["Emergency", "Today", "This week", "Just a quote"];
@@ -929,16 +807,11 @@ function QuoteForm() {
     <section id="quote" className="quote-cta" data-screen-label="Quote">
       <div className="container grid">
         <div className="left">
-          <span className="eyebrow">Free quote</span>
-          <h2 style={{ marginTop: 12 }}>[Headline — your words]</h2>
+          <span className="eyebrow">Quote</span>
+          <h2 style={{ marginTop: 12 }}>Contact Us</h2>
           <p className="lead">
-            [Write 1–2 sentences inviting visitors to request a quote.]
+            Call us now or fill out our quote form to get scheduled.
           </p>
-          <ul className="quote-cta-points">
-            <li><span className="tick"><Icon name="check" size={14}/></span> [Selling point #1]</li>
-            <li><span className="tick"><Icon name="check" size={14}/></span> [Selling point #2]</li>
-            <li><span className="tick"><Icon name="check" size={14}/></span> [Selling point #3]</li>
-          </ul>
           <div className="quote-call-strip">
             <div className="qcs-label"><span className="pulse-dot"/> Prefer to talk now?</div>
             <a href={PHONE_HREF} className="qcs-num"><Icon name="phone" size={18}/> {PHONE_DISPLAY}</a>
@@ -1011,10 +884,10 @@ function QuoteForm() {
 
             <div className="form-submit">
               <button type="submit" className="btn btn-primary" disabled={sending}>
-                {sending ? "Sending…" : "Request my free quote"}
+                {sending ? "Sending…" : "Request my quote"}
                 {!sending && <span className="arrow"><Icon name="arrow-right" size={16}/></span>}
               </button>
-              <span className="note">[Short reassurance — e.g. when you&apos;ll hear back. No spam, ever.]</span>
+              <span className="note">We will respond within 48 hrs. No spam emails allowed at Gamble</span>
             </div>
           </form>
         </div>
@@ -1033,7 +906,7 @@ function MobileCTABar() {
         <Icon name="phone" size={18}/> Call now
       </a>
       <a href="#quote" className="mcb-btn mcb-quote">
-        Free quote <Icon name="arrow-right" size={16}/>
+        Quote <Icon name="arrow-right" size={16}/>
       </a>
     </div>
   );
@@ -1055,7 +928,6 @@ function SiteFooter() {
                 <span className="tag">Plumbing · Heating · Air</span>
               </span>
             </div>
-            <p>[Write a short company blurb for the footer — one or two sentences.]</p>
             <div style={{display:'flex', gap: 10, marginTop: 18}}>
               <a className="btn btn-primary" href={PHONE_HREF}><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
             </div>
@@ -1074,18 +946,18 @@ function SiteFooter() {
           <div>
             <h4>Company</h4>
             <ul>
-              <li><a href="about.html">Our story</a></li>
-              <li><a href="Home.html#area">Service area</a></li>
-              <li><a href="Home.html#reviews">Reviews</a></li>
-              <li><a href="Home.html#faq">FAQ</a></li>
-              <li><a href="Home.html#quote">Contact</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="index.html#area">Service area</a></li>
+              <li><a href="index.html#reviews">Reviews</a></li>
+              <li><a href="index.html#faq">FAQ</a></li>
+              <li><a href="index.html#quote">Contact</a></li>
             </ul>
           </div>
           <div>
             <h4>Visit / Call</h4>
             <ul>
               <li><Icon name="map-pin" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>1027 Hwy 70 W, Ste 107<br/><span style={{paddingLeft:20}}>Garner, NC 27529</span></li>
-              <li><Icon name="clock" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>[Hours / availability]</li>
+              <li><Icon name="clock" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>9:00 AM - 5:00 PM, Mon-Fri</li>
               <li><Icon name="phone" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>Office &amp; dispatch</li>
               <li><a href={PHONE_HREF} style={{color: 'var(--accent)', fontWeight: 700, fontSize: 16}}>{PHONE_DISPLAY}</a></li>
               <li style={{marginTop:8}}><a href="https://www.facebook.com/gambleplumbinghvac/" target="_blank" rel="noopener">Follow on Facebook</a></li>
@@ -1106,7 +978,7 @@ Object.assign(window, {
   PHONE_DISPLAY, PHONE_HREF, SERVICES,
   SiteBanner,
   UtilityBar, Nav, ServicesMenu,
-  HeroFamily, HeroModern, HeroEditorial, CTAs,
+  HeroFamily, CTAs,
   TrustStrip, Services, ServiceCard,
   WhyUs, Process, ProcessStep,
   ServiceArea, Neighborhood, ServiceMap,

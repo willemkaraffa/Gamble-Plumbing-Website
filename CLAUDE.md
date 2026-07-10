@@ -1,60 +1,97 @@
-# CLAUDE.md
+## Approach
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+# Claude Code Behavior Rules
 
-## Running the site
+## 1. Think Before Coding
+- Never make assumptions about undocumented APIs or configurations.
+- Ask clarifying questions if a task's requirements are ambiguous.
 
-No build step. Open any `.html` file directly in a browser or serve the root directory with any static file server:
+## 2. Surgical Changes
+- Modify only the minimum necessary lines of code to achieve the goal.
+- Avoid refactoring adjacent or unrelated files unless explicitly asked.
+- Match existing style, even if you would write it differently.
 
-```
-npx serve .
-# or
-python -m http.server 8080
-```
+## 3. Simplicity First
+- Do not write speculative helper functions or complex abstractions.
+- Prioritize simple, readable code over clever or DRY patterns.
+- This code should be succinct and built for LLMs to maintain, not humans; document accordingly.
 
-React 18, ReactDOM, and Babel Standalone are loaded from `unpkg.com` CDN in each HTML file. JSX is transpiled in the browser at runtime -- no compilation needed.
+## 4. Goal-Driven Execution
+- Establish clear test or verification criteria before writing any code.
+- Run local tests or build steps to verify your changes actually work before completion.
+- If in the even of failed execution/live tests, review code for errors first BEFORE suggesting user input.
 
-## Architecture
+## 5. Caveman
+- ALWAYS begin session on /caveman ultra skill
+- refresh /caveman ultra skill on detection of verbose dialogue from Claude Code
 
-This is a no-bundler, no-framework static site. All JS is JSX loaded via `<script type="text/babel">` tags. Components are attached to `window` (via `Object.assign(window, {...})` at the bottom of each shared file) so they are available globally across script tags on the same page.
+CRITICAL ALWAYS
+## Generalized protocol — anti-tech-debt rules.
 
-**Pages and their script stacks:**
+A. Anti-patterns that breed silent bugs
+A1. State that mirrors a derived value.
+useState(x) + useEffect(() => setState(x), [x]). Means render-time value wasn't usable as-is. Rewrite: use x directly, or useMemo. State exists only when something the renderer can't compute writes to it (user input, async, refs).
 
-| Page | App script | Notes |
-|------|-----------|-------|
-| `Home.html` | `app.jsx` | Full home page with TweaksPanel |
-| `plumbing.html` | `plumbing-app.jsx` | Category page |
-| `hvac.html` | `hvac-app.jsx` | Category page |
-| `about.html` | `about-app.jsx` | About page |
+A2. useState(initializer) where initializer can be null/empty on first render.
+React reads initializer once. Later recomputes do nothing. If you expect tracking, use derived value, not state.
 
-Each page loads: `icons.jsx` -> `sections.jsx` -> (optionally `category-page.jsx` + `page-bootstrap.jsx`) -> its own app file.
+A3. Render guard around a ref-attached element + layoutEffect reading that ref.
+Chicken-and-egg. Either mount unconditionally (visibility/opacity to hide) or restructure so ref-mount and effect deps move together.
 
-**Shared files:**
+A4. Effect deps that don't observe the actual trigger.
+If effect must run after mount but deps fire before mount, deps are wrong. Add the post-mount signal to deps, or move logic into ref callback / useLayoutEffect keyed on mount.
 
-- `sections.jsx` -- all shared section components (Nav, Hero variants, TrustStrip, Services, Reviews, FAQ, QuoteForm, SiteFooter, etc.) and the `PHONE_DISPLAY`/`PHONE_HREF`/`SERVICES` constants. Exported to `window`.
-- `icons.jsx` -- `<Icon name="..."/>` component. All icon names referenced in JSX must exist here.
-- `tweaks-panel.jsx` -- `TweaksPanel`, `useTweaks`, and all `Tweak*` controls. Implements the host protocol (`__activate_edit_mode`, `__edit_mode_set_keys`, etc.) for design-tool integration.
-- `category-page.jsx` -- `CategoryHero`, `CategoryRail`, `SvcDetail`, `IssuesGrid`, and related sub-components for plumbing/hvac/about pages.
-- `page-bootstrap.jsx` -- applies `TWEAK_DEFAULTS` (palette/fonts/density CSS variables) on category pages without mounting a TweaksPanel.
-- `image-slot.js` -- `<image-slot>` custom element. Loaded as a plain script (not Babel). Handles drag-and-drop photo placement with persistence via `.image-slots.state.json` sidecar.
-- `site.css` -- all CSS. Uses CSS custom properties (`--primary`, `--accent`, `--secondary`, `--surface`, `--section-alt`, `--font-display`, `--font-body`, etc.) set at runtime by palette/font selection.
+A5. Inline component definitions inside render.
+const Foo = () => <div/> inside parent → new function ref each render → unmount/remount → loses DOM identity, hover state, focus, animations. Either hoist or render raw JSX inline.
 
-## Tweaks system
+A6. Closure-captured callbacks passed to add/removeEventListener.
+Unstable identity → cleanup mismatches → leaked listeners. Wrap in useCallback with proper deps, or use ref.
 
-`window.TWEAK_DEFAULTS` is declared in each HTML file between `/*EDITMODE-BEGIN*/` and `/*EDITMODE-END*/` markers. The host (design tool) rewrites this block to persist settings. Available keys: `direction`, `palette`, `fonts`, `density`, `photography`, `ctaEmphasis`, `headline`, `subhead`.
+A7. setTimeout inside effects without clearTimeout in cleanup.
+Race after unmount → calls into stale state / setters.
 
-- Home page (`app.jsx`) mounts a live `TweaksPanel` and calls `useTweaks()` to manage state.
-- Category/about pages read `TWEAK_DEFAULTS` once on load via `page-bootstrap.jsx` to apply tokens without the panel.
-- Palettes and font pairs are defined identically in both `app.jsx` and `page-bootstrap.jsx` -- keep them in sync when adding new options.
+B. Porting / reuse rules
+B1. Write the precondition before porting.
+Read the source pattern. Write down in one sentence what makes it work (invariant, lifecycle order, mounted state). Verify destination preserves it. If not, pattern is wrong even if it compiles.
 
-## Adding a new page
+B2. Port mechanism not surface.
+Don't copy hook shape, prop names, selectors. Copy: data flow direction, what owns state, when DOM exists, who triggers what. Surface differences are fine; mechanism mismatch breaks.
 
-1. Copy an existing HTML file as a template.
-2. Set `window.TWEAK_DEFAULTS` with relevant keys.
-3. Load the needed script stack (`icons.jsx`, `sections.jsx`, optionally `category-page.jsx` + `page-bootstrap.jsx`).
-4. Write a new `*-app.jsx` as the composition root and include it last.
-5. Render into `<div id="root">` with `ReactDOM.createRoot`.
+B3. Prefer wrapping working code over rewriting.
+Already-working solution in same repo or sibling project → call it, import it, subprocess it. Reimplementing requires stated reason that survives scrutiny.
 
-## Image slots
+C. Diagnosis discipline
+C1. Trace the state machine before patching.
+Write the render sequence on paper: render N → effects → render N+1 → … Mark which state/ref/effect changes at each step. Bug usually visible in trace, not in line-by-line reading.
 
-`<image-slot>` elements require a unique `id` attribute to persist dropped photos across reloads (stored in `.image-slots.state.json`). Without an `id`, images work for the session only. The `placeholder` attribute sets the empty-state label. Write permission (`window.omelette.writeFile`) is required for drops to persist -- outside the omelette runtime the slots are read-only.
+C2. Two failed fixes → re-examine approach, not symptoms.
+Third fix on wrong approach compounds debt. Step back, question premise.
+
+C3. Static review flagging without test = liability.
+If you spotted a risk, mitigate or write a live test for it. "I noted but did nothing" is worse than not noting — leaves false comfort.
+
+C4. Be the alpha tester.
+Claim of fix without verifying = guess. Run the code path before reporting. If can't run, document precise trace proving correctness.
+
+D. Code smells = audit triggers
+useEffect with only one side effect: a setState call → A1
+useState(maybeNull) paired with useMemo of same value → A2
+ready: false initial flag + layoutEffect → likely A3
+Inline component (const X = (props) => <...> inside render) → A5
+addEventListener without useCallback on handler → A6
+setTimeout/setInterval in effect without cleanup → A7
+"// HACK", "// workaround", "// fix-up" comments → root cause untreated
+E. Pre-commit gate (mental)
+Before claiming done:
+
+Did I run the code path? Or trace it stepwise?
+Did the failure mode I flagged in review get tested?
+Does any new state have a useEffect → setState(derived) shadow? (A1)
+Does any new ref-attached element sit behind a render guard? (A3)
+Did I copy a hook block? If yes, did I write its invariant down?
+Any inline components? (A5)
+Cleanup functions match setup? (A6, A7)
+F. Communication discipline
+Report "verified" only when verified, not when "looks right."
+When unsure, say "static analysis only — not run." Lets user decide test cost.
+After fix: name the root cause, not the symptom. Symptom-only summaries hide debt from future reader.

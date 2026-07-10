@@ -86,17 +86,12 @@ function App() {
   React.useEffect(() => { applyPaletteAndType(t.palette, t.fonts); }, [t.palette, t.fonts]);
   React.useEffect(() => { applyDensity(t.density); }, [t.density]);
 
-  // Choose hero by direction
-  const Hero = t.direction === 'modern' ? HeroModern
-            : t.direction === 'editorial' ? HeroEditorial
-            : HeroFamily;
-
   return (
     <>
       <SiteBanner show={t.showBanner !== false}/>
       <UtilityBar/>
       <Nav ctaEmphasis={t.ctaEmphasis}/>
-      <Hero tweaks={t}/>
+      <HeroFamily tweaks={t}/>
       <TrustStrip/>
       <Services/>
       <WhyUs tweaks={t}/>
@@ -109,18 +104,6 @@ function App() {
       <MobileCTABar/>
 
       <TweaksPanel>
-        <TweakSection label="Direction"/>
-        <TweakSelect
-          label="Hero style"
-          value={t.direction}
-          options={[
-            { value: "family",    label: "A · Family / Warm" },
-            { value: "modern",    label: "B · Modern / Bold" },
-            { value: "editorial", label: "C · Editorial / Big Type" },
-          ]}
-          onChange={(v) => setTweak('direction', v)}
-        />
-
         <TweakSection label="Brand"/>
         <TweakColor
           label="Palette"
@@ -144,11 +127,6 @@ function App() {
           value={t.density}
           options={["compact", "regular", "comfy"]}
           onChange={(v) => setTweak('density', v)}
-        />
-        <TweakToggle
-          label="Show photo slots"
-          value={t.photography}
-          onChange={(v) => setTweak('photography', v)}
         />
         <TweakToggle
           label="Site-refresh banner"

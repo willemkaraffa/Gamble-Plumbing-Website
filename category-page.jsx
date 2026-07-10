@@ -13,23 +13,11 @@ function CategoryHero({ children }) {
 }
 function CatCrumbs({ children }) { return <div className="crumbs">{children}</div>; }
 function CatHeroCopy({ children }) { return <div className="copy">{children}</div>; }
-function CatHeroVisual({ children, label = "Photo", stamp, id }) {
-  const slotId = id || ('cat-hero-' + label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
-  const photoOn = (window.TWEAK_DEFAULTS && window.TWEAK_DEFAULTS.photography) !== false;
+function CatHeroVisual({ children, label = "Photo", stamp, src }) {
   return (
     <div className="visual">
       {stamp && <div className="stamp">{stamp}</div>}
-      {children || (photoOn ? (
-        <image-slot
-          id={slotId}
-          placeholder={`Drop a photo · ${label}`}
-          shape="rounded"
-          radius="22"
-          style={{ width: '100%', height: '100%', display: 'block' }}
-        />
-      ) : (
-        <BrandFallback/>
-      ))}
+      {children || <PhotoSlot label={label} src={src}/>}
     </div>
   );
 }
@@ -134,9 +122,7 @@ function SvcBullet({ children }) {
   );
 }
 function SvcActions({ children }) { return <div className="actions">{children}</div>; }
-function SvcVisual({ children, label, icon = "wrench", cornerLabel, cornerSub, id }) {
-  const slotId = id || ('svc-' + (label || 'photo').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
-  const photoOn = (window.TWEAK_DEFAULTS && window.TWEAK_DEFAULTS.photography) !== false;
+function SvcVisual({ children, label, icon = "wrench", cornerLabel, cornerSub, src }) {
   return (
     <div className="visual">
       {cornerLabel && (
@@ -148,17 +134,9 @@ function SvcVisual({ children, label, icon = "wrench", cornerLabel, cornerSub, i
           </div>
         </div>
       )}
-      {children || (photoOn ? (
-        <image-slot
-          id={slotId}
-          placeholder={`Drop a photo · ${label}`}
-          shape="rounded"
-          radius="22"
-          style={{ width: '100%', height: '100%', display: 'block' }}
-        />
-      ) : (
-        <BrandFallback meta={null}/>
-      ))}
+      {children || (src
+        ? <PhotoSlot label={label} src={src}/>
+        : <BrandFallback meta={null}/>)}
     </div>
   );
 }
@@ -172,11 +150,11 @@ function IssuesGrid({ children, id = "issues" }) {
       <div className="container">
         <div className="section-head">
           <div>
-            <span className="eyebrow">[Section label]</span>
-            <h2>[Section headline — your words]</h2>
+            <span className="eyebrow">What's going on?</span>
+            <h2>Notice anything off but can't put a name to it?</h2>
           </div>
           <div className="right">
-            <p>[Write a short intro for this section.]</p>
+            <p>These are common problems that homeowners experience. Does one resemble your issue? Schedule an appointment with Gamble Plumbing Heating and Air to get it fixed.</p>
           </div>
         </div>
         <div className="issue-grid">
