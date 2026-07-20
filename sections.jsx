@@ -920,7 +920,7 @@ function QuoteForm() {
               <div className={`field full field-consent ${errors.consent ? "has-err" : ""}`}>
                 <label className="consent">
                   <input type="checkbox" checked={form.consent} onChange={e => set("consent", e.target.checked)} />
-                  <span>I agree to be contacted by Gamble Plumbing, Heating &amp; Air by phone, text, or email about my request. Message/data rates may apply. Consent is not a condition of purchase.</span>
+                  <span>I agree that Gamble Plumbing, Heating &amp; Air may contact me by phone, text, or email about this request. Message and data rates may apply. Reply STOP to opt out of texts.</span>
                 </label>
                 {errors.consent && <span className="err">{errors.consent}</span>}
               </div>
