@@ -736,6 +736,15 @@ function FaqA({ children }) { return <div className="a">{children}</div>; }
 // ──────────────────────────────────────────────────────────────
 const QUOTE_ENDPOINT = "https://services.leadconnectorhq.com/hooks/UUD5Qcqj0mu2oMESygai/webhook-trigger/2e37b815-5019-49d7-953f-3a214fd10369"; // GoHighLevel inbound webhook
 
+// Sent as `source_key` on every submit. The GHL Inbound Webhook trigger has no
+// filter support, so an If/Else action downstream matches on this value and
+// dead-ends anything else into the None branch. That keeps junk POSTs from
+// creating contacts; it does NOT save premium-trigger charges, since the
+// workflow has already executed by the time the condition runs.
+// NOT a security secret: this file is public JS, anyone can read it. It only
+// stops untargeted noise, not someone who looks at the page source.
+const QUOTE_SOURCE_KEY = "gpha-web-2f7d41";
+
 const SERVICE_OPTIONS = [
   "Plumbing repair",
   "Drain / sewer cleaning",
@@ -775,6 +784,7 @@ function QuoteForm() {
 
     const payload = {
       ...form,
+      source_key: QUOTE_SOURCE_KEY,
       page: document.title,
       page_url: window.location.href,
       ...(window.GP_UTMS || {}),
