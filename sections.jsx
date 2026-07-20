@@ -782,24 +782,45 @@ function QuoteForm() {
     if (!validate()) return;
     setStatus("sending");
 
-    // Prebuilt, labelled, newline-separated summary. GHL's message editor
-    // collapses the line breaks you type into it, so build the whole body here
-    // and drop a single {{inboundWebhookRequest.summary}} into the SMS/email.
-    // Optional fields are omitted when blank so short requests stay short.
+    // Prebuilt message bodies. GHL's message editor collapses line breaks typed
+    // into it, so build them here and drop a single merge field into each action.
+    // Two variants, differing in both line break and scope:
+    //   summary      -> \n, for SMS       {{inboundWebhookRequest.summary}}
+    //   summary_html -> <br>, for email   {{inboundWebhookRequest.summary_html}}
+    // SMS carries only urgency/name/phone to stay inside one 160-char segment;
+    // the only variable-length parts are name and phone. Full detail goes in the
+    // email, which has no segment cost.
+    // Label sits on its own line above its value, so long values (address, notes)
+    // wrap cleanly instead of colliding with the next label. Blank optional
+    // fields are dropped rather than rendered as empty labels.
+    const filled = [
+      ["Name", form.name],
+      ["Phone", form.phone],
+      ["Email", form.email],
+      ["Service", form.service],
+      ["Address", form.address],
+      ["Notes", form.message],
+    ].filter(([, v]) => v && v.trim());
+
     const summary = [
-      `New quote request (${form.urgency})`,
-      `Name: ${form.name}`,
-      `Phone: ${form.phone}`,
-      form.email && `Email: ${form.email}`,
-      form.service && `Service: ${form.service}`,
-      form.address && `Address: ${form.address}`,
-      form.message && `Notes: ${form.message}`,
-    ].filter(Boolean).join("\n");
+      `New quote request\n${form.urgency}`,
+      `Name\n${form.name}`,
+      `Phone\n${form.phone}`,
+    ].join("\n\n");
+
+    // Values land in an HTML email, so escape them. A customer typing "<" in
+    // the notes field must not be able to inject markup into your inbox.
+    const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const summary_html = [
+      `New quote request<br>${esc(form.urgency)}`,
+      ...filled.map(([k, v]) => `${k}<br>${esc(v)}`),
+    ].join("<br><br>");
 
     const payload = {
       ...form,
       source_key: QUOTE_SOURCE_KEY,
       summary,
+      summary_html,
       page: document.title,
       page_url: window.location.href,
       ...(window.GP_UTMS || {}),
