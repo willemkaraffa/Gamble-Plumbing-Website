@@ -787,9 +787,11 @@ function QuoteForm() {
     // Two variants, differing in both line break and scope:
     //   summary      -> \n, for SMS       {{inboundWebhookRequest.summary}}
     //   summary_html -> <br>, for email   {{inboundWebhookRequest.summary_html}}
-    // SMS carries only urgency/name/phone to stay inside one 160-char segment;
-    // the only variable-length parts are name and phone. Full detail goes in the
-    // email, which has no segment cost.
+    // SMS carries urgency/name/phone plus the customer's own note (bare, no
+    // label), capped at 200 chars so one rambling note can't run to three or
+    // four segments. Ellipsis is three ASCII dots, not "…": the single-char
+    // ellipsis is outside GSM-7 and would force the whole message to UCS-2,
+    // cutting the segment size from 160 to 70. Email keeps the note in full.
     // Label sits on its own line above its value, so long values (address, notes)
     // wrap cleanly instead of colliding with the next label. Blank optional
     // fields are dropped rather than rendered as empty labels.
@@ -806,7 +808,10 @@ function QuoteForm() {
       `New quote request\n${form.urgency}`,
       `Name\n${form.name}`,
       `Phone\n${form.phone}`,
-    ].join("\n\n");
+      form.message.trim().length > 200
+        ? form.message.trim().slice(0, 200).trimEnd() + "..."
+        : form.message.trim(), // bare, no label; omitted when blank
+    ].filter(Boolean).join("\n\n");
 
     // Values land in an HTML email, so escape them. A customer typing "<" in
     // the notes field must not be able to inject markup into your inbox.
