@@ -782,13 +782,28 @@ function QuoteForm() {
     if (!validate()) return;
     setStatus("sending");
 
+    // Prebuilt, labelled, newline-separated summary. GHL's message editor
+    // collapses the line breaks you type into it, so build the whole body here
+    // and drop a single {{inboundWebhookRequest.summary}} into the SMS/email.
+    // Optional fields are omitted when blank so short requests stay short.
+    const summary = [
+      `New quote request (${form.urgency})`,
+      `Name: ${form.name}`,
+      `Phone: ${form.phone}`,
+      form.email && `Email: ${form.email}`,
+      form.service && `Service: ${form.service}`,
+      form.address && `Address: ${form.address}`,
+      form.message && `Notes: ${form.message}`,
+    ].filter(Boolean).join("\n");
+
     const payload = {
       ...form,
       source_key: QUOTE_SOURCE_KEY,
+      summary,
       page: document.title,
       page_url: window.location.href,
       ...(window.GP_UTMS || {}),
-      _subject: `New quote request — ${form.name} (${form.urgency})`,
+      subject: `New quote request - ${form.name} (${form.urgency})`,
     };
 
     try {
