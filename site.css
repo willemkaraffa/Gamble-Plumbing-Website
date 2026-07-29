@@ -1412,6 +1412,18 @@
     border-color: var(--primary);
     background: #fff;
   }
+  /* Keyboard focus ring: white halo + navy ring stays visible on any background
+     (white cards, navy hero). WCAG 2.4.7. Mouse users are unaffected. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--primary);
+    border-radius: 4px;
+  }
   .field textarea { resize: vertical; min-height: 96px; }
   .when-row {
     display: grid;
