@@ -107,6 +107,11 @@ async function prerender() {
       // Wait for the real mount signal, never a fixed delay: #root must have
       // children, which only happens after React actually renders.
       await tab.waitForFunction("document.querySelector('#root') && document.querySelector('#root').children.length > 0", { timeout: 15000 });
+      // networkidle0 above already waits for every image request (incl. 404s) to
+      // settle; this bounded double-rAF lets React flush the resulting onError
+      // re-renders (PhotoSlot -> BrandFallback) before we snapshot. Bounded, so
+      // it can never hang the build the way a "wait until all imgs complete" can.
+      await tab.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
       const rootHtml = await tab.$eval("#root", (el) => el.innerHTML);
       if (errors.length) throw new Error(`Page errors in ${page}:\n${errors.join("\n")}`);
       if (rootHtml.trim().length < 200) throw new Error(`Suspiciously empty prerender for ${page} (${rootHtml.length} chars)`);

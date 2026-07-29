@@ -245,7 +245,7 @@ function HeroFamily({ tweaks }) {
           </div>
         </div>
         <div className="visual">
-          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/home-hero-truck.jpg"/>
+          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/home-hero-truck.jpg" priority/>
         </div>
       </div>
     </section>
@@ -270,9 +270,11 @@ function CTAs({ tweaks, variant, compact }) {
   );
 }
 
-function PhotoSlot({ label, src }) {
+function PhotoSlot({ label, src, priority }) {
   // VS Code authoring: pass src="assets/foo.jpg" to render a photo.
   // No src or src 404 -> BrandFallback (navy "G" lockup).
+  // priority: set on the above-the-fold hero image so it loads eagerly (LCP);
+  // everything else stays lazy.
   const [failed, setFailed] = React.useState(false);
   // Reset failed flag when src changes so swapping URLs retries the image.
   React.useEffect(() => { setFailed(false); }, [src]);
@@ -281,7 +283,8 @@ function PhotoSlot({ label, src }) {
     <img
       src={src}
       alt={label || ''}
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : undefined}
       onError={() => setFailed(true)}
       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: 'inherit' }}
     />
@@ -713,7 +716,10 @@ function FaqItem({ children, open, onToggle, ...rest }) {
   const q = arr.find(c => c.type === FaqQ);
   const a = arr.find(c => c.type === FaqA);
   return (
-    <div className={`faq-item ${open ? 'open' : ''}`} onClick={onToggle} {...rest}>
+    <div className={`faq-item ${open ? 'open' : ''}`} onClick={onToggle}
+      role="button" tabIndex={0} aria-expanded={open}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle(); } }}
+      {...rest}>
       <div className="q">
         {q}
         <div className="toggle"><Icon name="plus" size={16}/></div>
@@ -766,6 +772,11 @@ function QuoteForm() {
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
+  // Bot traps: a hidden honeypot field (only bots fill it) and the time the
+  // form was mounted (real users can't complete it in under ~1.5s).
+  const startRef = React.useRef(Date.now());
+  const hpRef = React.useRef(null);
+
   const validate = () => {
     const er = {};
     if (!form.name.trim()) er.name = "Please enter your name.";
@@ -773,13 +784,24 @@ function QuoteForm() {
     if (form.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) er.email = "Check your email address.";
     if (!form.consent) er.consent = "Please agree to be contacted so we can reach you.";
     setErrors(er);
-    return Object.keys(er).length === 0;
+    return er;
   };
 
   const submit = async (e) => {
     e.preventDefault();
     if (status === "sending") return;
-    if (!validate()) return;
+    const er = validate();
+    if (Object.keys(er).length) {
+      // Move focus to the first invalid field so screen-reader users are told.
+      const first = ["name", "phone", "email", "consent"].find(k => er[k]);
+      const el = document.getElementById(first === "consent" ? "qf-consent" : "qf-" + first);
+      if (el) el.focus();
+      return;
+    }
+    // Bot traps: send fillers of the honeypot or implausibly fast submits to the
+    // thank-you page without POSTing, so they get no failure signal to retry against.
+    if (hpRef.current && hpRef.current.value) { window.location.href = "thank-you.html"; return; }
+    if (Date.now() - startRef.current < 1500) { window.location.href = "thank-you.html"; return; }
     setStatus("sending");
 
     // Prebuilt message bodies. GHL's message editor collapses line breaks typed
@@ -871,24 +893,30 @@ function QuoteForm() {
 
         <div className="form-card" data-comment-anchor="quote-form">
           <form onSubmit={submit} noValidate>
+            <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+              <label>Company<input ref={hpRef} type="text" tabIndex={-1} autoComplete="off" defaultValue="" /></label>
+            </div>
             <div className="form-grid">
               <div className={`field ${errors.name ? "has-err" : ""}`}>
                 <label htmlFor="qf-name">Name</label>
                 <input id="qf-name" type="text" autoComplete="name" placeholder="Your name"
+                  aria-invalid={!!errors.name} aria-describedby={errors.name ? "qf-name-err" : undefined}
                   value={form.name} onChange={e => set("name", e.target.value)} />
-                {errors.name && <span className="err">{errors.name}</span>}
+                {errors.name && <span className="err" id="qf-name-err" role="alert">{errors.name}</span>}
               </div>
               <div className={`field ${errors.phone ? "has-err" : ""}`}>
                 <label htmlFor="qf-phone">Phone</label>
                 <input id="qf-phone" type="tel" autoComplete="tel" placeholder="(919) 555-0123"
+                  aria-invalid={!!errors.phone} aria-describedby={errors.phone ? "qf-phone-err" : undefined}
                   value={form.phone} onChange={e => set("phone", e.target.value)} />
-                {errors.phone && <span className="err">{errors.phone}</span>}
+                {errors.phone && <span className="err" id="qf-phone-err" role="alert">{errors.phone}</span>}
               </div>
               <div className={`field ${errors.email ? "has-err" : ""}`}>
                 <label htmlFor="qf-email">Email <span className="opt">(optional)</span></label>
                 <input id="qf-email" type="email" autoComplete="email" placeholder="you@email.com"
+                  aria-invalid={!!errors.email} aria-describedby={errors.email ? "qf-email-err" : undefined}
                   value={form.email} onChange={e => set("email", e.target.value)} />
-                {errors.email && <span className="err">{errors.email}</span>}
+                {errors.email && <span className="err" id="qf-email-err" role="alert">{errors.email}</span>}
               </div>
               <div className="field">
                 <label htmlFor="qf-service">What do you need?</label>
@@ -908,6 +936,7 @@ function QuoteForm() {
                   {URGENCY_OPTIONS.map(u => (
                     <button type="button" key={u}
                       className={`when-chip ${form.urgency === u ? "active" : ""}`}
+                      aria-pressed={form.urgency === u}
                       onClick={() => set("urgency", u)}>{u}</button>
                   ))}
                 </div>
@@ -919,10 +948,11 @@ function QuoteForm() {
               </div>
               <div className={`field full field-consent ${errors.consent ? "has-err" : ""}`}>
                 <label className="consent">
-                  <input type="checkbox" checked={form.consent} onChange={e => set("consent", e.target.checked)} />
+                  <input id="qf-consent" type="checkbox" checked={form.consent} onChange={e => set("consent", e.target.checked)}
+                    aria-invalid={!!errors.consent} aria-describedby={errors.consent ? "qf-consent-err" : undefined} />
                   <span>I agree that Gamble Plumbing, Heating &amp; Air may contact me by phone, text, or email about this request. Message and data rates may apply. Reply STOP to opt out of texts.</span>
                 </label>
-                {errors.consent && <span className="err">{errors.consent}</span>}
+                {errors.consent && <span className="err" id="qf-consent-err" role="alert">{errors.consent}</span>}
               </div>
             </div>
 
