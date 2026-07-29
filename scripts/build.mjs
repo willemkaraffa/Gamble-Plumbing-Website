@@ -22,7 +22,7 @@ const PORT = 5187;
 const CSR_PAGES = ["index.html", "plumbing.html", "hvac.html", "about.html"];
 // Pages already static HTML -- copied verbatim, never prerendered.
 const STATIC_PAGES = ["privacy.html", "thank-you.html"];
-const STATIC_FILES = ["site.css", "robots.txt", "sitemap.xml", "CNAME"];
+const STATIC_FILES = ["site.css", "robots.txt", "sitemap.xml", "CNAME", "tracking.js"];
 const STATIC_DIRS = ["assets", "uploads"];
 
 // The three CDN loader lines are byte-identical across all four CSR pages.
