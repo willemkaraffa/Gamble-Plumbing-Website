@@ -440,15 +440,7 @@ function WhyUs({ tweaks }) {
           </div>
         </div>
         <div className="visual">
-          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/home-about-andrew.jpg"/>
-          <div className="accent-badge">
-            <div className="seal">G</div>
-            <div className="txt">
-              "[Add a short quote or motto in your own words.]"<br/>
-              <span style={{opacity: 0.7, fontSize: 12.5, fontWeight: 500}}>— The Gamble family</span>
-            </div>
-          </div>
-        </div>
+          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/home-about-andrew.jpg"/>        </div>
       </div>
     </section>
   );

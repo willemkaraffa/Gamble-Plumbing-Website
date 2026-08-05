@@ -11,7 +11,7 @@
   gtag('js', new Date());
   gtag('config', 'G-WF2TMWFNNQ');
 </script>
-<script src="tracking.js"></script>
+<script defer src="tracking.js"></script>
 <meta name="color-scheme" content="light" />
 <title>Gamble Plumbing, Heating &amp; Air — Family-owned in Garner, NC</title>
 <meta name="description" content="Family-owned plumbing and HVAC for Garner, Raleigh, Durham and the Triangle — call (919) 797-5930." />
@@ -52,6 +52,11 @@
     "postalCode": "27529",
     "addressCountry": "US"
   },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 35.7014967,
+    "longitude": -78.5996979
+  },
   "areaServed": [
     "Garner, NC", "Raleigh, NC", "Durham, NC", "Cary, NC", "Apex, NC",
     "Holly Springs, NC", "Fuquay-Varina, NC", "Knightdale, NC",
@@ -67,7 +72,35 @@
   "knowsAbout": [
     "Plumbing", "Drain cleaning", "Water heaters", "Leak detection",
     "HVAC", "Heating", "Air conditioning", "Heat pumps"
-  ]
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Plumbing & HVAC Services",
+    "itemListElement": [
+      {
+        "@type": "OfferCatalog",
+        "name": "Plumbing",
+        "itemListElement": [
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Emergency Plumbing"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Drain Cleaning"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Leak Detection"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Water Heaters"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Pipe Services"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Fixture Installation"}}
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "HVAC",
+        "itemListElement": [
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Heating & Furnace"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"AC Repair & Install"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Heat Pumps"}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Duct Cleaning & Sealing"}}
+        ]
+      }
+    ]
+  }
 }
 </script>
 

@@ -73,7 +73,6 @@ function PlumbingApp() {
           label="Truck arriving on emergency call"
           icon="lightning"
           cornerLabel="Emergency line"
-          cornerSub="[Detail]"
           src="assets/plumbing-emergency.jpg"
         />
       </SvcDetail>
@@ -156,7 +155,6 @@ function PlumbingApp() {
           label="New water heater install"
           icon="drop"
           cornerLabel="Most installs"
-          cornerSub="[Detail]"
           src="assets/plumbing-water-heater.jpg"
         />
       </SvcDetail>
@@ -248,10 +246,6 @@ function PlumbingApp() {
               <FaqQ>What counts as a plumbing emergency?</FaqQ>
               <FaqA>Anything actively causing damage or cutting off water entirely. A burst pipe, an overflowing toilet, a sewer backup, a failed water heater, or the smell of gas. The test is simple: if waiting until tomorrow makes it worse, it is an emergency.</FaqA>
             </FaqItem>
-            <FaqItem data-comment-anchor="pfaq-jobsize">
-              <FaqQ>Is there a minimum job size?</FaqQ>
-              <FaqA>[Write your answer here.]</FaqA>
-            </FaqItem>
             <FaqItem data-comment-anchor="pfaq-mainline">
               <FaqQ>How long do main water lines last?</FaqQ>
               <FaqA>It depends on the material. Copper commonly runs 50 years or more, PEX in the range of 40 to 50, and older galvanized steel often 40 to 60 before corrosion narrows it from the inside. Polybutylene is the exception and fails unpredictably. An inspection is the only way to know where a given line stands.</FaqA>
@@ -259,10 +253,6 @@ function PlumbingApp() {
             <FaqItem data-comment-anchor="pfaq-quoting">
               <FaqQ>How does quoting work?</FaqQ>
               <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed.</FaqA>
-            </FaqItem>
-            <FaqItem data-comment-anchor="pfaq-commercial">
-              <FaqQ>Do you handle commercial work?</FaqQ>
-              <FaqA>[Write your answer here.]</FaqA>
             </FaqItem>
           </FaqAccordion>
         </div>

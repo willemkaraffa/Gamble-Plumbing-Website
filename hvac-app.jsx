@@ -101,7 +101,6 @@ function HvacApp() {
           label="Outdoor condenser unit"
           icon="snow"
           cornerLabel="Most repairs"
-          cornerSub="[Detail]"
           src="assets/hvac-ac.jpg"
         />
       </SvcDetail>
@@ -199,10 +198,6 @@ function HvacApp() {
             <FaqItem data-comment-anchor="hfaq-size">
               <FaqQ>What size AC or heat pump does my house need?</FaqQ>
               <FaqA>It's rather complex actually, moreso than a matter of square-footage. Proper sizing comes from a Manual J load calculation, which accounts for insulation, window area, orientation, and layout. Oversized systems cost more, cycle harder, and leave the air clammy.</FaqA>
-            </FaqItem>
-            <FaqItem data-comment-anchor="hfaq-brand">
-              <FaqQ>What brand do you recommend?</FaqQ>
-              <FaqA>[Write your answer here.]</FaqA>
             </FaqItem>
             <FaqItem data-comment-anchor="hfaq-quoting">
               <FaqQ>How does quoting work?</FaqQ>
