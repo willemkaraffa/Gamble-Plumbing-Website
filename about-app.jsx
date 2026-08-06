@@ -22,7 +22,7 @@ function AboutApp() {
           <span className="eyebrow">About Us</span>
           <h1>Plumbing and HVAC for the Triangle.</h1>
           <p className="lead">
-            Gamble Plumbing, Heating &amp; Air is a local plumbing and HVAC company based in Garner,
+            Gamble Plumbing Inc. is a local plumbing and HVAC company based in Garner,
             serving Garner and the greater Raleigh-Durham area. Call the office and we'll get you scheduled.
           </p>
           <div className="ctas">
