@@ -154,7 +154,7 @@ function IssuesGrid({ children, id = "issues" }) {
             <h2>Notice anything off but can't put a name to it?</h2>
           </div>
           <div className="right">
-            <p>These are common problems that homeowners experience. Does one resemble your issue? Schedule an appointment with Gamble Plumbing Heating and Air to get it fixed.</p>
+            <p>These are common problems that homeowners experience. Does one resemble your issue? Schedule an appointment with Gamble Plumbing Inc. to get it fixed.</p>
           </div>
         </div>
         <div className="issue-grid">

@@ -231,7 +231,7 @@ function HeroFamily({ tweaks }) {
             Family-owned Quality,{' '}
             <span className="h1-accent">Local Care</span>
           </h1>
-          <p className="lead">Family-owned and right in Garner, Gamble Plumbing Heating and Air is committed to delivering quality service to our community.</p>
+          <p className="lead">Family-owned and right in Garner, Gamble Plumbing Inc. is committed to delivering quality service to our community.</p>
           <CTAs tweaks={tweaks} variant="light"/>
           <div className="hero-trust">
             <div className="stars">
@@ -354,7 +354,7 @@ function Services() {
             <h2>Plumbing or HVAC — We have you covered</h2>
           </div>
           <div className="right">
-            <p>Gamble Plumbing Heating and Air offers a wide array of services. Click Learn More to see how we can help you!</p>
+            <p>Gamble Plumbing Inc. offers a wide array of services. Click Learn More to see how we can help you!</p>
           </div>
         </div>
         <div className="service-grid">
@@ -602,7 +602,7 @@ function Reviews() {
             <span className="eyebrow">From the Community</span>
             <h2>Not Our Words - Yours</h2>
             <p className="lead">
-              Check out reviews by our customers on Google, or leave your own. We hope that your experience with Gamble Plumbing Heating and Air is excellent.
+              Check out reviews by our customers on Google, or leave your own. We hope that your experience with Gamble Plumbing Inc. is excellent.
             </p>
             <div className="reviews-cta-actions">
               <a
@@ -942,7 +942,7 @@ function QuoteForm() {
                 <label className="consent">
                   <input id="qf-consent" type="checkbox" checked={form.consent} onChange={e => set("consent", e.target.checked)}
                     aria-invalid={!!errors.consent} aria-describedby={errors.consent ? "qf-consent-err" : undefined} />
-                  <span>I agree that Gamble Plumbing, Heating &amp; Air may contact me by phone, text, or email about this request. Message and data rates may apply. Reply STOP to opt out of texts.</span>
+                  <span>I agree that Gamble Plumbing Inc. may contact me by phone, text, or email about this request. Message and data rates may apply. Reply STOP to opt out of texts.</span>
                 </label>
                 {errors.consent && <span className="err" id="qf-consent-err" role="alert">{errors.consent}</span>}
               </div>
@@ -1038,7 +1038,7 @@ function SiteFooter() {
           </div>
         </div>
         <div className="legal">
-          <span>© {new Date().getFullYear()} Gamble Plumbing, Heating &amp; Air. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Gamble Plumbing Inc. All rights reserved.</span>
           <span className="license">North Carolina Licensed &amp; Insured</span>
           <span><a href="privacy.html">Privacy Policy</a></span>
         </div>
