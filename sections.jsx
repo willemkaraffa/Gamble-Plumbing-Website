@@ -858,9 +858,25 @@ function QuoteForm() {
         console.warn("[QuoteForm] No QUOTE_ENDPOINT set — simulating success for preview. Leads are NOT being delivered until you paste an endpoint in sections.jsx.");
         await new Promise(r => setTimeout(r, 650));
       }
-      if (window.gpTrack) window.gpTrack("generate_lead", { service: form.service || "unspecified", urgency: form.urgency });
+      // Fire the conversion, then navigate from gtag's event_callback so the
+      // GA beacon is sent before we leave the page. The hard timeout guarantees
+      // the redirect still happens if GA is blocked, slow, or never calls back.
+      // navigated guards against firing twice (callback + timeout both resolve).
+      const dest = "thank-you.html?name=" + encodeURIComponent(form.name.trim().split(/\s+/)[0] || "");
+      let navigated = false;
+      const go = () => { if (!navigated) { navigated = true; window.location.href = dest; } };
       if (window.gpTrackConversion) window.gpTrackConversion("lead", { value: 1 });
-      window.location.href = "thank-you.html?name=" + encodeURIComponent(form.name.trim().split(/\s+/)[0] || "");
+      if (window.gpTrack) {
+        window.gpTrack("generate_lead", {
+          service: form.service || "unspecified",
+          urgency: form.urgency,
+          event_callback: go,
+          event_timeout: 1000,
+        });
+        setTimeout(go, 1200);
+      } else {
+        go();
+      }
     } catch (err) {
       setStatus("error");
     }
