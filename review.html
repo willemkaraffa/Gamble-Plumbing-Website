@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Review funnel. Served at the extensionless /review (same as /plumbing).
+     Owner texts customers this short link; it fires a GA review_click event for
+     attribution, then redirects to the Google Business Profile review form.
+     noindex: utility redirect, not a content page. -->
+<meta name="robots" content="noindex,nofollow" />
+<!-- Google Analytics 4 (gtag.js) -- same property as the rest of the site -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WF2TMWFNNQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WF2TMWFNNQ');
+</script>
+<title>Leave Gamble Plumbing a review</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         margin: 0; min-height: 100vh; display: grid; place-items: center;
+         background: #13294A; color: #fff; text-align: center; padding: 24px; }
+  .card { max-width: 440px; }
+  h1 { font-size: 22px; margin: 0 0 10px; }
+  p { color: #d9e3f2; line-height: 1.55; margin: 0 0 20px; }
+  a.btn { display: inline-block; background: #F4C81E; color: #13294A;
+          font-weight: 700; text-decoration: none; padding: 13px 26px;
+          border-radius: 10px; }
+  .cfg { background: #7a1f1f; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <h1>Redirecting you to Google&hellip;</h1>
+  <p>Thanks for taking a moment to review Gamble Plumbing, Heating &amp; Air.</p>
+  <p id="fallback" style="display:none">If you are not redirected, tap below.</p>
+  <a class="btn" id="go" href="#" style="display:none">Write your review</a>
+</div>
+<script>
+  (function () {
+    // Owner: paste the Google Business Profile review link here.
+    // Get it from the GBP dashboard -> "Ask for reviews" -> Copy link.
+    // Format looks like  https://g.page/r/XXXXXXXXXXXX/review
+    var GBP_REVIEW_URL = "https://g.page/r/CVhZNddj4xEdEBM/review";
+
+    var card = document.getElementById("card");
+
+    // Guard: never redirect to the unconfigured placeholder. Shows a clear
+    // notice to whoever tests the link before the real URL is pasted in.
+    if (GBP_REVIEW_URL.indexOf("REPLACE_WITH") !== -1) {
+      card.className = "card cfg";
+      card.innerHTML = "<h1>Review link not configured</h1>" +
+        "<p>Paste the Google Business Profile review URL into review.html " +
+        "(GBP dashboard &rarr; Ask for reviews &rarr; Copy link), then rebuild.</p>";
+      return;
+    }
+
+    // Fire the GA review_click event, then navigate from the event_callback so
+    // the beacon is sent before we leave the page. Hard timeout guarantees the
+    // redirect even if the callback never fires; navigated guards double-firing.
+    // (Same mechanism the quote form uses for generate_lead.)
+    var go = document.getElementById("go");
+    go.href = GBP_REVIEW_URL;
+    var navigated = false;
+    var redirect = function () {
+      if (navigated) return;
+      navigated = true;
+      window.location.replace(GBP_REVIEW_URL);
+    };
+
+    // Reveal the manual button in case anything stalls (slow GA, blockers).
+    document.getElementById("fallback").style.display = "";
+    go.style.display = "";
+
+    if (typeof gtag === "function") {
+      gtag("event", "review_click", {
+        link_url: GBP_REVIEW_URL,
+        event_callback: redirect,
+        event_timeout: 1000
+      });
+    }
+    setTimeout(redirect, 1000);
+  })();
+</script>
+</body>
+</html>
