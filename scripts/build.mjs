@@ -21,7 +21,9 @@ const PORT = 5187;
 // Every page ships an empty #root; only these four fill it via React.
 const CSR_PAGES = ["index.html", "plumbing.html", "hvac.html", "about.html"];
 // Pages already static HTML -- copied verbatim, never prerendered.
-const STATIC_PAGES = ["privacy.html", "thank-you.html"];
+// thank-you.html plus two redirect stubs for legacy URLs GSC flagged as 404
+// (Home.html = old homepage; thank-you-page.html serves /thank-you-page).
+const STATIC_PAGES = ["privacy.html", "thank-you.html", "Home.html", "thank-you-page.html"];
 const STATIC_FILES = ["site.css", "robots.txt", "sitemap.xml", "CNAME", "tracking.js"];
 const STATIC_DIRS = ["assets", "uploads"];
 
