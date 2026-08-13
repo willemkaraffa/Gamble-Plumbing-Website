@@ -24,7 +24,7 @@ const CSR_PAGES = ["index.html", "plumbing.html", "hvac.html", "about.html"];
 // thank-you.html plus two redirect stubs for legacy URLs GSC flagged as 404
 // (Home.html = old homepage; thank-you-page.html serves /thank-you-page).
 const STATIC_PAGES = ["privacy.html", "thank-you.html", "Home.html", "thank-you-page.html", "review.html"];
-const STATIC_FILES = ["site.css", "robots.txt", "sitemap.xml", "CNAME", "tracking.js"];
+const STATIC_FILES = ["site.css", "robots.txt", "sitemap.xml", "CNAME", "tracking.js", "favicon.ico", "favicon-96.png", "apple-touch-icon.png"];
 const STATIC_DIRS = ["assets", "uploads"];
 
 // The three CDN loader lines are byte-identical across all four CSR pages.
