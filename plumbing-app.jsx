@@ -266,4 +266,4 @@ function PlumbingApp() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<PlumbingApp/>);
+root.render(<><PlumbingApp/><HashScroll/></>);

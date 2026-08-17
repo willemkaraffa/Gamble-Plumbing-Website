@@ -215,4 +215,4 @@ function HvacApp() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<HvacApp/>);
+root.render(<><HvacApp/><HashScroll/></>);
