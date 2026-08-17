@@ -49,4 +49,4 @@ function AboutApp() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<AboutApp/>);
+root.render(<><AboutApp/><HashScroll/></>);

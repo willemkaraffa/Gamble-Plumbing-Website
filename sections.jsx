@@ -69,6 +69,44 @@ function UtilityBar() {
 }
 
 // ──────────────────────────────────────────────────────────────
+// Hash scroll restore
+// Pages ship prerendered markup, so the browser performs its native anchor
+// jump for a deep link like /#faq -- then createRoot().render() replaces the
+// whole #root subtree, layout shifts, and scroll snaps back to 0. Re-apply the
+// jump once the React tree has committed. Renders nothing; mounted as a
+// sibling of each page's app root.
+// ──────────────────────────────────────────────────────────────
+function HashScroll() {
+  const landedAt = React.useRef(null);
+  React.useLayoutEffect(() => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    const jump = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      // Nav is position:sticky, so land the section below it rather than under it.
+      const nav = document.querySelector('nav.primary');
+      const offset = nav ? nav.getBoundingClientRect().height : 0;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'instant' });
+      landedAt.current = Math.round(window.scrollY);
+    };
+    jump();
+    // Images resolve after commit and shift everything below them, so re-apply
+    // once they have settled -- but only if the reader has not scrolled away in
+    // the meantime, otherwise a slow image would yank them back to the anchor.
+    const onLoad = () => {
+      if (landedAt.current === null) return;
+      if (Math.abs(window.scrollY - landedAt.current) > 2) return;
+      jump();
+    };
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
+  }, []);
+  return null;
+}
+
+// ──────────────────────────────────────────────────────────────
 // Primary nav
 // ──────────────────────────────────────────────────────────────
 function Nav({ ctaEmphasis }) {
