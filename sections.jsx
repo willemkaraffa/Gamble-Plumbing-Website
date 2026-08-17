@@ -75,7 +75,7 @@ function Nav({ ctaEmphasis }) {
   return (
     <nav className="primary" data-screen-label="Nav">
       <div className="container">
-        <a href="index.html" className="brand" aria-label="Gamble Plumbing, Heating and Air home">
+        <a href="/" className="brand" aria-label="Gamble Plumbing, Heating and Air home">
           <span className="brand-mark"><LogoMark size={32}/></span>
           <span className="brand-text">
             <span className="name">Gamble</span>
@@ -85,8 +85,8 @@ function Nav({ ctaEmphasis }) {
         <div className="nav-links">
           <ServicesMenu/>
           <a href="about.html">About</a>
-          <a href="index.html#area">Service Area</a>
-          <a href="index.html#faq">FAQ</a>
+          <a href="/#area">Service Area</a>
+          <a href="/#faq">FAQ</a>
         </div>
         <div className="nav-cta">
           <div className="nav-phone">
@@ -1036,10 +1036,10 @@ function SiteFooter() {
             <h4>Company</h4>
             <ul>
               <li><a href="about.html">About</a></li>
-              <li><a href="index.html#area">Service area</a></li>
-              <li><a href="index.html#reviews">Reviews</a></li>
-              <li><a href="index.html#faq">FAQ</a></li>
-              <li><a href="index.html#quote">Contact</a></li>
+              <li><a href="/#area">Service area</a></li>
+              <li><a href="/#reviews">Reviews</a></li>
+              <li><a href="/#faq">FAQ</a></li>
+              <li><a href="/#quote">Contact</a></li>
             </ul>
           </div>
           <div>

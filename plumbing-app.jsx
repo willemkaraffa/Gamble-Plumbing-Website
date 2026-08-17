@@ -26,7 +26,7 @@ function PlumbingApp() {
       <CategoryHero>
         <CatHeroCopy>
           <CatCrumbs>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
             <span className="sep">/</span>
             <span>Plumbing</span>
           </CatCrumbs>
