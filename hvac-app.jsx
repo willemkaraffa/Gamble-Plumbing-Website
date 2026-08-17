@@ -23,7 +23,7 @@ function HvacApp() {
       <CategoryHero>
         <CatHeroCopy>
           <CatCrumbs>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
             <span className="sep">/</span>
             <span>Heating &amp; Air</span>
           </CatCrumbs>

@@ -15,7 +15,7 @@ function AboutApp() {
       <CategoryHero>
         <CatHeroCopy>
           <CatCrumbs>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
             <span className="sep">/</span>
             <span>About</span>
           </CatCrumbs>
@@ -26,7 +26,7 @@ function AboutApp() {
             serving Garner and the greater Raleigh-Durham area. Call the office and we'll get you scheduled.
           </p>
           <div className="ctas">
-            <a href="index.html#quote" className="btn btn-primary">Get an estimate <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
+            <a href="/#quote" className="btn btn-primary">Get an estimate <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
             <a href={PHONE_HREF} className="btn btn-ghost"><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
           </div>
           <div className="perks">
