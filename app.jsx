@@ -83,8 +83,13 @@ function applyDensity(density) {
 function App() {
   const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS);
 
-  React.useEffect(() => { applyPaletteAndType(t.palette, t.fonts); }, [t.palette, t.fonts]);
-  React.useEffect(() => { applyDensity(t.density); }, [t.density]);
+  // useLayoutEffect, not useEffect: these rewrite --font-body/--font-display and
+  // the density class, which reflows every text block on the page. A passive
+  // effect runs AFTER HashScroll's layout effect, so the deep-link jump measures
+  // pre-swap text and lands ~50px off. Layout effects run in tree order, and
+  // HashScroll is rendered after <App/>, so this settles type before it jumps.
+  React.useLayoutEffect(() => { applyPaletteAndType(t.palette, t.fonts); }, [t.palette, t.fonts]);
+  React.useLayoutEffect(() => { applyDensity(t.density); }, [t.density]);
 
   return (
     <>

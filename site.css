@@ -42,6 +42,12 @@
   }
 
   html { scroll-behavior: smooth; }
+  /* nav.primary is sticky, so a native anchor landing puts the section heading
+     underneath it. This is the single source of truth for that offset: both
+     in-page anchor clicks and HashScroll's deep-link jump read it from here.
+     Keep in sync with nav.primary .container height + 1px border.
+     .svc-detail opts out: it sets a larger offset for the sticky category rail. */
+  section[id]:not(.svc-detail) { scroll-margin-top: 79px; }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
@@ -2266,6 +2272,7 @@
   @media (max-width: 1080px) {
     .nav-links { display: none; }
     nav.primary .container { grid-template-columns: auto 1fr auto; height: 70px; }
+    section[id]:not(.svc-detail) { scroll-margin-top: 71px; }
     .hero-a .grid,
     .hero-b .grid,
     .why .grid,

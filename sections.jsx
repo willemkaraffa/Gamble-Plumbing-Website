@@ -77,31 +77,37 @@ function UtilityBar() {
 // sibling of each page's app root.
 // ──────────────────────────────────────────────────────────────
 function HashScroll() {
-  const landedAt = React.useRef(null);
   React.useLayoutEffect(() => {
     const id = decodeURIComponent(location.hash.slice(1));
     if (!id) return;
     const jump = () => {
       const el = document.getElementById(id);
       if (!el) return;
-      // Nav is position:sticky, so land the section below it rather than under it.
-      const nav = document.querySelector('nav.primary');
-      const offset = nav ? nav.getBoundingClientRect().height : 0;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'instant' });
-      landedAt.current = Math.round(window.scrollY);
+      // scrollIntoView, not manual math: the sticky-nav offset lives in CSS as
+      // scroll-margin-top (site.css), so in-page anchor clicks and this jump
+      // land identically and only one place knows the nav height.
+      el.scrollIntoView({ behavior: 'instant', block: 'start' });
     };
     jump();
-    // Images resolve after commit and shift everything below them, so re-apply
-    // once they have settled -- but only if the reader has not scrolled away in
-    // the meantime, otherwise a slow image would yank them back to the anchor.
-    const onLoad = () => {
-      if (landedAt.current === null) return;
-      if (Math.abs(window.scrollY - landedAt.current) > 2) return;
-      jump();
+    // Late webfont swaps and image loads reflow content ABOVE the target, which
+    // invalidates a correct jump, so re-apply until the page settles. The guard
+    // is the reader's first real input, never scroll position: browser scroll
+    // anchoring moves scrollY on its own when content above the viewport
+    // shrinks, so a position check reads that as "reader scrolled away" and
+    // silently disables every re-jump.
+    let live = true;
+    const recheck = () => { if (live) jump(); };
+    const release = () => { live = false; };
+    const INPUT = ['wheel', 'touchstart', 'keydown'];
+    window.addEventListener('load', recheck);
+    INPUT.forEach(e => window.addEventListener(e, release, { passive: true }));
+    if (document.fonts) document.fonts.ready.then(recheck);
+    if (document.readyState === 'complete') requestAnimationFrame(recheck);
+    return () => {
+      live = false;
+      window.removeEventListener('load', recheck);
+      INPUT.forEach(e => window.removeEventListener(e, release));
     };
-    window.addEventListener('load', onLoad);
-    return () => window.removeEventListener('load', onLoad);
   }, []);
   return null;
 }
