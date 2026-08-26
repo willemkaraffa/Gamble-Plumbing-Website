@@ -45,7 +45,7 @@ function PlumbingApp() {
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Residential &amp; commercial</span>
           </div>
         </CatHeroCopy>
-        <CatHeroVisual label="Plumber on the job" stamp="Licensed in NC" src="assets/plumbing-hero.jpg"/>
+        <CatHeroVisual label="Plumber on the job" src="assets/plumbing-hero.jpg"/>
       </CategoryHero>
 
       <CategoryRail items={RAIL_ITEMS}/>
@@ -71,8 +71,6 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="Truck arriving on emergency call"
-          icon="lightning"
-          cornerLabel="Emergency line"
           src="assets/plumbing-emergency.jpg"
         />
       </SvcDetail>
@@ -97,9 +95,6 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="Sewer camera on tablet"
-          icon="pipe"
-          cornerLabel="Camera-first"
-          cornerSub="See what we see"
           src="assets/plumbing-drain-camera.jpg"
         />
       </SvcDetail>
@@ -125,9 +120,6 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="Tech with leak detection equipment"
-          icon="wrench"
-          cornerLabel="Non-invasive"
-          cornerSub="No demolition by default"
           src="assets/plumbing-leak.jpg"
         />
       </SvcDetail>
@@ -153,8 +145,6 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="New water heater install"
-          icon="drop"
-          cornerLabel="Most installs"
           src="assets/plumbing-water-heater.jpg"
         />
       </SvcDetail>
@@ -181,9 +171,6 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="Repipe in progress"
-          icon="filter"
-          cornerLabel="20–100 yr lifespan"
-          cornerSub="Depending on the material"
           src="assets/plumbing-repipe.jpg"
         />
       </SvcDetail>
@@ -209,9 +196,6 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="New fixture install"
-          icon="shield"
-          cornerLabel="Bring your own"
-          cornerSub="Or we&apos;ll help you pick"
           src="assets/plumbing-fixture.jpg"
         />
       </SvcDetail>

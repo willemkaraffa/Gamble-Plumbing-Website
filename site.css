@@ -1815,19 +1815,6 @@
     position: relative;
     box-shadow: 0 30px 60px -40px rgba(19, 41, 74, 0.35);
   }
-  .cat-hero .visual .stamp {
-    position: absolute;
-    top: 22px;
-    right: 22px;
-    background: var(--accent);
-    color: var(--accent-ink);
-    border-radius: 999px;
-    padding: 8px 14px;
-    font-weight: 700;
-    font-size: 12.5px;
-    letter-spacing: 0.04em;
-    z-index: 2;
-  }
 
   /* ─── Category jump-nav (sticky service rail) ─── */
   .cat-rail {
@@ -1937,47 +1924,23 @@
     gap: 6px;
   }
   .svc-detail .actions .ghost-call strong { color: var(--primary); }
-  .svc-detail .visual {
+  .svc-detail .visual { margin: 0; }
+  .svc-detail .visual .frame {
     position: relative;
     aspect-ratio: 5/4;
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: 0 30px 60px -40px rgba(19, 41, 74, 0.3);
   }
-  .svc-detail .visual .corner {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 10px 24px -16px rgba(19, 41, 74, 0.3);
-    z-index: 2;
-  }
-  .svc-detail .visual .corner .ic {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: var(--primary);
-    color: var(--accent);
-    display: grid;
-    place-items: center;
-  }
-  .svc-detail .visual .corner .lbl {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.2;
-  }
-  .svc-detail .visual .corner .lbl .sub {
+  .svc-detail .visual figcaption {
+    margin-top: 10px;
+    font-size: 12.5px;
+    line-height: 1.35;
     color: var(--ink-3);
-    font-weight: 500;
-    font-size: 12px;
   }
+  /* No photo (missing or 404) -> brand fallback shows; caption would describe
+     a picture that isn't there, so hide it. */
+  .svc-detail .visual .frame:has(.photo-fallback) + figcaption { display: none; }
   .svc-detail .eyebrow .num {
     background: var(--accent);
     color: var(--accent-ink);

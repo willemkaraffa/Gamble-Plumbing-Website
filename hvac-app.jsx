@@ -42,7 +42,7 @@ function HvacApp() {
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Licensed &amp; insured in NC</span>
           </div>
         </CatHeroCopy>
-        <CatHeroVisual label="Tech inspecting outdoor condenser unit" stamp="Licensed in NC" src="assets/hvac-hero.jpg"/>
+        <CatHeroVisual label="Tech inspecting outdoor condenser unit" src="assets/hvac-hero.jpg"/>
       </CategoryHero>
 
       <CategoryRail items={HVAC_RAIL}/>
@@ -69,9 +69,6 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="Furnace install in basement"
-          icon="flame"
-          cornerLabel="Annual tune-ups"
-          cornerSub="Catch problems before winter"
           src="assets/hvac-furnace.jpg"
         />
       </SvcDetail>
@@ -99,8 +96,6 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="Outdoor condenser unit"
-          icon="snow"
-          cornerLabel="Most repairs"
           src="assets/hvac-ac.jpg"
         />
       </SvcDetail>
@@ -128,9 +123,6 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="Variable-speed heat pump install"
-          icon="heat-pump"
-          cornerLabel="Right-sized"
-          cornerSub="For Triangle climate"
           src="assets/hvac-heatpump.jpg"
         />
       </SvcDetail>
@@ -158,9 +150,6 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="Duct cleaning equipment"
-          icon="fan"
-          cornerLabel="Before / After"
-          cornerSub="Photos with every job"
           src="assets/hvac-duct.jpg"
         />
       </SvcDetail>
