@@ -13,10 +13,9 @@ function CategoryHero({ children }) {
 }
 function CatCrumbs({ children }) { return <div className="crumbs">{children}</div>; }
 function CatHeroCopy({ children }) { return <div className="copy">{children}</div>; }
-function CatHeroVisual({ children, label = "Photo", stamp, src }) {
+function CatHeroVisual({ children, label = "Photo", src }) {
   return (
     <div className="visual">
-      {stamp && <div className="stamp">{stamp}</div>}
       {children || <PhotoSlot label={label} src={src}/>}
     </div>
   );
@@ -122,22 +121,18 @@ function SvcBullet({ children }) {
   );
 }
 function SvcActions({ children }) { return <div className="actions">{children}</div>; }
-function SvcVisual({ children, label, icon = "wrench", cornerLabel, cornerSub, src }) {
+// Photo + subtle caption. `label` doubles as the img alt text and the caption,
+// so there is one source of truth for "what is this a picture of".
+function SvcVisual({ children, label, src }) {
   return (
-    <div className="visual">
-      {cornerLabel && (
-        <div className="corner">
-          <div className="ic"><Icon name={icon} size={16}/></div>
-          <div className="lbl">
-            {cornerLabel}
-            {cornerSub && <div className="sub">{cornerSub}</div>}
-          </div>
-        </div>
-      )}
-      {children || (src
-        ? <PhotoSlot label={label} src={src}/>
-        : <BrandFallback meta={null}/>)}
-    </div>
+    <figure className="visual">
+      <div className="frame">
+        {children || (src
+          ? <PhotoSlot label={label} src={src}/>
+          : <BrandFallback meta={null}/>)}
+      </div>
+      {label && <figcaption>{label}</figcaption>}
+    </figure>
   );
 }
 
