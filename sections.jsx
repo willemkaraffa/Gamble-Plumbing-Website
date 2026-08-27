@@ -481,7 +481,7 @@ function WhyUs({ tweaks }) {
           </div>
         </div>
         <div className="visual">
-          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/Andrew.jpg"/>        </div>
+          <PhotoSlot label="Andrew Gamble - Owner" src="assets/Andrew.jpg"/>        </div>
       </div>
     </section>
   );
