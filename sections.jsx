@@ -278,9 +278,6 @@ function HeroFamily({ tweaks }) {
           <p className="lead">Family-owned and right in Garner, Gamble Plumbing Inc. is committed to delivering quality service to our community.</p>
           <CTAs tweaks={tweaks} variant="light"/>
           <div className="hero-trust">
-            <div className="stars">
-              {[...Array(5)].map((_,i)=> <Icon key={i} name="star" size={16}/>)}
-            </div>
             <strong>Dual-licensed</strong>
             <span className="sep"/>
             <span><Icon name="shield" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>Plumbing &amp; HVAC</span>
