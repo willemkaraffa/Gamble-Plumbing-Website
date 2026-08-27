@@ -68,8 +68,8 @@ function HvacApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Furnace install in basement"
-          src="assets/hvac-furnace.jpg"
+          label="Light My Fire"
+          src="assets/hvac-furnace.JPEG"
         />
       </SvcDetail>
 
@@ -95,8 +95,8 @@ function HvacApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Outdoor condenser unit"
-          src="assets/hvac-ac.jpg"
+          label="That's one clean coil"
+          src="assets/hvac-ac.JPEG"
         />
       </SvcDetail>
 
@@ -122,8 +122,8 @@ function HvacApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Variable-speed heat pump install"
-          src="assets/hvac-heatpump.jpg"
+          label="That new system smell"
+          src="assets/hvac-heatpump.JPEG"
         />
       </SvcDetail>
 
@@ -149,8 +149,8 @@ function HvacApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Duct cleaning equipment"
-          src="assets/hvac-duct.jpg"
+          label="Zone boards for even more thermostats!"
+          src="assets/hvac-duct.jpeg"
         />
       </SvcDetail>
 
