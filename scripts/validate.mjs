@@ -14,7 +14,10 @@ const errors = [];
 const warns = [];
 const exists = async (p) => { try { await access(p); return true; } catch { return false; } };
 
-const htmlFiles = (await readdir(DIST)).filter((f) => f.endsWith(".html"));
+const distEntries = await readdir(DIST);
+const htmlFiles = distEntries.filter((f) => f.endsWith(".html"));
+// Image refs already reported missing in step 4, so step 5 doesn't repeat them.
+const missingImgs = new Set();
 
 for (const file of htmlFiles) {
   const html = await readFile(join(DIST, file), "utf8");
@@ -46,10 +49,26 @@ for (const file of htmlFiles) {
     if (!clean || clean.endsWith("/")) continue;
     if (await exists(normalize(join(DIST, clean)))) continue;
     if (/^(assets|uploads)\/.+\.(jpg|jpeg|png|webp|gif|svg)$/i.test(clean)) {
+      missingImgs.add(clean);
       warns.push(`${file}: missing image ${clean} (pending owner photo?)`);
     } else {
       errors.push(`${file}: broken link -> ${clean}`);
     }
+  }
+}
+
+// 5. Image refs that never survive into the prerendered HTML.
+// An eagerly-loaded photo that 404s during prerender trips PhotoSlot's onError,
+// React swaps in BrandFallback, and the snapshot keeps no src -- so step 4 is
+// blind to it. Every hero image is eager, so every broken hero hid here.
+// The transpiled bundles keep the authored ref regardless, so read those.
+for (const file of distEntries.filter((f) => f.endsWith(".js"))) {
+  const js = await readFile(join(DIST, file), "utf8");
+  for (const [, ref] of js.matchAll(/src: "((?:assets|uploads)\/[^"]+)"/g)) {
+    if (missingImgs.has(ref)) continue;
+    if (await exists(normalize(join(DIST, ref)))) continue;
+    missingImgs.add(ref);
+    warns.push(`${file}: missing image ${ref} (pending owner photo?)`);
   }
 }
 
