@@ -70,8 +70,8 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Truck arriving on emergency call"
-          src="assets/plumbing-emergency.jpg"
+          label="That's enough out of you, pinhole"
+          src="assets/plumbing-emergency.JPEG"
         />
       </SvcDetail>
 
@@ -94,8 +94,8 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Sewer camera on tablet"
-          src="assets/plumbing-drain-camera.jpg"
+          label="Flowing like new"
+          src="assets/plumbing-drain-camera.JPEG"
         />
       </SvcDetail>
 
@@ -119,8 +119,8 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Tech with leak detection equipment"
-          src="assets/plumbing-leak.jpg"
+          label="This leak couldn't hide from Gamble"
+          src="assets/plumbing-leak.JPEG"
         />
       </SvcDetail>
 
@@ -144,8 +144,8 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="New water heater install"
-          src="assets/plumbing-water-heater.jpg"
+          label="Is it cold in the water? Not anymore."
+          src="assets/plumbing-water-heater.JPEG"
         />
       </SvcDetail>
 
@@ -170,8 +170,8 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Repipe in progress"
-          src="assets/plumbing-repipe.jpg"
+          label="The hose's gonna love this"
+          src="assets/plumbing-repipe.JPEG"
         />
       </SvcDetail>
 
@@ -195,8 +195,8 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="New fixture install"
-          src="assets/plumbing-fixture.jpg"
+          label="Brand New Plumb"
+          src="assets/plumbing-fixtur.JPEG"
         />
       </SvcDetail>
 
