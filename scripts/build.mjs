@@ -71,6 +71,10 @@ async function rewriteScripts() {
     html = replaceOnce(html, CDN_REACT, `<script src="vendor/react.production.min.js"></script>`, page);
     html = replaceOnce(html, CDN_REACTDOM, `<script src="vendor/react-dom.production.min.js"></script>`, page);
     html = replaceOnce(html, CDN_BABEL, "", page); // drop Babel entirely
+    // The tweaks panel is an authoring tool, not site code. Shipping it costs
+    // every visitor ~20KB for UI that never opens in production, so strip its
+    // script tag here. app.jsx guards on TweaksPanel being defined.
+    html = html.replace(/<script type="text\/babel" src="tweaks-panel\.jsx"><\/script>\s*/g, "");
     const before = html;
     html = html.replace(/<script type="text\/babel" src="([^"]+)\.jsx"><\/script>/g, `<script src="$1.js"></script>`);
     if (html === before) throw new Error(`No text/babel scripts rewritten in ${page}`);

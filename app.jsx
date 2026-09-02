@@ -80,6 +80,26 @@ function applyDensity(density) {
   if (density === 'comfy') document.body.classList.add('density-comfy');
 }
 
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    // Same-window signal so in-page listeners (deck-stage rail thumbnails)
+    // can react — the parent message only reaches the host, not peers.
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
 function App() {
   const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS);
 
@@ -90,6 +110,51 @@ function App() {
   // HashScroll is rendered after <App/>, so this settles type before it jumps.
   React.useLayoutEffect(() => { applyPaletteAndType(t.palette, t.fonts); }, [t.palette, t.fonts]);
   React.useLayoutEffect(() => { applyDensity(t.density); }, [t.density]);
+
+  const renderTweaks = () => (
+        <TweaksPanel>
+          <TweakSection label="Brand"/>
+          <TweakColor
+            label="Palette"
+            value={PALETTES[t.palette]?.swatches || PALETTES.navy.swatches}
+            options={Object.values(PALETTES).map(p => p.swatches)}
+            onChange={(swatches) => {
+              const key = Object.entries(PALETTES).find(([k, v]) => v.swatches[0] === swatches[0])?.[0] || 'navy';
+              setTweak('palette', key);
+            }}
+          />
+          <TweakSelect
+            label="Type pairing"
+            value={t.fonts}
+            options={Object.entries(FONT_PAIRS).map(([k, v]) => ({ value: k, label: v.label }))}
+            onChange={(v) => setTweak('fonts', v)}
+          />
+
+          <TweakSection label="Layout"/>
+          <TweakRadio
+            label="Density"
+            value={t.density}
+            options={["compact", "regular", "comfy"]}
+            onChange={(v) => setTweak('density', v)}
+          />
+          <TweakToggle
+            label="Site-refresh banner"
+            value={t.showBanner !== false}
+            onChange={(v) => setTweak('showBanner', v)}
+          />
+
+          <TweakSection label="Call-to-action"/>
+          <TweakRadio
+            label="Primary CTA"
+            value={t.ctaEmphasis}
+            options={[
+              { value: "quote", label: "Get a quote" },
+              { value: "call",  label: "Call now" },
+            ]}
+            onChange={(v) => setTweak('ctaEmphasis', v)}
+          />
+        </TweaksPanel>
+  );
 
   return (
     <>
@@ -108,48 +173,12 @@ function App() {
       <SiteFooter/>
       <MobileCTABar/>
 
-      <TweaksPanel>
-        <TweakSection label="Brand"/>
-        <TweakColor
-          label="Palette"
-          value={PALETTES[t.palette]?.swatches || PALETTES.navy.swatches}
-          options={Object.values(PALETTES).map(p => p.swatches)}
-          onChange={(swatches) => {
-            const key = Object.entries(PALETTES).find(([k, v]) => v.swatches[0] === swatches[0])?.[0] || 'navy';
-            setTweak('palette', key);
-          }}
-        />
-        <TweakSelect
-          label="Type pairing"
-          value={t.fonts}
-          options={Object.entries(FONT_PAIRS).map(([k, v]) => ({ value: k, label: v.label }))}
-          onChange={(v) => setTweak('fonts', v)}
-        />
+      {/* Author-only design panel. The production build drops tweaks-panel.js
+          from the page, so TweaksPanel is undefined for real visitors; calling
+          this through a function keeps its children from being evaluated then.
+          Loading index.html unbuilt (Babel in the browser) still gets it. */}
+      {typeof TweaksPanel !== 'undefined' && renderTweaks()}
 
-        <TweakSection label="Layout"/>
-        <TweakRadio
-          label="Density"
-          value={t.density}
-          options={["compact", "regular", "comfy"]}
-          onChange={(v) => setTweak('density', v)}
-        />
-        <TweakToggle
-          label="Site-refresh banner"
-          value={t.showBanner !== false}
-          onChange={(v) => setTweak('showBanner', v)}
-        />
-
-        <TweakSection label="Call-to-action"/>
-        <TweakRadio
-          label="Primary CTA"
-          value={t.ctaEmphasis}
-          options={[
-            { value: "quote", label: "Get a quote" },
-            { value: "call",  label: "Call now" },
-          ]}
-          onChange={(v) => setTweak('ctaEmphasis', v)}
-        />
-      </TweaksPanel>
     </>
   );
 }
