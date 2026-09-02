@@ -71,7 +71,7 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="That's enough out of you, pinhole"
-          src="assets/plumbing-emergency.JPEG"
+          src="assets/plumbing-emergency.webp"
         />
       </SvcDetail>
 
@@ -95,7 +95,7 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="Flowing like new"
-          src="assets/plumbing-drain-camera.JPEG"
+          src="assets/plumbing-drain-camera.webp"
         />
       </SvcDetail>
 
@@ -120,7 +120,7 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="This leak couldn't hide from Gamble"
-          src="assets/plumbing-leak.JPEG"
+          src="assets/plumbing-leak.webp"
         />
       </SvcDetail>
 
@@ -145,7 +145,7 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="Is it cold in the water? Not anymore."
-          src="assets/plumbing-water-heater.JPEG"
+          src="assets/plumbing-water-heater.webp"
         />
       </SvcDetail>
 
@@ -171,7 +171,7 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="The hose's gonna love this"
-          src="assets/plumbing-repipe.JPEG"
+          src="assets/plumbing-repipe.webp"
         />
       </SvcDetail>
 
@@ -196,7 +196,7 @@ function PlumbingApp() {
         </SvcCopy>
         <SvcVisual
           label="Brand New Plumb"
-          src="assets/plumbing-fixtur.JPEG"
+          src="assets/plumbing-fixtur.webp"
         />
       </SvcDetail>
 

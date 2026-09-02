@@ -518,6 +518,11 @@
     overflow: hidden;
   }
   .hero .eyebrow { color: var(--secondary); }
+  /* The homepage headline is a full sentence, not the 4-word phrase this h1 was
+     sized for: at the global 76px it broke into a 5-line, 410px stack that
+     pushed the CTAs below the fold. 68px settles it into 3 lines. Category
+     heroes keep their own clamp. */
+  .hero-a h1 { font-size: clamp(38px, 4.8vw, 68px); }
   .hero h1 .h1-accent {
     background: linear-gradient(180deg, transparent 60%, color-mix(in oklab, var(--accent) 60%, transparent) 60%);
     padding: 0 6px;

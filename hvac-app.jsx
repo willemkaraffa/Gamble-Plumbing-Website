@@ -69,7 +69,7 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="Light My Fire"
-          src="assets/hvac-furnace.JPEG"
+          src="assets/hvac-furnace.webp"
         />
       </SvcDetail>
 
@@ -96,7 +96,7 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="That's one clean coil"
-          src="assets/hvac-ac.JPEG"
+          src="assets/hvac-ac.webp"
         />
       </SvcDetail>
 
@@ -123,7 +123,7 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="That new system smell"
-          src="assets/hvac-heatpump.JPEG"
+          src="assets/hvac-heatpump.webp"
         />
       </SvcDetail>
 
@@ -150,7 +150,7 @@ function HvacApp() {
         </SvcCopy>
         <SvcVisual
           label="Zone boards for even more thermostats!"
-          src="assets/hvac-duct.jpeg"
+          src="assets/hvac-duct.webp"
         />
       </SvcDetail>
 
