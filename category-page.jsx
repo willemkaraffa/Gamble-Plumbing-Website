@@ -14,10 +14,18 @@ function CategoryHero({ children }) {
 function CatCrumbs({ children }) { return <div className="crumbs">{children}</div>; }
 function CatHeroCopy({ children }) { return <div className="copy">{children}</div>; }
 function CatHeroVisual({ children, label = "Photo", src }) {
+  // Same shape as SvcVisual: label is the alt text AND the visible caption,
+  // so there is one source of truth for "what is this a picture of".
   return (
-    <div className="visual">
-      {children || <PhotoSlot label={label} src={src}/>}
-    </div>
+    <figure className="visual">
+      <div className="frame">
+        {/* priority: this is the above-the-fold LCP image, and eager loading is
+            also what makes a 404 fire onError promptly so the brand fallback
+            (and the caption-hiding rule below it) kicks in. */}
+        {children || <PhotoSlot label={label} src={src} priority/>}
+      </div>
+      {label && <figcaption>{label}</figcaption>}
+    </figure>
   );
 }
 

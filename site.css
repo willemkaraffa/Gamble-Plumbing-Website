@@ -1814,7 +1814,8 @@
     place-items: center;
     flex-shrink: 0;
   }
-  .cat-hero .visual {
+  .cat-hero .visual { margin: 0; }
+  .cat-hero .visual .frame {
     aspect-ratio: 5/4;
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -1938,7 +1939,8 @@
     overflow: hidden;
     box-shadow: 0 30px 60px -40px rgba(19, 41, 74, 0.3);
   }
-  .svc-detail .visual figcaption {
+  .svc-detail .visual figcaption,
+  .cat-hero .visual figcaption {
     margin-top: 10px;
     font-size: 12.5px;
     line-height: 1.35;
@@ -1946,7 +1948,8 @@
   }
   /* No photo (missing or 404) -> brand fallback shows; caption would describe
      a picture that isn't there, so hide it. */
-  .svc-detail .visual .frame:has(.photo-fallback) + figcaption { display: none; }
+  .svc-detail .visual .frame:has(.photo-fallback) + figcaption,
+  .cat-hero .visual .frame:has(.photo-fallback) + figcaption { display: none; }
   .svc-detail .eyebrow .num {
     background: var(--accent);
     color: var(--accent-ink);
@@ -2011,6 +2014,9 @@
   }
 
   /* ─── About page ─── */
+  /* Founder portrait is 382x510 (3:4); override the shared 5:4 hero box
+     so it fits with no crop. Scoped to about.html's body class. */
+  .page-about .cat-hero .visual .frame { aspect-ratio: 3/4; }
   .story { background: var(--surface); }
   .story .grid {
     display: grid;
