@@ -34,7 +34,7 @@ function AboutApp() {
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Garner, NC · Serving the Triangle</span>
           </div>
         </CatHeroCopy>
-        <CatHeroVisual label="Andrew + truck" src="assets/about-hero-truck.jpg"/>
+        <CatHeroVisual label="Andrew Gamble - Founder" src="assets/Andrew.jpg"/>
       </CategoryHero>
 
       <TrustStrip/>
