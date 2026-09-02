@@ -6,6 +6,11 @@
 
 const PHONE_DISPLAY = "(919) 797-5930";
 const PHONE_HREF = "tel:+19197975930";
+// Google Business Profile, keyed to the business CID. The old link was an
+// untargeted google.com/search query, which lands on a results page carrying
+// competitor ads instead of on the profile. "Leave a review" goes through
+// review.html, which already owns the write-a-review URL and its GA event.
+const GBP_PROFILE_URL = "https://g.page/r/CVhZNddj4xEdEBM";
 
 const SERVICES = [
   { id: "plumbing",  group: "flow", icon: "wrench",    title: "Residential Plumbing",     desc: "Leaks, fixtures, repipes — fixed right the first time." },
@@ -57,7 +62,7 @@ function UtilityBar() {
       <div className="container">
         <div className="left">
           <span className="pulse"><span className="pulse-dot"/> Mon-Fri 9:00 AM to 5:00 PM</span>
-          <span>Emergencies whenever we're needed</span>
+          <span>Weekday emergencies · call us first</span>
         </div>
         <div className="right">
           <span><Icon name="map-pin" size={14}/> 1027 Hwy 70 W, Garner · Serving Raleigh–Durham</span>
@@ -171,6 +176,9 @@ function ServicesMenu() {
   const onLeave = () => {
     closeTimer.current = setTimeout(() => setOpen(false), 120);
   };
+  // A pending close must not outlive the menu; the timer would call setOpen on
+  // an unmounted component.
+  React.useEffect(() => () => clearTimeout(closeTimer.current), []);
 
   return (
     <div
@@ -265,17 +273,35 @@ function LogoMark({ size = 32 }) {
 // ──────────────────────────────────────────────────────────────
 // Hero — Family variant (single)
 // ──────────────────────────────────────────────────────────────
+// Splits the headline into a plain lead-in and the accent-coloured tail.
+// After the last comma when there is one, otherwise the last two words, so any
+// headline typed into TWEAK_DEFAULTS keeps the two-tone h1 without needing a
+// second config field to mark the split.
+function splitHeadline(text) {
+  const comma = text.lastIndexOf(',');
+  if (comma !== -1) return [text.slice(0, comma + 1), text.slice(comma + 1).trim()];
+  const words = text.trim().split(/\s+/);
+  if (words.length < 3) return ['', text.trim()];
+  return [words.slice(0, -2).join(' '), words.slice(-2).join(' ')];
+}
+
+const HERO_HEADLINE = 'Family-owned Quality, Local Care';
+const HERO_SUBHEAD = 'Family-owned and right in Garner, Gamble Plumbing Inc. is committed to delivering quality service to our community.';
+
 function HeroFamily({ tweaks }) {
+  // index.html carries the live headline/subhead in TWEAK_DEFAULTS; the
+  // constants above are the fallback when a page omits them.
+  const [lead, accent] = splitHeadline(tweaks.headline || HERO_HEADLINE);
   return (
     <section className="hero hero-a" data-screen-label="Hero">
       <div className="container grid">
         <div className="copy">
           <span className="eyebrow">Garner, NC · To You</span>
           <h1>
-            Family-owned Quality,{' '}
-            <span className="h1-accent">Local Care</span>
+            {lead}{lead ? ' ' : ''}
+            <span className="h1-accent">{accent}</span>
           </h1>
-          <p className="lead">Family-owned and right in Garner, Gamble Plumbing Inc. is committed to delivering quality service to our community.</p>
+          <p className="lead">{tweaks.subhead || HERO_SUBHEAD}</p>
           <CTAs tweaks={tweaks} variant="light"/>
           <div className="hero-trust">
             <strong>Dual-licensed</strong>
@@ -647,13 +673,16 @@ function Reviews() {
             </p>
             <div className="reviews-cta-actions">
               <a
-                href="https://www.google.com/search?q=Gamble+Plumbing+Heating+%26+Air+Garner+NC"
+                href={GBP_PROFILE_URL}
                 target="_blank"
                 rel="noopener"
                 className="btn btn-primary"
               >
                 <Icon name="google" size={16}/> See us on Google
                 <span className="arrow"><Icon name="arrow-right" size={16}/></span>
+              </a>
+              <a href="review.html" className="btn btn-ghost">
+                <Icon name="google" size={14}/> Leave a review
               </a>
               <a href={PHONE_HREF} className="btn btn-ghost">
                 <Icon name="phone" size={14}/> {PHONE_DISPLAY}

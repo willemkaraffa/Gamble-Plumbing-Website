@@ -29,16 +29,50 @@
   // so honeypot/timing-trap bots (which return before the POST) never fire it.
   window.gpTrack = track;
 
-  // Reserved for ad-platform conversions (Google Ads / Meta). No IDs are wired
-  // yet, so this is a deliberate no-op -- keeping it defined stops the form's
-  // call from throwing, and avoids double-counting the GA4 generate_lead above.
-  // When an Ads conversion label exists, fire it here.
-  window.gpTrackConversion = function (name, params) { /* no-op until ad IDs added */ };
+  // ---- Google Ads conversions -------------------------------------------
+  // Paste the values from Google Ads -> Goals -> Conversions -> Summary. The
+  // conversion ID is the "AW-..." on the tag; each action has its own label.
+  // Leave a value empty and that conversion simply does not fire -- the site
+  // keeps working and the GA4 events above are unaffected.
+  var GADS_CONVERSION_ID = "";   // e.g. "AW-123456789"
+  var GADS_LABEL_LEAD    = "";   // quote form submit
+  var GADS_LABEL_CALL    = "";   // tel: link click
+
+  // Register the Ads destination alongside the GA4 one. Same gtag.js library,
+  // so this needs no extra script tag.
+  if (GADS_CONVERSION_ID && typeof gtag === "function") gtag("config", GADS_CONVERSION_ID);
+
+  function adsConversion(label, params) {
+    if (!GADS_CONVERSION_ID || !label) return false;
+    if (typeof gtag !== "function") return false;
+    var p = {};
+    for (var k in params || {}) p[k] = params[k];
+    p.send_to = GADS_CONVERSION_ID + "/" + label;
+    gtag("event", "conversion", p);
+    return true;
+  }
+
+  // Called by the quote form right before it redirects to thank-you.html. GA4's
+  // generate_lead is fired separately by the form, so this does not double-count.
+  window.gpTrackConversion = function (name, params) {
+    if (name === "lead") adsConversion(GADS_LABEL_LEAD, params);
+  };
+
+  // Loud in the console, silent to visitors: without this the site looks fine
+  // while every ad click reports zero conversions and bidding has no signal.
+  if (!GADS_CONVERSION_ID) {
+    console.warn("[tracking] Google Ads conversion ID not set in tracking.js - lead and call conversions will NOT be reported to Ads.");
+  }
 
   // Phone clicks are the highest-value action on a plumber site; track every
   // tel: link (utility bar, nav, hero, mobile bar, error fallback).
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest('a[href^="tel:"]');
-    if (a) track("phone_click", { link_url: a.getAttribute("href") });
+    if (!a) return;
+    var href = a.getAttribute("href");
+    track("phone_click", { link_url: href });
+    // A call is a conversion too; without it Ads can only optimise for form
+    // fills, which on a plumbing site are the minority of the real leads.
+    adsConversion(GADS_LABEL_CALL, { link_url: href });
   }, true);
 })();

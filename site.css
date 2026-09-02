@@ -2016,7 +2016,14 @@
   /* ─── About page ─── */
   /* Founder portrait is 382x510 (3:4); override the shared 5:4 hero box
      so it fits with no crop. Scoped to about.html's body class. */
-  .page-about .cat-hero .visual .frame { aspect-ratio: 3/4; }
+  /* Founder portrait is only 382px wide. Capping the frame at its native
+     width stops the browser upscaling it (the column is ~516px), which
+     left the photo visibly soft. Remove the cap once a larger file lands. */
+  .page-about .cat-hero .visual .frame {
+    aspect-ratio: 3/4;
+    max-width: 382px;
+    margin-inline: auto;
+  }
   .story { background: var(--surface); }
   .story .grid {
     display: grid;
