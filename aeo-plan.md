@@ -174,26 +174,34 @@ understates availability and the FAQ answer is wrong. Both are copy: owner
 rewrites, Claude does not. The JSON-LD FAQ answer must be updated to match
 whatever the copy becomes, since the two are duplicates of one fact.
 
-**Schema mechanism, once the policy is confirmed.** Do not widen
-`openingHoursSpecification` to cover weekends. That would claim the business is
-open and re-break the GBP/site agreement just restored. Use a `ContactPoint`
-on the business node instead:
+**DECISION 2026-09-04: the schema stays silent on weekends. Do not revisit
+without a stated policy.** Owner confirmed the business is closed weekends and
+that after-hours emergency calls forward to his boss, but there is no official
+window, no defined limit, and no fee rule. So there is nothing true enough to
+publish.
 
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "emergency",
-      "telephone": "+1-919-797-5930",
-      "hoursAvailable": { "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Saturday","Sunday"], "opens": "?", "closes": "?" }
-    }
+What was considered and rejected:
 
-`hoursAvailable` is valid on `ContactPoint` and ranges over
-`OpeningHoursSpecification` (schema.org/hoursAvailable, verified). This
-separates *reachable for emergencies* from *open*, which is exactly the
-distinction GBP cannot express and answer engines can.
+- Widening `openingHoursSpecification` to weekends. Rejected: claims the
+  business is open, and re-breaks the GBP/site agreement just restored.
+- A `ContactPoint` with `contactType: "emergency"` and `hoursAvailable` over
+  Saturday and Sunday. Correct modelling (`hoursAvailable` is valid on
+  `ContactPoint` and ranges over `OpeningHoursSpecification`, verified at
+  schema.org/hoursAvailable), and it does separate *reachable* from *open*,
+  which is the distinction GBP cannot express. Rejected anyway because every
+  form of it requires inventing the window.
+- The same `ContactPoint` with `hoursAvailable` omitted. Rejected as useless:
+  with no hours it tells an engine nothing about "open now", so it is cost
+  without signal.
 
-Needed from owner before writing it: which days, what window, and whether it is
-a call-out fee situation. Do not guess these.
+The asymmetry drives it. Understating availability loses a call that a phone
+number on the page can still recover. Overstating it in machine-readable form
+gets quoted back as a promise ("they answer Sundays"), and the customer who
+believed it leaves the review. Silence is recoverable; a wrong published
+window is not.
+
+Reopen only if the owner defines an actual window. Then use the `ContactPoint`
+above, filled in, not `openingHoursSpecification`.
 
 **GBP surfaces that can carry it** (owner, off-repo): Services entry named for
 weekend or emergency call-out; the business description; and an owner-posted
