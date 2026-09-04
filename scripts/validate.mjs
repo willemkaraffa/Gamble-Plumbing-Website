@@ -18,16 +18,60 @@ const distEntries = await readdir(DIST);
 const htmlFiles = distEntries.filter((f) => f.endsWith(".html"));
 // Image refs already reported missing in step 4, so step 5 doesn't repeat them.
 const missingImgs = new Set();
+// Business @id seen per page, compared across pages after the loop (step 1d).
+const businessIds = new Map();
+
+// Walk a parsed graph collecting two sets: @id values that DEFINE a node (the
+// object carries a @type) and @id values that only REFERENCE one. A reference
+// with no definition on the same page is a dangling pointer: consumers resolve
+// @id within a single page's markup, never across pages.
+function collectIds(node, defined, referenced) {
+  if (Array.isArray(node)) { for (const n of node) collectIds(n, defined, referenced); return; }
+  if (!node || typeof node !== "object") return;
+  if (typeof node["@id"] === "string") (node["@type"] ? defined : referenced).add(node["@id"]);
+  for (const v of Object.values(node)) collectIds(v, defined, referenced);
+}
 
 for (const file of htmlFiles) {
   const html = await readFile(join(DIST, file), "utf8");
 
   // 1. Every JSON-LD block must parse (rich-results eligibility).
   const ld = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
+  const graphs = [];
   let m;
   while ((m = ld.exec(html))) {
-    try { JSON.parse(m[1]); }
+    try { graphs.push(JSON.parse(m[1])); }
     catch (e) { errors.push(`${file}: invalid JSON-LD (${e.message})`); }
+  }
+
+  // 1b. Structured data ships as exactly one @graph per page. More than one
+  // block means a hand-written island that injectSchema() did not generate.
+  const graphBlocks = graphs.filter((g) => Array.isArray(g["@graph"]));
+  if (graphs.length > 1 || (graphs.length === 1 && !graphBlocks.length)) {
+    errors.push(`${file}: expected a single @graph block, found ${graphs.length} JSON-LD block(s), ${graphBlocks.length} with @graph`);
+  }
+
+  for (const graph of graphBlocks) {
+    // 1c. Every @id referenced on the page must be defined on the same page.
+    const defined = new Set(), referenced = new Set();
+    collectIds(graph["@graph"], defined, referenced);
+    for (const id of referenced) {
+      if (!defined.has(id)) errors.push(`${file}: dangling @id reference -> ${id}`);
+    }
+
+    for (const node of graph["@graph"]) {
+      // 1d. The business node must be byte-identical across pages, since every
+      // page publishes its own copy.
+      const types = [].concat(node["@type"] || []);
+      if (types.includes("Plumber") || types.includes("LocalBusiness")) {
+        businessIds.set(file, JSON.stringify(node));
+      }
+      // 1e. sameAs must be absolute https. A relative or http entry cannot
+      // reconcile to an external profile.
+      for (const url of [].concat(node.sameAs || [])) {
+        if (!/^https:\/\//.test(url)) errors.push(`${file}: sameAs must be absolute https -> ${url}`);
+      }
+    }
   }
 
   // 2. Required head tags for indexing. noindex pages (e.g. thank-you) are
@@ -70,6 +114,16 @@ for (const file of distEntries.filter((f) => f.endsWith(".js"))) {
     missingImgs.add(ref);
     warns.push(`${file}: missing image ${ref} (pending owner photo?)`);
   }
+}
+
+// 6. The business node is duplicated onto every page on purpose, so any drift
+// between copies is a bug the generator was built to prevent.
+const [[refFile, refNode] = [], ...restBusiness] = [...businessIds];
+for (const [file, node] of restBusiness) {
+  if (node !== refNode) errors.push(`${file}: business node differs from ${refFile}`);
+}
+if (businessIds.size && businessIds.size < 4) {
+  errors.push(`business node present on only ${businessIds.size} page(s): ${[...businessIds.keys()].join(", ")}`);
 }
 
 for (const w of warns) console.log(`WARN  ${w}`);

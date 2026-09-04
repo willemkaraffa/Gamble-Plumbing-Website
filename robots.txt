@@ -1,4 +1,32 @@
 User-agent: *
 Allow: /
 
+# Answer-engine crawlers. The wildcard above already permits these; naming them
+# states the intent so a future restrictive edit cannot revoke AI access by
+# accident. Google-Extended is the one that matters most: it gates AI Overviews
+# and Gemini grounding, separately from normal Googlebot indexing.
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://www.gambletheplumber.net/sitemap.xml
