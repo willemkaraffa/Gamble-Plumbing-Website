@@ -9,10 +9,12 @@
 
 import { readFile, writeFile, rm, mkdir, cp, readdir } from "node:fs/promises";
 import { createServer } from "node:http";
+import { execFileSync } from "node:child_process";
 import { extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { transformFileAsync } from "@babel/core";
 import puppeteer from "puppeteer";
+import { graphFor, business, SITE } from "../schema/business.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const DIST = join(ROOT, "dist");
@@ -82,6 +84,98 @@ async function rewriteScripts() {
   }
 }
 
+// Structured data: one @graph per page, generated from schema/business.mjs and
+// dropped on the <!--AEO-GRAPH--> marker. Same replaceOnce contract as the
+// script swaps above, so a page that lost its marker fails the build instead of
+// silently shipping with no structured data at all.
+async function injectSchema() {
+  for (const page of CSR_PAGES) {
+    const file = join(DIST, page);
+    let html = await readFile(file, "utf8");
+    const json = JSON.stringify(graphFor(page), null, 2);
+    html = replaceOnce(html, "<!--AEO-GRAPH-->", `<script type="application/ld+json">\n${json}\n</script>`, page);
+    await writeFile(file, html);
+  }
+}
+
+const git = (args) => execFileSync("git", args, { cwd: ROOT }).toString().trim();
+
+// A shallow clone reports the checkout commit's date for every file, which
+// would stamp every sitemap URL with today. Uniform fake lastmod is worse than
+// a stale one, so fail loudly and make CI ask for full history.
+function assertFullHistory() {
+  if (git(["rev-parse", "--is-shallow-repository"]) === "true") {
+    throw new Error("Shallow clone: sitemap lastmod would be wrong for every URL. Set `fetch-depth: 0` on actions/checkout.");
+  }
+}
+
+const lastCommitDate = (files) =>
+  files.map((f) => git(["log", "-1", "--format=%cs", "--", f])).filter(Boolean).sort().pop();
+
+// Every CSR page embeds sections.jsx, so an edit there really does change all
+// four. Their lastmod is the newest of the page's own file and any .jsx. Static
+// pages carry only their own date.
+async function pageSources(file) {
+  return CSR_PAGES.includes(file) ? [file, ...(await listJsx())] : [file];
+}
+
+const SITEMAP_FILE = { "/": "index.html" };
+
+async function rewriteSitemap() {
+  assertFullHistory();
+  const xml = await readFile(join(ROOT, "sitemap.xml"), "utf8");
+  const out = [];
+  for (const block of xml.split(/(?=<url>)/)) {
+    const loc = (block.match(/<loc>([^<]+)<\/loc>/) || [])[1];
+    if (!loc) { out.push(block); continue; }
+    const path = new URL(loc).pathname;
+    const file = SITEMAP_FILE[path] || path.slice(1);
+    const date = lastCommitDate(await pageSources(file));
+    if (!date) throw new Error(`No commit date for sitemap entry ${loc} (${file})`);
+    if (!/<lastmod>[^<]*<\/lastmod>/.test(block)) throw new Error(`No <lastmod> to update for ${loc}`);
+    out.push(block.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${date}</lastmod>`));
+  }
+  await writeFile(join(DIST, "sitemap.xml"), out.join(""));
+}
+
+const decodeEntities = (s) =>
+  s.replace(/&amp;/g, "&").replace(/&mdash;/g, "—").replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+
+// llms.txt: a plain-text map of the site for answer engines. Assembled from
+// strings that already exist (titles, meta descriptions, the service catalog in
+// the business node), so it cannot drift from the site and adds no new copy.
+async function writeLlmsTxt() {
+  const a = business.address;
+  const lines = [
+    `# ${business.name}`,
+    "",
+    `${business.alternateName}. ${a.streetAddress}, ${a.addressLocality}, ${a.addressRegion} ${a.postalCode}. ${business.telephone}.`,
+    "",
+    "## Pages",
+    "",
+  ];
+  for (const page of [...CSR_PAGES, "privacy.html"]) {
+    const html = await readFile(join(ROOT, page), "utf8");
+    const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || page;
+    const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || "";
+    const url = page === "index.html" ? `${SITE}/` : `${SITE}/${page}`;
+    lines.push(`- [${decodeEntities(title)}](${url}): ${decodeEntities(desc)}`);
+  }
+  lines.push("", "## Services", "");
+  for (const group of business.hasOfferCatalog.itemListElement) {
+    lines.push(`### ${group.name}`, "");
+    for (const offer of group.itemListElement) lines.push(`- ${offer.itemOffered.name}`);
+    lines.push("");
+  }
+  lines.push("## Service area", "", business.areaServed.join(", "), "");
+  lines.push("## Hours", "");
+  for (const h of business.openingHoursSpecification) {
+    lines.push(`${h.dayOfWeek.join(", ")}: ${h.opens} to ${h.closes}`);
+  }
+  lines.push("");
+  await writeFile(join(DIST, "llms.txt"), lines.join("\n"));
+}
+
 const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".webp": "image/webp", ".ico": "image/x-icon" };
 
 function startServer() {
@@ -145,6 +239,11 @@ async function main() {
   await vendorReact();
   console.log("rewrite script tags");
   await rewriteScripts();
+  console.log("inject schema");
+  await injectSchema();
+  console.log("sitemap lastmod + llms.txt");
+  await rewriteSitemap();
+  await writeLlmsTxt();
   console.log("prerender");
   await prerender();
   console.log("done -> dist/");

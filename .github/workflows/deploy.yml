@@ -5,6 +5,10 @@ name: Build and deploy to Pages
 on:
   push:
     branches: [main]
+  # Run build + verify on PRs so the gate blocks a bad merge instead of
+  # breaking the deploy after it. The deploy job is push-only (see its `if`).
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,15 +16,22 @@ permissions:
   pages: write
   id-token: write
 
+# Serialize per ref, not globally: with PRs now triggering this workflow, a
+# single "pages" group would let a PR run cancel an in-flight main deploy.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Full history: the build derives each sitemap <lastmod> from the last
+      # commit that touched the page's sources. A shallow clone would report the
+      # checkout commit for every file, so the build fails loudly instead.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
@@ -30,12 +41,16 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run verify
+      # Only the deploying runs need the artifact; a PR run stops at the gate.
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
         with:
           path: dist
 
   deploy:
     needs: build
+    # Never deploy a PR branch to production Pages.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
