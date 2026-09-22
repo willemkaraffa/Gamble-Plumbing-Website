@@ -29,10 +29,10 @@ jobs:
       # Full history: the build derives each sitemap <lastmod> from the last
       # commit that touched the page's sources. A shallow clone would report the
       # checkout commit for every file, so the build fails loudly instead.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: "24"
           cache: npm
@@ -42,7 +42,7 @@ jobs:
       - run: npm run build
       - run: npm run verify
       # Only the deploying runs need the artifact; a PR run stops at the gate.
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         if: github.event_name != 'pull_request'
         with:
           path: dist
@@ -57,4 +57,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
