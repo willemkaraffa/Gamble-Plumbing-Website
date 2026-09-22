@@ -1396,6 +1396,10 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+    /* Grid items default to min-width:auto, which floors the .form-grid
+       columns at the controls' intrinsic width. Without this the form cannot
+       fit a 375px viewport. */
+    min-width: 0;
   }
   .field.full { grid-column: 1 / -1; }
   .field label {
@@ -1409,6 +1413,11 @@
   .field select,
   .field textarea {
     font: inherit;
+    /* Unset, these sit at the browser's intrinsic size (roughly 20 characters)
+       and refuse to shrink. box-sizing is border-box globally, so 100% keeps
+       the padding inside the column. */
+    width: 100%;
+    min-width: 0;
     padding: 13px 14px;
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -2282,7 +2291,10 @@
   @media (max-width: 720px) {
     .utility { display: none; }
     .service-grid, .review-grid, .process .steps,
-    .why .stat-grid, .form-grid, .when-row { grid-template-columns: 1fr 1fr; }
+    .why .stat-grid, .when-row { grid-template-columns: 1fr 1fr; }
+    /* Two 118px columns left no usable room for a name or phone field once the
+       controls were allowed to shrink. Stacked, each field gets 253px. */
+    .form-grid { grid-template-columns: 1fr; }
     .when-row { grid-template-columns: 1fr 1fr; }
     footer.site-footer .grid { grid-template-columns: 1fr; }
     .trust-strip .container { grid-template-columns: 1fr 1fr; gap: 18px; }
