@@ -312,7 +312,7 @@ function HeroFamily({ tweaks }) {
           </div>
         </div>
         <div className="visual">
-          <PhotoSlot label="Andrew or Dewey in front of Gamble service truck" src="assets/home-hero-truck.jpg" priority/>
+          <PhotoSlot label="crew" src="assets/car.webp" priority/>
         </div>
       </div>
     </section>
