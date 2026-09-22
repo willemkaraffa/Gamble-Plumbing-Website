@@ -1625,6 +1625,18 @@
   .reviews-cta-mark .stars {
     color: var(--accent);
   }
+  .reviews-cta-mark-score {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .reviews-cta-mark-score span {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-3);
+    letter-spacing: 0;
+  }
   .reviews-cta-mark-label {
     font-size: 12px;
     letter-spacing: 0.12em;
