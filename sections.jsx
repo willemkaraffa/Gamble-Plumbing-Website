@@ -11,6 +11,15 @@ const PHONE_HREF = "tel:+19197975930";
 // competitor ads instead of on the profile. "Leave a review" goes through
 // review.html, which already owns the write-a-review URL and its GA event.
 const GBP_PROFILE_URL = "https://g.page/r/CVhZNddj4xEdEBM";
+// Google Business Profile rating, read from the GBP dashboard 2026-09-22.
+// Hardcoded on purpose: GBP has no public rating endpoint and a Pages site has
+// no runtime to call one, so this is a manual figure. Update both lines
+// together when the dashboard moves. Deliberately NOT mirrored into
+// aggregateRating schema: Google treats a business marking up its own rating
+// as self-serving and makes the page ineligible for the star feature, so the
+// markup would buy nothing and risk a manual action.
+const GBP_RATING = "4.8";
+const GBP_REVIEW_COUNT = 32;
 
 const SERVICES = [
   { id: "plumbing",  group: "flow", icon: "wrench",    title: "Residential Plumbing",     desc: "Leaks, fixtures, repipes — fixed right the first time." },
@@ -687,6 +696,19 @@ function Reviews() {
               <a href={PHONE_HREF} className="btn btn-ghost">
                 <Icon name="phone" size={14}/> {PHONE_DISPLAY}
               </a>
+            </div>
+          </div>
+          {/* Fills the second .reviews-cta grid column, whose styling already
+              existed in site.css but had no markup rendering into it. */}
+          <div className="reviews-cta-mark">
+            <div className="stars" aria-hidden="true">
+              {[0, 1, 2, 3, 4].map((i) => <Icon key={i} name="star" size={20}/>)}
+            </div>
+            <div className="reviews-cta-mark-score">
+              {GBP_RATING} <span>out of 5</span>
+            </div>
+            <div className="reviews-cta-mark-label">
+              {GBP_REVIEW_COUNT} Google reviews
             </div>
           </div>
         </div>
