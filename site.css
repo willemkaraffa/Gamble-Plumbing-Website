@@ -1380,6 +1380,38 @@
     font-weight: 700;
     margin-top: 2px;
   }
+  /* "Prefer to talk now?" card beside the form. Same look as .call-card. */
+  .quote-call-strip {
+    margin-top: 32px;
+    align-self: flex-start;
+    background: var(--primary);
+    color: #fff;
+    padding: 22px 26px;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .qcs-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .qcs-label .pulse-dot { display: inline-block; flex-shrink: 0; }
+  .qcs-num {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .qcs-num svg { color: var(--accent); }
   .quote-cta .form-card {
     background: #fff;
     border: 1px solid var(--line);
@@ -1424,6 +1456,27 @@
     background: var(--paper);
     color: var(--ink);
     transition: border-color .15s ease, background .15s ease;
+  }
+  /* Consent row: overrides the uppercase .field label and the full-width
+     .field input rules so the box sits inline-left of normal-case text. */
+  .field .consent {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink-3);
+  }
+  .field .consent input {
+    width: 18px; height: 18px;
+    flex: 0 0 18px;
+    padding: 0;
+    margin: 2px 0 0;
+    accent-color: var(--primary);
   }
   .field input:focus,
   .field select:focus,
@@ -2270,6 +2323,9 @@
     .cert-row { grid-template-columns: 1fr 1fr; }
   }
 
+  /* Sticky mobile action bar (MobileCTABar). Phones only; shown in the 720px block. */
+  .mobile-cta-bar { display: none; }
+
   /* responsive */
   @media (max-width: 1080px) {
     .nav-links { display: none; }
@@ -2298,4 +2354,36 @@
     .when-row { grid-template-columns: 1fr 1fr; }
     footer.site-footer .grid { grid-template-columns: 1fr; }
     .trust-strip .container { grid-template-columns: 1fr 1fr; gap: 18px; }
+    /* In a half-width card the absolute .step-num overlaps the icon. */
+    .process .steps { grid-template-columns: 1fr; }
+    /* Phone number lives in the mobile call bar; header keeps brand + Quote. */
+    .nav-phone { display: none; }
+    .brand-text .tag { white-space: nowrap; font-size: 9.5px; letter-spacing: 0.14em; }
+    .mobile-cta-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 45; /* under nav.primary (50) and its dropdown (60) */
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -10px 30px -18px rgba(19, 41, 74, 0.35);
+    }
+    .mcb-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 50px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .mcb-call { background: var(--primary); color: #fff; }
+    .mcb-quote { background: var(--accent); color: var(--accent-ink); }
+    /* Keep the footer's last row clear of the fixed bar. */
+    body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
   }
