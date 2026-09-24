@@ -1034,7 +1034,11 @@
   }
 
   /* Process */
-  .process { background: var(--section-alt); }
+  /* Navy band: breaks the long light run between the trust strip and footer. */
+  .process { background: var(--primary); }
+  .process .section-head h2 { color: #fff; }
+  .process .section-head .eyebrow { color: rgba(255,255,255,0.7); }
+  .process .section-head .right { color: rgba(255,255,255,0.78); }
   .process .steps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1043,10 +1047,11 @@
   }
   .process .step {
     background: #fff;
-    border: 1px solid var(--line);
+    border: 1px solid transparent;
     border-radius: var(--radius);
     padding: 28px 26px 26px;
     position: relative;
+    box-shadow: 0 24px 48px -30px rgba(0, 0, 0, 0.5);
   }
   .process .step .step-num {
     position: absolute;
@@ -2312,6 +2317,31 @@
   @media (max-width: 720px) {
     .team-grid, .value-grid { grid-template-columns: 1fr 1fr; }
     .cert-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Scroll reveal: CSS scroll-driven animation, no JS. Browsers without
+     animation-timeline (and reduced-motion users) skip it and see content
+     as-is. Uses `translate`, not `transform`, so .service-card:hover lift
+     still works after the animation fills. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .section-head,
+      .service-card,
+      .process .step,
+      .why .grid > *,
+      .service-area .grid > *,
+      .reviews-cta,
+      .faq .grid > *,
+      .quote-cta .grid > * {
+        animation: reveal-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0px entry 160px; /* fixed distance: tall items (quote form) finish once 160px is on screen */
+      }
+    }
+  }
+  @keyframes reveal-up {
+    from { opacity: 0; translate: 0 28px; }
+    to   { opacity: 1; translate: 0 0; }
   }
 
   /* Sticky mobile action bar (MobileCTABar). Phones only; shown in the 720px block. */
