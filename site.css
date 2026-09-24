@@ -545,15 +545,17 @@
   }
 
   /* Hero A — Family */
-  .hero-a { background: var(--surface); }
+  .hero-a { background: var(--surface); padding-top: 32px; }
+  /* Copy anchors near the top; centered against the tall 4:5 visual it sat
+     ~390px down the page. */
   .hero-a .grid {
     display: grid;
     grid-template-columns: 1.05fr 1fr;
     gap: 56px;
-    align-items: center;
-    padding-top: 48px;
+    align-items: start;
     padding-bottom: 56px;
   }
+  .hero-a .copy { padding-top: 56px; }
   .hero-a .copy h1 { margin-top: 16px; }
   .hero-a .copy .lead { margin-top: 18px; }
   .hero-a .ctas {
@@ -869,9 +871,9 @@
   }
   .trust-strip .container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 28px;
-    align-items: center;
+    align-items: start;
   }
   .trust-item {
     display: flex;
@@ -937,22 +939,11 @@
     width: 44px;
     height: 44px;
     border-radius: 10px;
-    background: color-mix(in oklab, var(--secondary) 14%, transparent);
-    color: var(--secondary);
+    /* One scheme for every group; matches .process .step .icon and the logo tile. */
+    background: var(--primary);
+    color: var(--accent);
     display: grid; place-items: center;
     margin-bottom: 18px;
-  }
-  .service-card.warm .icon {
-    background: color-mix(in oklab, var(--accent) 22%, transparent);
-    color: color-mix(in oklab, var(--accent) 60%, #b08500);
-  }
-  .service-card.cool .icon {
-    background: color-mix(in oklab, var(--secondary) 14%, transparent);
-    color: var(--secondary);
-  }
-  .service-card.flow .icon {
-    background: color-mix(in oklab, var(--primary) 10%, transparent);
-    color: var(--primary);
   }
   .service-card h3 { font-size: 19px; }
   .service-card p {
@@ -2340,6 +2331,10 @@
     .financing .container { grid-template-columns: 1fr; gap: 40px; }
     .hero-c .footer-row { grid-template-columns: 1fr; gap: 24px; }
     .trust-strip .container { grid-template-columns: repeat(2, 1fr); }
+    /* Two columns: row-start items drop the divider. */
+    .trust-item:nth-child(odd) { border-left: none; padding-left: 0; }
+    /* Stacked hero: no photo beside the copy to offset against. */
+    .hero-a .copy { padding-top: 0; }
     .service-grid, .review-grid, .process .steps { grid-template-columns: 1fr 1fr; }
     .section-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 36px; }
     footer.site-footer .grid { grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -2354,6 +2349,7 @@
     .when-row { grid-template-columns: 1fr 1fr; }
     footer.site-footer .grid { grid-template-columns: 1fr; }
     .trust-strip .container { grid-template-columns: 1fr 1fr; gap: 18px; }
+    .trust-item .head { font-size: 18px; } /* 22px broke "Family-Owned" mid-word */
     /* In a half-width card the absolute .step-num overlaps the icon. */
     .process .steps { grid-template-columns: 1fr; }
     /* Phone number lives in the mobile call bar; header keeps brand + Quote. */
