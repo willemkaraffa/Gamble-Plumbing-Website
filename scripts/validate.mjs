@@ -1,7 +1,7 @@
 // Post-build validation gate. Runs against dist/ after `npm run build`.
 // FAILS (exit 1) on structural regressions that would ship a broken page:
 // invalid JSON-LD, broken internal .html/.css/.js links, missing canonical
-// or title. WARNS (non-fatal) on pending owner photos and leftover content
+// or title. WARNS (non-fatal) on pending owner photos, pending alt text, and leftover content
 // placeholders -- those are the owner's to fill, not build breakers.
 // Zero dependencies on purpose: this repo vendors nothing it can avoid.
 
@@ -113,6 +113,12 @@ for (const file of distEntries.filter((f) => f.endsWith(".js"))) {
     if (await exists(normalize(join(DIST, ref)))) continue;
     missingImgs.add(ref);
     warns.push(`${file}: missing image ${ref} (pending owner photo?)`);
+  }
+  // 5b. Photo with a caption but no `label`: the caption is standing in as alt
+  // text. Owner writes a descriptive label (alt); warn until then.
+  for (const [, comp, props] of js.matchAll(/createElement\((SvcVisual|CatHeroVisual), \{([^}]*)\}/g)) {
+    const cap = props.match(/caption: "([^"]*)"/);
+    if (cap && !/\blabel:/.test(props)) warns.push(`${file}: ${comp} "${cap[1]}" has no label (pending owner alt text)`);
   }
 }
 
