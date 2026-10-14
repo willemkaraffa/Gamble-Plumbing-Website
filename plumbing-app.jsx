@@ -36,7 +36,7 @@ function PlumbingApp() {
             Garner's plumbers for leaks, drains, and water heaters.
           </p>
           <div className="ctas">
-            <a href="#quote" className="btn btn-primary">Get an estimate <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
+            <a href="#quote" className="btn btn-primary">Request service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
             <a href={PHONE_HREF} className="btn btn-ghost"><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
           </div>
           <div className="perks">
@@ -70,7 +70,7 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="That's enough out of you, pinhole"
+          caption="That's enough out of you, pinhole"
           src="assets/plumbing-emergency.webp"
         />
       </SvcDetail>
@@ -94,7 +94,7 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Flowing like new"
+          caption="Flowing like new"
           src="assets/plumbing-drain-camera.webp"
         />
       </SvcDetail>
@@ -119,7 +119,7 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="This leak couldn't hide from Gamble"
+          caption="This leak couldn't hide from Gamble"
           src="assets/plumbing-leak.webp"
         />
       </SvcDetail>
@@ -144,7 +144,7 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Is it cold in the water? Not anymore."
+          caption="Is it cold in the water? Not anymore."
           src="assets/plumbing-water-heater.webp"
         />
       </SvcDetail>
@@ -170,7 +170,7 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="The hose's gonna love this"
+          caption="The hose's gonna love this"
           src="assets/plumbing-repipe.webp"
         />
       </SvcDetail>
@@ -195,7 +195,7 @@ function PlumbingApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Brand New Plumb"
+          caption="Brand New Plumb"
           src="assets/plumbing-fixtur.webp"
         />
       </SvcDetail>
@@ -236,7 +236,7 @@ function PlumbingApp() {
             </FaqItem>
             <FaqItem data-comment-anchor="pfaq-quoting">
               <FaqQ>How does quoting work?</FaqQ>
-              <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed.</FaqA>
+              <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. If you accept the quote and we do the work, there is no service call fee.</FaqA>
             </FaqItem>
           </FaqAccordion>
         </div>

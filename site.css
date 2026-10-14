@@ -2382,8 +2382,9 @@
     .trust-item .head { font-size: 18px; } /* 22px broke "Family-Owned" mid-word */
     /* In a half-width card the absolute .step-num overlaps the icon. */
     .process .steps { grid-template-columns: 1fr; }
-    /* Phone number lives in the mobile call bar; header keeps brand + Quote. */
-    .nav-phone { display: none; }
+    /* Call + request both live in the mobile call bar; the header CTA would
+       duplicate it and its label overflowed a 375px screen. Header = brand only. */
+    .nav-cta { display: none; }
     .brand-text .tag { white-space: nowrap; font-size: 9.5px; letter-spacing: 0.14em; }
     .mobile-cta-bar {
       display: grid;
@@ -2412,4 +2413,9 @@
     .mcb-quote { background: var(--accent); color: var(--accent-ink); }
     /* Keep the footer's last row clear of the fixed bar. */
     body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+  }
+  /* "Request service" wrapped to two lines in a 139px half-bar at 320px. */
+  @media (max-width: 359px) {
+    .mobile-cta-bar { gap: 8px; padding-left: 12px; padding-right: 12px; }
+    .mcb-btn { font-size: 14px; gap: 6px; white-space: nowrap; }
   }
