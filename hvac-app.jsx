@@ -35,7 +35,7 @@ function HvacApp() {
             goes into a repair or a replacement.
           </p>
           <div className="ctas">
-            <a href="#quote" className="btn btn-primary">Get a quote <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
+            <a href="#quote" className="btn btn-primary">Request service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
             <a href={PHONE_HREF} className="btn btn-ghost"><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
           </div>
           <div className="perks">
@@ -63,12 +63,12 @@ function HvacApp() {
             <SvcBullet>Smart thermostat install &amp; programming</SvcBullet>
           </SvcBullets>
           <SvcActions>
-            <a href="#quote" className="btn btn-primary">Get a heating quote <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
+            <a href="#quote" className="btn btn-primary">Request heating service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
             <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Light My Fire"
+          caption="Light My Fire"
           src="assets/hvac-furnace.webp"
         />
       </SvcDetail>
@@ -90,12 +90,12 @@ function HvacApp() {
             <SvcBullet>Capacitor, contactor &amp; compressor service</SvcBullet>
           </SvcBullets>
           <SvcActions>
-            <a href="#quote" className="btn btn-primary">Get an AC quote <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
+            <a href="#quote" className="btn btn-primary">Request AC service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
             <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="That's one clean coil"
+          caption="That's one clean coil"
           src="assets/hvac-ac.webp"
         />
       </SvcDetail>
@@ -122,7 +122,7 @@ function HvacApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="That new system smell"
+          caption="That new system smell"
           src="assets/hvac-heatpump.webp"
         />
       </SvcDetail>
@@ -149,7 +149,7 @@ function HvacApp() {
           </SvcActions>
         </SvcCopy>
         <SvcVisual
-          label="Zone boards for even more thermostats!"
+          caption="Zone boards for even more thermostats!"
           src="assets/hvac-duct.webp"
         />
       </SvcDetail>
@@ -190,7 +190,7 @@ function HvacApp() {
             </FaqItem>
             <FaqItem data-comment-anchor="hfaq-quoting">
               <FaqQ>How does quoting work?</FaqQ>
-              <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed.</FaqA>
+              <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. If you accept the quote and we do the work, there is no service call fee.</FaqA>
             </FaqItem>
           </FaqAccordion>
         </div>

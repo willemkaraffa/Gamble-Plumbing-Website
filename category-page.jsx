@@ -13,9 +13,8 @@ function CategoryHero({ children }) {
 }
 function CatCrumbs({ children }) { return <div className="crumbs">{children}</div>; }
 function CatHeroCopy({ children }) { return <div className="copy">{children}</div>; }
-function CatHeroVisual({ children, label = "Photo", src }) {
-  // Same shape as SvcVisual: label is the alt text AND the visible caption,
-  // so there is one source of truth for "what is this a picture of".
+function CatHeroVisual({ children, label = "Photo", caption, src }) {
+  // Same shape as SvcVisual: label = img alt, caption = visible figcaption.
   return (
     <figure className="visual">
       <div className="frame">
@@ -24,7 +23,7 @@ function CatHeroVisual({ children, label = "Photo", src }) {
             (and the caption-hiding rule below it) kicks in. */}
         {children || <PhotoSlot label={label} src={src} priority/>}
       </div>
-      {label && <figcaption>{label}</figcaption>}
+      {(caption || label) && <figcaption>{caption || label}</figcaption>}
     </figure>
   );
 }
@@ -129,17 +128,18 @@ function SvcBullet({ children }) {
   );
 }
 function SvcActions({ children }) { return <div className="actions">{children}</div>; }
-// Photo + subtle caption. `label` doubles as the img alt text and the caption,
-// so there is one source of truth for "what is this a picture of".
-function SvcVisual({ children, label, src }) {
+// Photo + subtle caption. `label` = img alt (describe the photo for screen
+// readers/search), `caption` = visible figcaption (may be playful). Either
+// falls back to the other; validate.mjs warns when caption has no label.
+function SvcVisual({ children, label, caption, src }) {
   return (
     <figure className="visual">
       <div className="frame">
         {children || (src
-          ? <PhotoSlot label={label} src={src}/>
+          ? <PhotoSlot label={label || caption} src={src}/>
           : <BrandFallback meta={null}/>)}
       </div>
-      {label && <figcaption>{label}</figcaption>}
+      {(caption || label) && <figcaption>{caption || label}</figcaption>}
     </figure>
   );
 }

@@ -232,7 +232,7 @@ export const FAQ = {
       "name": "How does quoting work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed."
+        "text": "We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. If you accept the quote and we do the work, there is no service call fee."
       }
     },
     {
@@ -240,7 +240,7 @@ export const FAQ = {
       "name": "Are you licensed and insured?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We are dual-licensed in both plumbing and HVAC."
+        "text": "Yes. We are dual-licensed in both plumbing and HVAC, and fully insured."
       }
     },
     {
@@ -274,7 +274,7 @@ export const FAQ = {
       "name": "How does quoting work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed."
+        "text": "We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. If you accept the quote and we do the work, there is no service call fee."
       }
     }
   ],
@@ -300,7 +300,7 @@ export const FAQ = {
       "name": "How does quoting work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed."
+        "text": "We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. If you accept the quote and we do the work, there is no service call fee."
       }
     }
   ],

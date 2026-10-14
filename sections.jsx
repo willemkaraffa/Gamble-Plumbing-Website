@@ -152,7 +152,7 @@ function Nav({ ctaEmphasis }) {
             <a href={PHONE_HREF} className="num">{PHONE_DISPLAY}</a>
           </div>
           <a href="#quote" className={ctaEmphasis === 'call' ? 'btn btn-dark' : 'btn btn-primary'}>
-            {ctaEmphasis === 'call' ? 'Call now' : 'Quote'}
+            {ctaEmphasis === 'call' ? 'Call now' : 'Request service'}
             <span className="arrow"><Icon name="arrow-right" size={16}/></span>
           </a>
         </div>
@@ -261,7 +261,7 @@ function ServicesMenu() {
         <div className="services-dropdown-foot">
           <span>Need something not listed? We probably do it.</span>
           <a href="#quote" className="dd-foot-cta" onClick={() => setOpen(false)}>
-            Ask for a quote <Icon name="arrow-right" size={14}/>
+            Request service <Icon name="arrow-right" size={14}/>
           </a>
         </div>
       </div>
@@ -329,9 +329,9 @@ function HeroFamily({ tweaks }) {
 }
 
 function CTAs({ tweaks, variant, compact }) {
-  const primaryLabel = tweaks.ctaEmphasis === 'call' ? `Call Andrew · ${PHONE_DISPLAY}` : 'Get a quote';
+  const primaryLabel = tweaks.ctaEmphasis === 'call' ? `Call Andrew · ${PHONE_DISPLAY}` : 'Request service';
   const primaryHref = tweaks.ctaEmphasis === 'call' ? PHONE_HREF : '#quote';
-  const secondaryLabel = tweaks.ctaEmphasis === 'call' ? 'Or request a quote' : 'Or call us';
+  const secondaryLabel = tweaks.ctaEmphasis === 'call' ? 'Or request service' : 'Or call us';
   const secondaryHref = tweaks.ctaEmphasis === 'call' ? '#quote' : PHONE_HREF;
 
   return (
@@ -447,7 +447,7 @@ function Services() {
             Advanced leak detection and repair services.
           </ServiceCard>
           <ServiceCard icon="filter" group="flow" href="plumbing.html#pipe-services" title="Pipe Services" data-comment-anchor="svc-pipe">
-            Pipe replacement, ripping, and repair services.
+            Pipe repair, replacement, and repiping.
           </ServiceCard>
           <ServiceCard icon="shield" group="flow" href="plumbing.html#fixtures" title="Fixture Installation" data-comment-anchor="svc-fixtures">
             Installation of sinks, toilets, showers, and more.
@@ -540,13 +540,13 @@ function Process() {
         </div>
         <div className="steps">
           <ProcessStep n={1} icon="phone" title="Contact Us" data-comment-anchor="step-1">
-            Call the office at (919) 797-5930 or fill out our quote form and tell us what is troubling your home. We'll get you scheduled right away!
+            Call the office at (919) 797-5930 or send us a service request and tell us what is troubling your home. Our office will reach out to get you scheduled.
           </ProcessStep>
-          <ProcessStep n={2} icon="wrench" title="No-Mess Quotes" data-comment-anchor="step-2">
+          <ProcessStep n={2} icon="wrench" title="Clear Pricing After Diagnosis" data-comment-anchor="step-2">
             We will never quote a price for the job until diagnostics are complete. No surprise charges, no hidden fees.
           </ProcessStep>
           <ProcessStep n={3} icon="shield" title="We've Got You Covered" data-comment-anchor="step-3">
-            30 Days guaranteed parts-and-labor warranty after the job is done. If we missed something, we'll be right back - no charge to you.
+            30-day parts-and-labor warranty on our work. Manufacturer warranties on new equipment are separate. If we missed something, we'll be right back - no charge to you.
           </ProcessStep>
         </div>
       </div>
@@ -762,11 +762,11 @@ function FAQ() {
           </FaqItem>
           <FaqItem data-comment-anchor="faq-quoting">
             <FaqQ>How does quoting work?</FaqQ>
-            <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. This fee is not applied to the total bill if the quote is accepted and the work is performed.</FaqA>
+            <FaqA>We only give a quote after our technicians determine a diagnosis. In the event that the quote is rejected, we charge a service call fee. If you accept the quote and we do the work, there is no service call fee.</FaqA>
           </FaqItem>
           <FaqItem data-comment-anchor="faq-licensed">
             <FaqQ>Are you licensed and insured?</FaqQ>
-            <FaqA>We are dual-licensed in both plumbing and HVAC.</FaqA>
+            <FaqA>Yes. We are dual-licensed in both plumbing and HVAC, and fully insured.</FaqA>
           </FaqItem>
           <FaqItem data-comment-anchor="faq-area">
             <FaqQ>What is your service area?</FaqQ>
@@ -980,10 +980,10 @@ function QuoteForm() {
     <section id="quote" className="quote-cta" data-screen-label="Quote">
       <div className="container grid">
         <div className="left">
-          <span className="eyebrow">Quote</span>
+          <span className="eyebrow">Service request</span>
           <h2 style={{ marginTop: 12 }}>Contact Us</h2>
           <p className="lead">
-            Call us now or fill out our quote form to get scheduled.
+            Call us now or send a request. Our office will reach out to confirm scheduling. Repair pricing comes after diagnosis.
           </p>
           <div className="quote-call-strip">
             <div className="qcs-label"><span className="pulse-dot"/> Prefer to talk now?</div>
@@ -1065,7 +1065,7 @@ function QuoteForm() {
 
             <div className="form-submit">
               <button type="submit" className="btn btn-primary" disabled={sending}>
-                {sending ? "Sending…" : "Request my quote"}
+                {sending ? "Sending…" : "Request service"}
                 {!sending && <span className="arrow"><Icon name="arrow-right" size={16}/></span>}
               </button>
               <span className="note">We will respond within 48 hrs. No spam emails allowed at Gamble</span>
@@ -1087,7 +1087,7 @@ function MobileCTABar() {
         <Icon name="phone" size={18}/> Call now
       </a>
       <a href="#quote" className="mcb-btn mcb-quote">
-        Quote <Icon name="arrow-right" size={16}/>
+        Request service <Icon name="arrow-right" size={16}/>
       </a>
     </div>
   );
