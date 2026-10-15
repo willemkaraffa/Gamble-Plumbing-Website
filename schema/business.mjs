@@ -355,6 +355,7 @@ const PAGES = {
   "plumbing.html": ["/plumbing.html", "Plumbing", "Plumbing", "Plumbing"],
   "hvac.html": ["/hvac.html", "Heating & Air", "Heating & Air", "HVAC"],
   "about.html": ["/about.html", "About", "About", null],
+  "tune-up.html": ["/tune-up.html", "$89 Winter Tune-Up", null, null],
 };
 
 export function graphFor(file) {

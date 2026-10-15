@@ -2319,6 +2319,150 @@
     .cert-row { grid-template-columns: 1fr 1fr; }
   }
 
+  /* Offer landing page (tune-up.html). The hero mirrors the ad creative:
+     navy offer panel, light diagonal panel holding the check count. Desktop
+     matches the 1200x628 ad, stacked matches the 1200x1200 one. */
+  .offer-hero {
+    --offer-pad: 88px;
+    position: relative;
+    isolation: isolate; /* .offer-side::before paints above this bg, below text */
+    overflow: hidden;   /* ::before runs past the viewport edge */
+    background: var(--primary);
+    color: #fff;
+    padding: var(--offer-pad) 0;
+  }
+  .offer-hero .container {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    column-gap: 48px;
+    align-items: center;
+  }
+  .offer-hero h1 {
+    color: #fff;
+    font-size: clamp(40px, 4.8vw, 66px);
+  }
+  .offer-price {
+    display: block;
+    color: var(--accent);
+    font-weight: 900;
+    font-size: clamp(104px, 14vw, 210px);
+    line-height: 0.86;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+  }
+  .offer-sub {
+    margin-top: 14px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.25;
+    color: #fff;
+  }
+  .offer-reg { margin-top: 18px; font-size: clamp(18px, 1.6vw, 22px); color: #c9d6ea; }
+  .offer-reg s { text-decoration-thickness: 2px; }
+  .offer-hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
+  .offer-hero .btn-ghost { color: #fff; border-color: rgba(255, 255, 255, 0.3); }
+  .offer-hero .btn-ghost:hover { background: rgba(255, 255, 255, 0.08); }
+
+  .offer-side {
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 120px; /* clears the diagonal at its widest (top) */
+    color: var(--primary);
+  }
+  .offer-side::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: calc(-1 * var(--offer-pad));
+    bottom: calc(-1 * var(--offer-pad));
+    left: 0;
+    width: 100vw;
+    background: var(--section-alt);
+    clip-path: polygon(96px 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .offer-count {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(120px, 14vw, 210px);
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+  }
+  .offer-count-body { max-width: 290px; }
+  .offer-count-label {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 3.6vw, 50px);
+    line-height: 1;
+    margin-top: 14px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid currentColor;
+  }
+  .offer-count-body p { margin-top: 18px; font-weight: 600; font-size: 19px; line-height: 1.4; }
+
+  .offer-checks { background: var(--surface); }
+  .offer-checks .lead { margin-top: 14px; }
+  .checklist {
+    list-style: none;
+    margin: 44px 0 0;
+    padding: 0;
+    display: grid;
+    /* Column-major, so 1-8 read down the left and 9-15 down the right. */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(8, auto);
+    grid-auto-flow: column;
+    column-gap: 56px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line-2);
+  }
+  .checklist .n {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    background: var(--primary);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+  }
+  .checklist p { color: var(--ink-2); line-height: 1.55; padding-top: 4px; }
+  .checklist strong { color: var(--ink); font-weight: 700; }
+  .offer-fine { margin-top: 26px; font-size: 14px; color: var(--ink-3); }
+  .offer-checks .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+  @media (max-width: 1080px) {
+    .offer-hero { --offer-pad: 64px; }
+    .offer-hero .container { grid-template-columns: 1fr; }
+    /* Stacked: light panel spans the width under the offer, top edge rising
+       to the right, count beside its label (the square ad). */
+    .offer-side {
+      margin-top: var(--offer-pad);
+      padding: 76px 0 0;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 28px;
+      align-items: center;
+    }
+    .offer-side::before { top: 0; left: -24px; clip-path: polygon(0 48px, 100% 0, 100% 100%, 0 100%); }
+    .offer-count-body { max-width: 420px; }
+    .offer-count-label { margin-top: 0; padding-bottom: 14px; }
+  }
+  @media (max-width: 720px) {
+    .offer-count { font-size: 104px; }
+    .offer-count-label { font-size: 34px; }
+    .offer-count-body p { font-size: 16px; margin-top: 12px; }
+    .checklist { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
+  }
+
   /* Scroll reveal: CSS scroll-driven animation, no JS. Browsers without
      animation-timeline (and reduced-motion users) skip it and see content
      as-is. Uses `translate`, not `transform`, so .service-card:hover lift
@@ -2332,6 +2476,7 @@
       .service-area .grid > *,
       .reviews-cta,
       .faq .grid > *,
+      .checklist > li,
       .quote-cta .grid > * {
         animation: reveal-up linear both;
         animation-timeline: view();

@@ -846,7 +846,10 @@ const SERVICE_OPTIONS = [
 ];
 const URGENCY_OPTIONS = ["Emergency", "Today", "This week", "Just a quote"];
 
-function QuoteForm() {
+// offer (optional): set by an offer landing page (tune-up-app.jsx). Sent as
+// `offer` and printed in the SMS/email summaries and subject so the office
+// sees which promo the lead came from. Omitted entirely when unset.
+function QuoteForm({ offer }) {
   const [form, setForm] = React.useState({
     name: "", phone: "", email: "", service: "", address: "", message: "",
     urgency: "This week", consent: false,
@@ -902,6 +905,7 @@ function QuoteForm() {
     // wrap cleanly instead of colliding with the next label. Blank optional
     // fields are dropped rather than rendered as empty labels.
     const filled = [
+      ["Offer", offer || ""],
       ["Name", form.name],
       ["Phone", form.phone],
       ["Email", form.email],
@@ -912,6 +916,7 @@ function QuoteForm() {
 
     const summary = [
       `New quote request\n${form.urgency}`,
+      offer, // bare, no label; omitted when not an offer page
       `Name\n${form.name}`,
       `Phone\n${form.phone}`,
       form.message.trim().length > 200
@@ -929,13 +934,14 @@ function QuoteForm() {
 
     const payload = {
       ...form,
+      ...(offer ? { offer } : {}),
       source_key: QUOTE_SOURCE_KEY,
       summary,
       summary_html,
       page: document.title,
       page_url: window.location.href,
       ...(window.GP_UTMS || {}),
-      subject: `New quote request - ${form.name} (${form.urgency})`,
+      subject: `New quote request - ${form.name} (${form.urgency})${offer ? " - " + offer : ""}`,
     };
 
     try {
