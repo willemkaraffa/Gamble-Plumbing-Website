@@ -36,7 +36,7 @@ function TuneUpApp() {
   return (
     <>
       <SiteBanner show={t.showBanner !== false}/>
-      <UtilityBar/>
+      <UtilityBar promo={false}/>
       <Nav ctaEmphasis={t.ctaEmphasis}/>
 
       <section className="offer-hero" data-screen-label="Hero">
