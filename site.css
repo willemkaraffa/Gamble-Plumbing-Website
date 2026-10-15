@@ -223,13 +223,35 @@
     color: #d9e3f2;
     font-size: 13px;
   }
+  /* Three columns, outer two equal, so the promo link sits at true centre
+     even though the left and right groups differ in width. */
   .utility .container {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     padding-top: 10px;
     padding-bottom: 10px;
     gap: 24px;
+  }
+  .utility .right { justify-content: flex-end; }
+  .utility.no-promo .container { grid-template-columns: 1fr 1fr; }
+  .utility a.utility-promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background .15s ease;
+  }
+  .utility a.utility-promo:hover { background: color-mix(in oklab, var(--accent) 88%, black 12%); }
+  /* Equal outer columns need ~1140px for every item; below that the hours
+     and phone stay, the secondary items (.utility-extra) go. */
+  @media (max-width: 1180px) {
+    .utility:not(.no-promo) .utility-extra { display: none; }
   }
   .utility .left, .utility .right {
     display: flex;
@@ -2515,7 +2537,9 @@
     footer.site-footer .grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   }
   @media (max-width: 720px) {
-    .utility { display: none; }
+    /* Phones: the bar shrinks to just the centred promo link. */
+    .utility.no-promo, .utility .left, .utility .right { display: none; }
+    .utility .container { grid-template-columns: 1fr; justify-items: center; padding-top: 8px; padding-bottom: 8px; }
     .service-grid, .review-grid, .process .steps,
     .why .stat-grid, .when-row { grid-template-columns: 1fr 1fr; }
     /* Two 118px columns left no usable room for a name or phone field once the

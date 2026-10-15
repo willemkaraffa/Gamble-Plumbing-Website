@@ -65,16 +65,23 @@ function SiteBanner({ show = true }) {
 // ──────────────────────────────────────────────────────────────
 // Top utility bar
 // ──────────────────────────────────────────────────────────────
-function UtilityBar() {
+// promo: centred link to the current offer page. tune-up-app.jsx passes
+// promo={false} so the offer page does not link to itself.
+function UtilityBar({ promo = true }) {
   return (
-    <div className="utility">
+    <div className={`utility ${promo ? "" : "no-promo"}`}>
       <div className="container">
         <div className="left">
           <span className="pulse"><span className="pulse-dot"/> Mon-Fri 9:00 AM to 5:00 PM</span>
-          <span>Weekday emergencies · call us first</span>
+          <span className="utility-extra">Weekday emergencies · call us first</span>
         </div>
+        {promo && (
+          <a href="tune-up.html" className="utility-promo">
+            $89 Winter Tune-Up Deal <Icon name="arrow-right" size={13}/>
+          </a>
+        )}
         <div className="right">
-          <span><Icon name="map-pin" size={14}/> 1027 Hwy 70 W, Garner · Serving Raleigh–Durham</span>
+          <span className="utility-extra"><Icon name="map-pin" size={14}/> 1027 Hwy 70 W, Garner · Serving Raleigh–Durham</span>
           <a href={PHONE_HREF}><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
         </div>
       </div>
