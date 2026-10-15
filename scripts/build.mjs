@@ -20,8 +20,9 @@ const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const DIST = join(ROOT, "dist");
 const PORT = 5187;
 
-// Every page ships an empty #root; only these four fill it via React.
-const CSR_PAGES = ["index.html", "plumbing.html", "hvac.html", "about.html"];
+// Every page ships an empty #root; only these fill it via React.
+// tune-up.html = $89 Winter Tune-Up offer landing page (Google Ads target).
+const CSR_PAGES = ["index.html", "plumbing.html", "hvac.html", "about.html", "tune-up.html"];
 // Pages already static HTML -- copied verbatim, never prerendered.
 // thank-you.html plus two redirect stubs for legacy URLs GSC flagged as 404
 // (Home.html = old homepage; thank-you-page.html serves /thank-you-page).
@@ -29,7 +30,7 @@ const STATIC_PAGES = ["privacy.html", "thank-you.html", "Home.html", "thank-you-
 const STATIC_FILES = ["site.css", "robots.txt", "sitemap.xml", "CNAME", "tracking.js", "favicon.ico", "favicon-96.png", "apple-touch-icon.png"];
 const STATIC_DIRS = ["assets", "uploads"];
 
-// The three CDN loader lines are byte-identical across all four CSR pages.
+// The three CDN loader lines are byte-identical across all CSR pages.
 const CDN_REACT = `<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>`;
 const CDN_REACTDOM = `<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>`;
 const CDN_BABEL = `<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>`;
@@ -113,7 +114,7 @@ const lastCommitDate = (files) =>
   files.map((f) => git(["log", "-1", "--format=%cs", "--", f])).filter(Boolean).sort().pop();
 
 // Every CSR page embeds sections.jsx, so an edit there really does change all
-// four. Their lastmod is the newest of the page's own file and any .jsx. Static
+// of them. Their lastmod is the newest of the page's own file and any .jsx. Static
 // pages carry only their own date.
 async function pageSources(file) {
   return CSR_PAGES.includes(file) ? [file, ...(await listJsx())] : [file];
