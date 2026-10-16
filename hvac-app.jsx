@@ -110,7 +110,7 @@ function HvacApp() {
             the ductwork means low output through your vents.
           </SvcLead>
           <SvcBullets>
-            <SvcBullet>Manual J load calculation — no oversized systems</SvcBullet>
+            <SvcBullet>Manual J load calculation: no oversized systems</SvcBullet>
             <SvcBullet>Major-brand heat pump installs</SvcBullet>
             <SvcBullet>Dual-fuel systems (heat pump + gas furnace)</SvcBullet>
             <SvcBullet>Variable-speed &amp; cold-climate options</SvcBullet>

@@ -410,7 +410,7 @@ function TrustStrip() {
       <div className="container">
         <div className="trust-item" data-comment-anchor="trust-experts">
           <div className="head">Dual-Licensed</div>
-          <div className="body">NC-licensed in both plumbing and HVAC — one team handles both trades.</div>
+          <div className="body">NC-licensed in both plumbing and HVAC. One team handles both trades.</div>
         </div>
         <div className="trust-item" data-comment-anchor="trust-years">
           <div className="head">Family-Owned</div>
@@ -1077,7 +1077,7 @@ function QuoteForm({ offer }) {
             {status === "error" && (
               <div className="form-error" role="alert">
                 <Icon name="phone" size={16}/>
-                <span>Something went wrong sending that. Please call us at <a href={PHONE_HREF}>{PHONE_DISPLAY}</a> — we&apos;ll take care of you right away.</span>
+                <span>Something went wrong sending that. Please call us at <a href={PHONE_HREF}>{PHONE_DISPLAY}</a> and we&apos;ll take care of you right away.</span>
               </div>
             )}
 
