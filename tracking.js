@@ -34,9 +34,9 @@
   // conversion ID is the "AW-..." on the tag; each action has its own label.
   // Leave a value empty and that conversion simply does not fire -- the site
   // keeps working and the GA4 events above are unaffected.
-  var GADS_CONVERSION_ID = "";   // e.g. "AW-123456789"
-  var GADS_LABEL_LEAD    = "";   // quote form submit
-  var GADS_LABEL_CALL    = "";   // tel: link click
+  var GADS_CONVERSION_ID = "AW-992248471";
+  var GADS_LABEL_LEAD    = "FCqoCJ3NkZ8dEJeFktkD";   // quote form submit ("Submit lead form")
+  var GADS_LABEL_CALL    = "lyLBCOGsjp8dEJeFktkD";   // tel: link click ("Click to call")
 
   // Register the Ads destination alongside the GA4 one. Same gtag.js library,
   // so this needs no extra script tag.
@@ -54,8 +54,11 @@
 
   // Called by the quote form right before it redirects to thank-you.html. GA4's
   // generate_lead is fired separately by the form, so this does not double-count.
+  // Returns true when a conversion was sent, so the form knows to wait for the
+  // params.event_callback before leaving the page.
   window.gpTrackConversion = function (name, params) {
-    if (name === "lead") adsConversion(GADS_LABEL_LEAD, params);
+    if (name === "lead") return adsConversion(GADS_LABEL_LEAD, params);
+    return false;
   };
 
   // Loud in the console, silent to visitors: without this the site looks fine
@@ -73,6 +76,6 @@
     track("phone_click", { link_url: href });
     // A call is a conversion too; without it Ads can only optimise for form
     // fills, which on a plumbing site are the minority of the real leads.
-    adsConversion(GADS_LABEL_CALL, { link_url: href });
+    adsConversion(GADS_LABEL_CALL, { link_url: href, value: 1.0, currency: "USD" }); // as in the Ads event snippet
   }, true);
 })();

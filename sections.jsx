@@ -968,25 +968,33 @@ function QuoteForm({ offer }) {
         console.warn("[QuoteForm] No QUOTE_ENDPOINT set — simulating success for preview. Leads are NOT being delivered until you paste an endpoint in sections.jsx.");
         await new Promise(r => setTimeout(r, 650));
       }
-      // Fire the conversion, then navigate from gtag's event_callback so the
-      // GA beacon is sent before we leave the page. The hard timeout guarantees
-      // the redirect still happens if GA is blocked, slow, or never calls back.
-      // navigated guards against firing twice (callback + timeout both resolve).
+      // Fire the conversions, then navigate once every beacon has called back
+      // (GA4 generate_lead, plus the Google Ads lead conversion when it is
+      // configured) so neither hit is cancelled by leaving the page. waiting
+      // starts at 1 as a sentinel so nothing navigates until both sends are
+      // queued. The hard timeout guarantees the redirect if a tracker is
+      // blocked, slow, or never calls back; navigated guards double-firing.
       const dest = "thank-you.html?name=" + encodeURIComponent(form.name.trim().split(/\s+/)[0] || "");
       let navigated = false;
       const go = () => { if (!navigated) { navigated = true; window.location.href = dest; } };
-      if (window.gpTrackConversion) window.gpTrackConversion("lead", { value: 1 });
+      let waiting = 1;
+      const done = () => { if (--waiting === 0) go(); };
+      if (window.gpTrackConversion) {
+        waiting++;
+        const sent = window.gpTrackConversion("lead", { value: 1.0, currency: "USD", event_callback: done, event_timeout: 1000 });
+        if (!sent) waiting--;
+      }
       if (window.gpTrack) {
+        waiting++;
         window.gpTrack("generate_lead", {
           service: form.service || "unspecified",
           urgency: form.urgency,
-          event_callback: go,
+          event_callback: done,
           event_timeout: 1000,
         });
-        setTimeout(go, 1200);
-      } else {
-        go();
       }
+      setTimeout(go, 1200);
+      done();
     } catch (err) {
       setStatus("error");
     }
