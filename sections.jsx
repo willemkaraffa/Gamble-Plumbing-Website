@@ -65,23 +65,16 @@ function SiteBanner({ show = true }) {
 // ──────────────────────────────────────────────────────────────
 // Top utility bar
 // ──────────────────────────────────────────────────────────────
-// promo: centred link to the current offer page. tune-up-app.jsx passes
-// promo={false} so the offer page does not link to itself.
-function UtilityBar({ promo = true }) {
+function UtilityBar() {
   return (
-    <div className={`utility ${promo ? "" : "no-promo"}`}>
+    <div className="utility">
       <div className="container">
         <div className="left">
           <span className="pulse"><span className="pulse-dot"/> Mon-Fri 9:00 AM to 5:00 PM</span>
-          <span className="utility-extra">Weekday emergencies · call us first</span>
+          <span>Weekday emergencies · call us first</span>
         </div>
-        {promo && (
-          <a href="tune-up.html" className="utility-promo">
-            $89 Winter Tune-Up Deal <Icon name="arrow-right" size={13}/>
-          </a>
-        )}
         <div className="right">
-          <span className="utility-extra"><Icon name="map-pin" size={14}/> 1027 Hwy 70 W, Garner · Serving Raleigh–Durham</span>
+          <span><Icon name="map-pin" size={14}/> 1027 Hwy 70 W, Garner · Serving Raleigh–Durham</span>
           <a href={PHONE_HREF}><Icon name="phone" size={14}/> {PHONE_DISPLAY}</a>
         </div>
       </div>
@@ -136,9 +129,13 @@ function HashScroll() {
 // ──────────────────────────────────────────────────────────────
 // Primary nav
 // ──────────────────────────────────────────────────────────────
-function Nav({ ctaEmphasis }) {
+// promo: link to the current offer page, kept in the sticky header so it
+// stays on screen while scrolling. tune-up-app.jsx passes promo={false} so
+// the offer page does not link to itself. The two spans let phones stack
+// the label on two lines; the text reads the same either way.
+function Nav({ ctaEmphasis, promo = true }) {
   return (
-    <nav className="primary" data-screen-label="Nav">
+    <nav className={`primary ${promo ? "has-promo" : ""}`} data-screen-label="Nav">
       <div className="container">
         <a href="/" className="brand" aria-label="Gamble Plumbing, Heating and Air home">
           <span className="brand-mark"><LogoMark size={32}/></span>
@@ -147,11 +144,19 @@ function Nav({ ctaEmphasis }) {
             <span className="tag">Plumbing · Heating · Air</span>
           </span>
         </a>
-        <div className="nav-links">
-          <ServicesMenu/>
-          <a href="about.html">About</a>
-          <a href="/#area">Service Area</a>
-          <a href="/#faq">FAQ</a>
+        <div className="nav-center">
+          <div className="nav-links">
+            <ServicesMenu/>
+            <a href="about.html">About</a>
+            <a href="/#area">Service Area</a>
+            <a href="/#faq">FAQ</a>
+          </div>
+          {promo && (
+            <a href="tune-up.html" className="nav-promo">
+              <span><strong>$89</strong> Winter</span> <span>Tune-Up Deal</span>
+              <span className="arrow"><Icon name="arrow-right" size={14}/></span>
+            </a>
+          )}
         </div>
         <div className="nav-cta">
           <div className="nav-phone">
@@ -434,7 +439,7 @@ function Services() {
         <div className="section-head">
           <div>
             <span className="eyebrow">Services</span>
-            <h2>Plumbing or HVAC — We have you covered</h2>
+            <h2>Plumbing or HVAC? We have you covered</h2>
           </div>
           <div className="right">
             <p>Gamble Plumbing Inc. offers a wide array of services. Click Learn More to see how we can help you!</p>

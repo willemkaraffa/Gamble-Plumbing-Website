@@ -223,35 +223,13 @@
     color: #d9e3f2;
     font-size: 13px;
   }
-  /* Three columns, outer two equal, so the promo link sits at true centre
-     even though the left and right groups differ in width. */
   .utility .container {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     padding-top: 10px;
     padding-bottom: 10px;
     gap: 24px;
-  }
-  .utility .right { justify-content: flex-end; }
-  .utility.no-promo .container { grid-template-columns: 1fr 1fr; }
-  .utility a.utility-promo {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 3px 12px;
-    border-radius: 999px;
-    background: var(--accent);
-    color: var(--accent-ink);
-    font-weight: 700;
-    white-space: nowrap;
-    transition: background .15s ease;
-  }
-  .utility a.utility-promo:hover { background: color-mix(in oklab, var(--accent) 88%, black 12%); }
-  /* Equal outer columns need ~1140px for every item; below that the hours
-     and phone stay, the secondary items (.utility-extra) go. */
-  @media (max-width: 1180px) {
-    .utility:not(.no-promo) .utility-extra { display: none; }
   }
   .utility .left, .utility .right {
     display: flex;
@@ -341,6 +319,52 @@
   .nav-links a:hover {
     background: color-mix(in oklab, var(--primary) 7%, transparent);
     color: var(--ink);
+  }
+  /* Centre column: nav links plus the offer pill. Holds the pill alone once
+     the links hide at <=1080px. */
+  .nav-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  /* Offer pill. Navy with a yellow price so it reads apart from the yellow
+     Request service button beside it. */
+  .nav-promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background .15s ease;
+  }
+  .nav-promo strong { color: var(--accent); font-weight: 800; }
+  .nav-promo .arrow { display: inline-flex; color: var(--accent); }
+  .nav-promo:hover { background: var(--navy-700); }
+  /* Too narrow for links + pill + phone + button: the header phone number
+     goes first (it is still in the top bar and footer). Two ranges: links
+     showing (1081-1254px), and links hidden (721-900px). */
+  @media (min-width: 1081px) and (max-width: 1254px) {
+    nav.primary .container { gap: 24px; }
+    nav.primary.has-promo .nav-phone { display: none; }
+  }
+  @media (min-width: 721px) and (max-width: 900px) {
+    nav.primary.has-promo .nav-phone { display: none; }
+  }
+  /* Phones: header is brand + pill. The pill stacks to two lines and the
+     brand drops its small tagline so both fit down to 320px. */
+  @media (max-width: 720px) {
+    nav.primary .container { gap: 12px; }
+    .nav-center { justify-content: flex-end; }
+    nav.primary.has-promo .brand-text .tag { display: none; }
+    .nav-promo { flex-direction: column; align-items: center; gap: 0; padding: 6px 14px; border-radius: 14px; font-size: 13px; line-height: 1.2; text-align: center; }
+    .nav-promo .arrow { display: none; }
   }
 
   /* Services dropdown */
@@ -2537,9 +2561,7 @@
     footer.site-footer .grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   }
   @media (max-width: 720px) {
-    /* Phones: the bar shrinks to just the centred promo link. */
-    .utility.no-promo, .utility .left, .utility .right { display: none; }
-    .utility .container { grid-template-columns: 1fr; justify-items: center; padding-top: 8px; padding-bottom: 8px; }
+    .utility { display: none; }
     .service-grid, .review-grid, .process .steps,
     .why .stat-grid, .when-row { grid-template-columns: 1fr 1fr; }
     /* Two 118px columns left no usable room for a name or phone field once the
