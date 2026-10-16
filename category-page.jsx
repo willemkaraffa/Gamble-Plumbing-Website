@@ -15,6 +15,9 @@ function CatCrumbs({ children }) { return <div className="crumbs">{children}</di
 function CatHeroCopy({ children }) { return <div className="copy">{children}</div>; }
 function CatHeroVisual({ children, label = "Photo", caption, src }) {
   // Same shape as SvcVisual: label = img alt, caption = visible figcaption.
+  // No caption given -> label doubles as the caption (about page). caption={null}
+  // -> no caption at all (the brand hero image, which has nothing to caption).
+  const cap = caption === undefined ? label : caption;
   return (
     <figure className="visual">
       <div className="frame">
@@ -23,7 +26,7 @@ function CatHeroVisual({ children, label = "Photo", caption, src }) {
             (and the caption-hiding rule below it) kicks in. */}
         {children || <PhotoSlot label={label} src={src} priority/>}
       </div>
-      {(caption || label) && <figcaption>{caption || label}</figcaption>}
+      {cap && <figcaption>{cap}</figcaption>}
     </figure>
   );
 }

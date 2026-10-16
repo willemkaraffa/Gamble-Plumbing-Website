@@ -333,7 +333,9 @@ function HeroFamily({ tweaks }) {
           </div>
         </div>
         <div className="visual">
-          <PhotoSlot label="crew" src="assets/car.webp" priority/>
+          {/* Brand image until a team photo exists: a capture of BrandFallback at
+              desktop size (scripts/make-hero-brand.mjs), so no 404 and no change in look. */}
+          <PhotoSlot label="Gamble Plumbing, Heating & Air. Garner, NC. Licensed & insured." src="assets/hero-brand-home.webp" priority/>
         </div>
       </div>
     </section>

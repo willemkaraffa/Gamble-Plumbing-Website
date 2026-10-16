@@ -42,7 +42,7 @@ function HvacApp() {
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Licensed &amp; insured in NC</span>
           </div>
         </CatHeroCopy>
-        <CatHeroVisual label="Tech inspecting outdoor condenser unit" src="assets/hvac-hero.jpg"/>
+        <CatHeroVisual label="Gamble Plumbing, Heating & Air. Garner, NC. Licensed & insured." caption={null} src="assets/hero-brand-service.webp"/>
       </CategoryHero>
 
       <CategoryRail items={HVAC_RAIL}/>

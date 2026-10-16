@@ -45,7 +45,7 @@ function PlumbingApp() {
             <span className="perk"><span className="dot"><Icon name="check" size={12}/></span> Residential &amp; commercial</span>
           </div>
         </CatHeroCopy>
-        <CatHeroVisual label="Plumber on the job" src="assets/plumbing-hero.jpg"/>
+        <CatHeroVisual label="Gamble Plumbing, Heating & Air. Garner, NC. Licensed & insured." caption={null} src="assets/hero-brand-service.webp"/>
       </CategoryHero>
 
       <CategoryRail items={RAIL_ITEMS}/>
