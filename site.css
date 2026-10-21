@@ -2404,6 +2404,16 @@
     line-height: 1.25;
     color: #fff;
   }
+  .offer-lead {
+    margin-top: 10px;
+    max-width: 40ch;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  /* Reviews sit right after the quote form on this page; both bands are the
+     light alt color, so drop this one to white to keep them apart. */
+  .offer-reviews .reviews { background: var(--surface); }
   .offer-reg { margin-top: 18px; font-size: clamp(18px, 1.6vw, 22px); color: #c9d6ea; }
   .offer-reg s { text-decoration-thickness: 2px; }
   .offer-hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }

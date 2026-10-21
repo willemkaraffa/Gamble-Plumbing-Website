@@ -44,6 +44,7 @@ function TuneUpApp() {
           <div className="offer-copy">
             <h1><span className="offer-price">$89</span> Winter Tune-Up</h1>
             <p className="offer-sub">Keep warm this winter with Gamble</p>
+            <p className="offer-lead">Get your home HVAC ready for the season with our in-depth tuning offer</p>
             <p className="offer-reg">Regular price <s>$149</s>.</p>
             <div className="ctas">
               <a href="#quote" className="btn btn-primary">Request service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
@@ -61,8 +62,6 @@ function TuneUpApp() {
       </section>
 
       <TrustStrip/>
-
-      <Reviews/>
 
       <section id="checklist" className="offer-checks" data-screen-label="Checklist">
         <div className="container">
@@ -85,6 +84,10 @@ function TuneUpApp() {
       </section>
 
       <QuoteForm offer={TUNEUP_OFFER}/>
+      {/* Below the form here (owner's call): the offer leads, proof follows.
+          Wrapped so the band can drop to white; it would otherwise share the
+          form's light background and the two would run together. */}
+      <div className="offer-reviews"><Reviews/></div>
       <SiteFooter/>
       <MobileCTABar/>
     </>
