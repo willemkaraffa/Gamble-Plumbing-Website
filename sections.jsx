@@ -1047,7 +1047,7 @@ function QuoteForm({ offer }) {
                 {errors.email && <span className="err" id="qf-email-err" role="alert">{errors.email}</span>}
               </div>
               <div className="field">
-                <label htmlFor="qf-service">What do you need?</label>
+                <label htmlFor="qf-service">What do you need? <span className="opt">(optional)</span></label>
                 <select id="qf-service" value={form.service} onChange={e => set("service", e.target.value)}>
                   <option value="">Select a service…</option>
                   {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
