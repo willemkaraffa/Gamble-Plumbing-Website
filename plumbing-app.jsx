@@ -90,7 +90,7 @@ function PlumbingApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Book a drain visit <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -115,7 +115,7 @@ function PlumbingApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Schedule leak detection <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -140,7 +140,7 @@ function PlumbingApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Quote a water heater <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -166,7 +166,7 @@ function PlumbingApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Quote a pipe job <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -191,7 +191,7 @@ function PlumbingApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Quote a fixture install <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
