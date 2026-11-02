@@ -11,6 +11,35 @@ const HVAC_RAIL = [
   { id: "faq",         icon: "plus",      label: "FAQ" },
 ];
 
+// Winter 2026 postcard offer. This page is the card's landing page (printed
+// URL + QR). Copy is verbatim from the card; do not reword. Text only: the
+// owner rejected decorative icons on the mailer. The band drops out from
+// Jan 2, 2027 (offer ends Jan 1).
+const POSTCARD_CODE = "WARM26";
+const POSTCARD_LIVE = new Date() < new Date(2027, 0, 2);
+
+function OfferBand() {
+  return (
+    <section className="offer-band" data-screen-label="Offer">
+      <div className="container">
+        <div className="ob-copy">
+          <p className="ob-offer"><strong>$60 off</strong> your final bill (repair or service call) with code <strong>{POSTCARD_CODE}</strong>.</p>
+          <p className="ob-fine">Offer ends Jan 1, 2027. One per household; not combinable with other offers.</p>
+        </div>
+        <div className="ob-ctas">
+          <a href={PHONE_HREF} className="btn btn-primary ob-call">Call now</a>
+          <a href="#quote" className="btn btn-ghost">Request service</a>
+        </div>
+        <ul className="ob-facts">
+          <li>Upfront pricing after diagnosis. No repair starts without your approval.</li>
+          <li>Mon–Fri, 9 AM–5 PM</li>
+          <li>Same-day service available for emergencies.</li>
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 function HvacApp() {
   const t = window.TWEAK_DEFAULTS || { ctaEmphasis: "quote", showBanner: true };
 
@@ -18,7 +47,8 @@ function HvacApp() {
     <>
       <SiteBanner show={t.showBanner !== false}/>
       <UtilityBar/>
-      <Nav ctaEmphasis={t.ctaEmphasis}/>
+      <Nav ctaEmphasis={t.ctaEmphasis} links={false}/>
+      {POSTCARD_LIVE && <OfferBand/>}
 
       <CategoryHero>
         <CatHeroCopy>
@@ -64,7 +94,7 @@ function HvacApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Request heating service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -91,7 +121,7 @@ function HvacApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Request AC service <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -118,7 +148,7 @@ function HvacApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Quote a heat pump <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -145,7 +175,7 @@ function HvacApp() {
           </SvcBullets>
           <SvcActions>
             <a href="#quote" className="btn btn-primary">Quote a duct cleaning <span className="arrow"><Icon name="arrow-right" size={16}/></span></a>
-            <span className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></span>
+            <a href={PHONE_HREF} className="ghost-call"><Icon name="phone" size={14}/> Or call <strong>{PHONE_DISPLAY}</strong></a>
           </SvcActions>
         </SvcCopy>
         <SvcVisual
@@ -196,7 +226,7 @@ function HvacApp() {
         </div>
       </section>
 
-      <QuoteForm/>
+      <QuoteForm hvac/>
       <SiteFooter/>
       <MobileCTABar/>
     </>

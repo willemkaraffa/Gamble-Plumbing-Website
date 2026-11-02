@@ -70,7 +70,7 @@ function UtilityBar() {
     <div className="utility">
       <div className="container">
         <div className="left">
-          <span className="pulse"><span className="pulse-dot"/> Mon-Fri 9:00 AM to 5:00 PM</span>
+          <span className="pulse"><span className="pulse-dot"/> Mon–Fri, 9 AM–5 PM</span>
           <span>Weekday emergencies · call us first</span>
         </div>
         <div className="right">
@@ -129,13 +129,11 @@ function HashScroll() {
 // ──────────────────────────────────────────────────────────────
 // Primary nav
 // ──────────────────────────────────────────────────────────────
-// promo: link to the current offer page, kept in the sticky header so it
-// stays on screen while scrolling. tune-up-app.jsx passes promo={false} so
-// the offer page does not link to itself. The two spans let phones stack
-// the label on two lines; the text reads the same either way.
-function Nav({ ctaEmphasis, promo = true }) {
+// links={false}: landing-page header (hvac.html, the postcard target). Drops
+// the site menu so the page has one job; logo, phone and Request service stay.
+function Nav({ ctaEmphasis, links = true }) {
   return (
-    <nav className={`primary ${promo ? "has-promo" : ""}`} data-screen-label="Nav">
+    <nav className="primary" data-screen-label="Nav">
       <div className="container">
         <a href="/" className="brand" aria-label="Gamble Plumbing, Heating and Air home">
           <span className="brand-mark"><LogoMark size={32}/></span>
@@ -145,17 +143,13 @@ function Nav({ ctaEmphasis, promo = true }) {
           </span>
         </a>
         <div className="nav-center">
-          <div className="nav-links">
-            <ServicesMenu/>
-            <a href="about.html">About</a>
-            <a href="/#area">Service Area</a>
-            <a href="/#faq">FAQ</a>
-          </div>
-          {promo && (
-            <a href="tune-up.html" className="nav-promo">
-              <span><strong>$89</strong> Winter</span> <span>Tune-Up Deal</span>
-              <span className="arrow"><Icon name="arrow-right" size={14}/></span>
-            </a>
+          {links && (
+            <div className="nav-links">
+              <ServicesMenu/>
+              <a href="about.html">About</a>
+              <a href="/#area">Service Area</a>
+              <a href="/#faq">FAQ</a>
+            </div>
           )}
         </div>
         <div className="nav-cta">
@@ -329,7 +323,7 @@ function HeroFamily({ tweaks }) {
             <span className="sep"/>
             <span><Icon name="shield" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>Plumbing &amp; HVAC</span>
             <span className="sep"/>
-            <span><Icon name="clock" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>9:00 AM to 5:00 PM, Monday thru Friday</span>
+            <span><Icon name="clock" size={14} style={{verticalAlign:'-3px', marginRight:4}}/>Mon–Fri, 9 AM–5 PM</span>
           </div>
         </div>
         <div className="visual">
@@ -554,7 +548,7 @@ function Process() {
         </div>
         <div className="steps">
           <ProcessStep n={1} icon="phone" title="Contact Us" data-comment-anchor="step-1">
-            Call the office at (919) 797-5930 or send us a service request and tell us what is troubling your home. Our office will reach out to get you scheduled.
+            Call the office at <a href={PHONE_HREF}>{PHONE_DISPLAY}</a> or send us a service request and tell us what is troubling your home. Our office will reach out to get you scheduled.
           </ProcessStep>
           <ProcessStep n={2} icon="wrench" title="Clear Pricing After Diagnosis" data-comment-anchor="step-2">
             We will never quote a price for the job until diagnostics are complete. No surprise charges, no hidden fees.
@@ -858,15 +852,16 @@ const SERVICE_OPTIONS = [
   "Heat pump",
   "Something else",
 ];
+// hvac form only: asks for the system instead of the service.
+const SYSTEM_OPTIONS = ["Furnace", "Heat pump", "Dual-fuel", "Not sure"];
 const URGENCY_OPTIONS = ["Emergency", "Today", "This week", "Just a quote"];
 
-// offer (optional): set by an offer landing page (tune-up-app.jsx). Sent as
-// `offer` and printed in the SMS/email summaries and subject so the office
-// sees which promo the lead came from. Omitted entirely when unset.
-function QuoteForm({ offer }) {
+// hvac: short form for hvac.html (postcard landing page): name, phone,
+// optional system type, address, message. No email or urgency.
+function QuoteForm({ hvac = false }) {
   const [form, setForm] = React.useState({
     name: "", phone: "", email: "", service: "", address: "", message: "",
-    urgency: "This week", consent: false,
+    urgency: hvac ? "" : "This week", consent: false,
   });
   const [errors, setErrors] = React.useState({});
   const [status, setStatus] = React.useState("idle"); // idle | sending | error
@@ -919,18 +914,18 @@ function QuoteForm({ offer }) {
     // wrap cleanly instead of colliding with the next label. Blank optional
     // fields are dropped rather than rendered as empty labels.
     const filled = [
-      ["Offer", offer || ""],
       ["Name", form.name],
       ["Phone", form.phone],
       ["Email", form.email],
-      ["Service", form.service],
+      [hvac ? "System" : "Service", form.service],
       ["Address", form.address],
       ["Notes", form.message],
     ].filter(([, v]) => v && v.trim());
 
+    // hvac form has no urgency; the header line is then just the title.
+    const head = ["New quote request", form.urgency].filter(Boolean);
     const summary = [
-      `New quote request\n${form.urgency}`,
-      offer, // bare, no label; omitted when not an offer page
+      head.join("\n"),
       `Name\n${form.name}`,
       `Phone\n${form.phone}`,
       form.message.trim().length > 200
@@ -942,20 +937,19 @@ function QuoteForm({ offer }) {
     // the notes field must not be able to inject markup into your inbox.
     const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const summary_html = [
-      `New quote request<br>${esc(form.urgency)}`,
+      head.map(esc).join("<br>"),
       ...filled.map(([k, v]) => `${k}<br>${esc(v)}`),
     ].join("<br><br>");
 
     const payload = {
       ...form,
-      ...(offer ? { offer } : {}),
       source_key: QUOTE_SOURCE_KEY,
       summary,
       summary_html,
       page: document.title,
       page_url: window.location.href,
       ...(window.GP_UTMS || {}),
-      subject: `New quote request - ${form.name} (${form.urgency})${offer ? " - " + offer : ""}`,
+      subject: `New quote request - ${form.name}${form.urgency ? ` (${form.urgency})` : ""}`,
     };
 
     try {
@@ -1027,51 +1021,55 @@ function QuoteForm({ offer }) {
             <div className="form-grid">
               <div className={`field ${errors.name ? "has-err" : ""}`}>
                 <label htmlFor="qf-name">Name</label>
-                <input id="qf-name" type="text" autoComplete="name" placeholder="Your name"
+                <input id="qf-name" type="text" autoComplete="name"
                   aria-invalid={!!errors.name} aria-describedby={errors.name ? "qf-name-err" : undefined}
                   value={form.name} onChange={e => set("name", e.target.value)} />
                 {errors.name && <span className="err" id="qf-name-err" role="alert">{errors.name}</span>}
               </div>
               <div className={`field ${errors.phone ? "has-err" : ""}`}>
                 <label htmlFor="qf-phone">Phone</label>
-                <input id="qf-phone" type="tel" autoComplete="tel" placeholder="(919) 555-0123"
+                <input id="qf-phone" type="tel" autoComplete="tel"
                   aria-invalid={!!errors.phone} aria-describedby={errors.phone ? "qf-phone-err" : undefined}
                   value={form.phone} onChange={e => set("phone", e.target.value)} />
                 {errors.phone && <span className="err" id="qf-phone-err" role="alert">{errors.phone}</span>}
               </div>
-              <div className={`field ${errors.email ? "has-err" : ""}`}>
-                <label htmlFor="qf-email">Email <span className="opt">(optional)</span></label>
-                <input id="qf-email" type="email" autoComplete="email" placeholder="you@email.com"
-                  aria-invalid={!!errors.email} aria-describedby={errors.email ? "qf-email-err" : undefined}
-                  value={form.email} onChange={e => set("email", e.target.value)} />
-                {errors.email && <span className="err" id="qf-email-err" role="alert">{errors.email}</span>}
-              </div>
-              <div className="field">
-                <label htmlFor="qf-service">What do you need? <span className="opt">(optional)</span></label>
+              {!hvac && (
+                <div className={`field ${errors.email ? "has-err" : ""}`}>
+                  <label htmlFor="qf-email">Email <span className="opt">(optional)</span></label>
+                  <input id="qf-email" type="email" autoComplete="email"
+                    aria-invalid={!!errors.email} aria-describedby={errors.email ? "qf-email-err" : undefined}
+                    value={form.email} onChange={e => set("email", e.target.value)} />
+                  {errors.email && <span className="err" id="qf-email-err" role="alert">{errors.email}</span>}
+                </div>
+              )}
+              <div className={`field ${hvac ? "full" : ""}`}>
+                <label htmlFor="qf-service">{hvac ? "System type" : "What do you need?"} <span className="opt">(optional)</span></label>
                 <select id="qf-service" value={form.service} onChange={e => set("service", e.target.value)}>
-                  <option value="">Select a service…</option>
-                  {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                  <option value=""></option>
+                  {(hvac ? SYSTEM_OPTIONS : SERVICE_OPTIONS).map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
               <div className="field full">
-                <label htmlFor="qf-address">Service address or city <span className="opt">(optional)</span></label>
-                <input id="qf-address" type="text" autoComplete="address-level2" placeholder="Street or town in the Triangle"
+                <label htmlFor="qf-address">Address <span className="opt">(optional)</span></label>
+                <input id="qf-address" type="text" autoComplete="street-address"
                   value={form.address} onChange={e => set("address", e.target.value)} />
               </div>
-              <div className="field full">
-                <label>How soon?</label>
-                <div className="when-row">
-                  {URGENCY_OPTIONS.map(u => (
-                    <button type="button" key={u}
-                      className={`when-chip ${form.urgency === u ? "active" : ""}`}
-                      aria-pressed={form.urgency === u}
-                      onClick={() => set("urgency", u)}>{u}</button>
-                  ))}
+              {!hvac && (
+                <div className="field full">
+                  <label>How soon?</label>
+                  <div className="when-row">
+                    {URGENCY_OPTIONS.map(u => (
+                      <button type="button" key={u}
+                        className={`when-chip ${form.urgency === u ? "active" : ""}`}
+                        aria-pressed={form.urgency === u}
+                        onClick={() => set("urgency", u)}>{u}</button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="field full">
                 <label htmlFor="qf-message">Tell us a little more <span className="opt">(optional)</span></label>
-                <textarea id="qf-message" placeholder="e.g. Water heater is leaking in the garage…"
+                <textarea id="qf-message"
                   value={form.message} onChange={e => set("message", e.target.value)} />
               </div>
               <div className={`field full field-consent ${errors.consent ? "has-err" : ""}`}>
@@ -1096,7 +1094,7 @@ function QuoteForm({ offer }) {
                 {sending ? "Sending…" : "Request service"}
                 {!sending && <span className="arrow"><Icon name="arrow-right" size={16}/></span>}
               </button>
-              <span className="note">We will respond within 48 hrs. No spam emails allowed at Gamble</span>
+              <span className="note">We reply the same business day.</span>
             </div>
           </form>
         </div>
@@ -1166,7 +1164,7 @@ function SiteFooter() {
             <h4>Visit / Call</h4>
             <ul>
               <li><Icon name="map-pin" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>1027 Hwy 70 W, Ste 107<br/><span style={{paddingLeft:20}}>Garner, NC 27529</span></li>
-              <li><Icon name="clock" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>9:00 AM - 5:00 PM, Mon-Fri</li>
+              <li><Icon name="clock" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>Mon–Fri, 9 AM–5 PM</li>
               <li><Icon name="phone" size={14} style={{verticalAlign:'-2px', marginRight: 6}}/>Office &amp; dispatch</li>
               <li><a href={PHONE_HREF} style={{color: 'var(--accent)', fontWeight: 700, fontSize: 16}}>{PHONE_DISPLAY}</a></li>
               <li style={{marginTop:8}}><a href="https://www.facebook.com/gambleplumbinghvac/" target="_blank" rel="noopener">Follow on Facebook</a></li>
